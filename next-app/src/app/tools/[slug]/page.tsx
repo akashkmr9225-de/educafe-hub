@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: `${tool.titleEn} | EduCafe Hub`,
-    description: `${tool.descriptionEn} / ${tool.descriptionHi}`,
+    description: tool.descriptionEn,
     openGraph: {
       title: `${tool.titleEn} | EduCafe Hub`,
       description: tool.descriptionEn,

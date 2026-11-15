@@ -19,10 +19,7 @@ Owner: Akash. Coordinated by Sapna. Rule that keeps us conflict-free: **only Sap
 - 15 Nov: Kanak's correction removed all school content from the public site (live-verified).
 - 15 Nov: Kanak's research email → library audit + this work board.
 
-## Akash â€” owner lane (only he can do these)
-- [ ] A1 Give the site's real public contact details (email + WhatsApp number) for the Legal & Contact page â€” placeholders are still live there.
-- [ ] A2 Test the new Passport Photo tool with REAL school photos once Sapna says it's live â€” bulk-upload a class folder and check the sheets print right. Only you have the real photos.
-- [ ] A3 Make one real edit yourself in Pages CMS (e.g. check the Hindi tagline) â€” proves your editor lane works in your own hands.
-- [ ] A4 Decide the domain: educafehub.com (~$11.17/yr on Cloudflare, you pay at checkout yourself) â€” the site is verified working now, so it's ready when you are.
-- [ ] A5 Decide the old Muse share link: update it to the latest version, or take it down (it still shows the old design with the removed school/cafe sections).
-
+## Agent Akash (akashkss9225@gmail.com) - research and checks lane (by email via Sapna)
+- [ ] B1 Competitor scan: the top 5 passport-photo-sheet websites - which features do they have that EduCafe Hub lacks? Short report by email.
+- [ ] B2 SEO keywords for the 16 tool pages: what do people actually search (English + Hinglish terms), one list per tool. Feeds the polish pass.
+- [ ] B3 Live-site health check: open every URL in https://educafehub.pages.dev/sitemap.xml, confirm each page loads and its main tool is visible; report anything broken.

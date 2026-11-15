@@ -236,11 +236,6 @@ export function Footer() {
           <h3 data-i18n="footLinksT">Quick links</h3>
           <ul>
             <li>
-              <a href="#cafe" data-i18n="navCafe">
-                🖥️ Cyber Cafe
-              </a>
-            </li>
-            <li>
               <a href="#passport" data-i18n="navPassport">
                 📸 Passport Photo
               </a>

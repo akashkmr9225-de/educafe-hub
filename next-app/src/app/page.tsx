@@ -1,6 +1,5 @@
 import { EduCafeRuntime } from "@/components/sites/educafehub/EduCafeRuntime";
-import { LanguageBar, Intro, ToolNav, StartHere } from "@/components/sites/educafehub/Hero";
-import { CafeSection } from "@/components/sites/educafehub/Info";
+import { LanguageBar, Intro, ToolNav } from "@/components/sites/educafehub/Hero";
 import { PassportTool, ExactKbTool } from "@/components/sites/educafehub/PhotoTools1";
 import { SignatureTool, JoinerTool } from "@/components/sites/educafehub/PhotoTools2";
 import {
@@ -13,7 +12,6 @@ import { FileToolsSection } from "@/components/sites/educafehub/FileTools";
 import { QrTool } from "@/components/sites/educafehub/QrTool";
 import { BulkTool } from "@/components/sites/educafehub/Bulk";
 import { ExamPhotoTool, ReceiptTool, PrintCostTool } from "@/components/sites/educafehub/ExamReceipt";
-import { EarnSection, GrowSection, GoLiveSection } from "@/components/sites/educafehub/Audience";
 import { LoginSection, TasksSection, CapacitySection } from "@/components/sites/educafehub/Account";
 import { LinksSection, OwnerNotesSection } from "@/components/sites/educafehub/Links";
 import { LegalSection, Footer } from "@/components/sites/educafehub/Legal";
@@ -31,8 +29,6 @@ export default function Home() {
       <LanguageBar />
       <Intro />
       <ToolNav />
-      <StartHere />
-      <CafeSection />
       <PassportTool />
       <ExactKbTool />
       <SignatureTool />
@@ -48,9 +44,6 @@ export default function Home() {
       <ExamPhotoTool />
       <ReceiptTool />
       <PrintCostTool />
-      <EarnSection />
-      <GrowSection />
-      <GoLiveSection />
       <LoginSection />
       <TasksSection />
       <CapacitySection />

@@ -10,7 +10,6 @@
     "tools": { "en": "Tools", "hi": "टूल्स" },
     "howItWorks": { "en": "How it works", "hi": "यह कैसे काम करता है" },
     "trustStrip": { "en": "Trust", "hi": "भरोसा" },
-    "cafeSection": { "en": "Cyber Cafe — services & rates", "hi": "साइबर कैफ़े — सेवाएँ और दरें" },
     "dailyLinks": { "en": "Daily Websites — One Click", "hi": "रोज़ की वेबसाइट्स — एक क्लिक" },
     "faq": { "en": "FAQ", "hi": "सामान्य प्रश्न" }
   },
@@ -19,34 +18,7 @@
     "trust2": { "en": "Zero server load — fast even on old PCs", "hi": "शून्य सर्वर लोड — पुराने PC पर भी तेज़" },
     "trust3": { "en": "100% free — no limits, no watermark", "hi": "100% मुफ़्त — कोई सीमा नहीं, कोई वॉटरमार्क नहीं" }
   },
-  "cafeSection": {
-    "title": { "en": "Cyber Cafe — services & rates", "hi": "साइबर कैफ़े — सेवाएँ और दरें" },
-    "desc": { "en": "Counter services with the rate list in one place. Rates marked “to be added” are placeholders — the real counter rates go here as soon as the owner sets them.", "hi": "काउंटर सेवाएँ दर सूची के साथ एक ही जगह पर। जिन दरों पर “to be added” लिखा है वे प्लेसहोल्डर हैं — असली काउंटर दरें यहाँ जाएँगी जैसे ही मालिक उन्हें तय करेगा।" },
-    "tableHeaders": {
-      "service": { "en": "Service", "hi": "सेवा" },
-      "details": { "en": "Details", "hi": "विवरण" },
-      "rate": { "en": "Rate", "hi": "दर" }
-    },
-    "services": [
-      { "service": { "en": "Black & white print", "hi": "ब्लैक और व्हाइट प्रिंट" }, "details": { "en": "Per page, A4", "hi": "प्रति पेज, A4" }, "ratePlaceholder": { "en": "To add", "hi": "जोड़ना है" } },
-      { "service": { "en": "Colour print", "hi": "कलर प्रिंट" }, "details": { "en": "Per page, A4", "hi": "प्रति पेज, A4" }, "ratePlaceholder": { "en": "To add", "hi": "जोड़ना है" } },
-      { "service": { "en": "Photocopy (Xerox)", "hi": "फोटोकॉपी (ज़ेरॉक्स)" }, "details": { "en": "Per page", "hi": "प्रति पेज" }, "ratePlaceholder": { "en": "To add", "hi": "जोड़ना है" } },
-      { "service": { "en": "Scanning", "hi": "स्कैनिंग" }, "details": { "en": "Per page — PDF sent to your phone or email", "hi": "प्रति पेज — PDF आपके फ़ोन या ईमेल पर भेजा जाएगा" }, "ratePlaceholder": { "en": "To add", "hi": "जोड़ना है" } },
-      { "service": { "en": "Passport photos", "hi": "पासपोर्ट फ़ोटो" }, "details": { "en": "Printed set, ready in minutes — make the sheet with Tool 1 below", "hi": "प्रिंट किया हुआ सेट, मिनटों में तैयार — नीचे टूल 1 से शीट बनाएँ" }, "ratePlaceholder": { "en": "To add", "hi": "जोड़ना है" } },
-      { "service": { "en": "Lamination", "hi": "लैमिनेशन" }, "details": { "en": "Per document", "hi": "प्रति दस्तावेज़" }, "ratePlaceholder": { "en": "To add", "hi": "जोड़ना है" } },
-      { "service": { "en": "Online form filling", "hi": "ऑनलाइन फ़ॉर्म भरना" }, "details": { "en": "Government, exam and job forms, with printout", "hi": "सरकारी, परीक्षा और नौकरी के फ़ॉर्म, प्रिंटआउट के साथ" }, "ratePlaceholder": { "en": "To add", "hi": "जोड़ना है" } },
-      { "service": { "en": "Print from WhatsApp or pen drive", "hi": "व्हाट्सएप या पेन ड्राइव से प्रिंट" }, "details": { "en": "Send the file, collect the printout", "hi": "फ़ाइल भेजें, प्रिंटआउट ले लें" }, "ratePlaceholder": { "en": "To add", "hi": "जोड़ना है" } }
-    ],
-    "timings": {
-      "title": { "en": "Timings", "hi": "समय" },
-      "desc": { "en": "Counter timings will be added here by the owner.", "hi": "काउंटर का समय यहाँ मालिक द्वारा जोड़ा जाएगा।" }
-    },
-    "quickContact": {
-      "title": { "en": "Quick contact", "hi": "त्वरित संपर्क" },
-      "call": { "en": "Call now", "hi": "अभी कॉल करें" },
-      "whatsapp": { "en": "WhatsApp us", "hi": "हमें व्हाट्सएप करें" }
-    }
-  },
+  
   "footer": {
     "aboutLine": { "en": "photo, signature, PDF, calculators and official links for the daily work of a school office and cyber cafe, all on one page.", "hi": "फ़ोटो, सिग्नेचर, PDF, कैलकुलेटर और एक स्कूल ऑफिस और साइबर कैफ़े के रोज़ के काम के लिए आधिकारिक लिंक, सब एक ही पेज पर।" },
     "googleSearchLine": { "en": "Search the web — Google par search karein", "hi": "वेब खोजें — Google पर खोजें" },

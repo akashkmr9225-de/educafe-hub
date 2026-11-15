@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath: "",
+  basePath: process.env.NEXT_BASE_PATH ?? "/educafe-hub",
   trailingSlash: true,
   images: {
     unoptimized: true,

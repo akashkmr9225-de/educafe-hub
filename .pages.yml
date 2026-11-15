@@ -1,0 +1,220 @@
+content:
+  - name: site-texts
+    label: Website Texts
+    type: file
+    path: next-app/src/content/site.json
+    fields:
+      - name: site
+        label: Site
+        type: object
+        fields:
+          - name: tagline
+            label: Tagline
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: heroHeading
+            label: Hero Heading
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: heroSubheading
+            label: Hero Subheading
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: text
+              - name: hi
+                label: Hi
+                type: text
+          - name: heroSearchPlaceholder
+            label: Hero Search Placeholder
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: heroSignin
+            label: Hero Signin
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+      - name: sections
+        label: Sections
+        type: object
+        fields:
+          - name: tools
+            label: Tools
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: howItWorks
+            label: How It Works
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: trustStrip
+            label: Trust Strip
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: dailyLinks
+            label: Daily Links
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: faq
+            label: Faq
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+      - name: heroTrust
+        label: Hero Trust
+        type: object
+        fields:
+          - name: trust1
+            label: Trust1
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: trust2
+            label: Trust2
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: trust3
+            label: Trust3
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+      - name: footer
+        label: Footer
+        type: object
+        fields:
+          - name: aboutLine
+            label: About Line
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: text
+              - name: hi
+                label: Hi
+                type: text
+          - name: googleSearchLine
+            label: Google Search Line
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: copyrightLine
+            label: Copyright Line
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: text
+              - name: hi
+                label: Hi
+                type: text
+      - name: faq
+        label: Faq
+        type: object
+        fields:
+          - name: title
+            label: Title
+            type: object
+            fields:
+              - name: en
+                label: En
+                type: string
+              - name: hi
+                label: Hi
+                type: string
+          - name: items
+            label: Items
+            type: list
+            fields:
+              - name: q
+                label: Q
+                type: object
+                fields:
+                  - name: en
+                    label: En
+                    type: string
+                  - name: hi
+                    label: Hi
+                    type: string
+              - name: a
+                label: A
+                type: object
+                fields:
+                  - name: en
+                    label: En
+                    type: text
+                  - name: hi
+                    label: Hi
+                    type: text

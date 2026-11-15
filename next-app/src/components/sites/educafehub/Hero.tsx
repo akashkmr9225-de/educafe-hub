@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Wordmark } from "./Brand";
 
 export function LanguageBar() {
@@ -87,7 +86,6 @@ export function Intro() {
 
 const NAV: Array<{ href: string; key: string; label: string; hot?: boolean }> = [
   { href: "/tools/passport-photo/", key: "navPassport", label: "📸 Passport Photo", hot: true },
-  { href: "#cafe", key: "navCafe", label: "🖥️ Cyber Cafe" },
   { href: "/tools/exact-kb-photo/", key: "navKb", label: "🗜️ Exact KB Photo" },
   { href: "/tools/signature-maker/", key: "navSign", label: "✍️ Signature" },
   { href: "/tools/photo-signature-joiner/", key: "navJoiner", label: "🧾 Photo + Sign" },
@@ -104,8 +102,6 @@ const NAV: Array<{ href: string; key: string; label: string; hot?: boolean }> = 
   { href: "/tools/exam-form-photo/", key: "navExam", label: "📝 Exam Photo" },
   { href: "/tools/receipt-bill-maker/", key: "navReceipt", label: "🧾 Receipt / Bill" },
   { href: "/tools/print-cost-calculator/", key: "navCost", label: "🧮 Print Cost" },
-  { href: "#earn", key: "navEarn", label: "💰 Earn Money" },
-  { href: "#golive", key: "navLive", label: "🚀 Go Live Free" },
   { href: "#capacity", key: "navCapacity", label: "🛡️ Capacity & Status" },
   { href: "#login", key: "navLogin", label: "🔐 Sign in" },
   { href: "#tasks", key: "navTasks", label: "✓ My Tasks" },
@@ -131,34 +127,4 @@ export function ToolNav() {
   );
 }
 
-export function StartHere() {
-  return (
-    <section id="start" style={{ marginTop: 30 }}>
-      <div className="sec-head">
-        <span className="no" data-i18n="audBadge">
-          Start here
-        </span>
-        <h2 data-i18n="audTitle">Who are you here for?</h2>
-      </div>
-      <div className="audgrid">
-        <div className="card aud cafe">
-          <span className="audtag" data-i18n="audCafeTag">
-            Cyber Cafe
-          </span>
-          <p data-i18n="audCafeD">
-            Customers — see the services and counter rates first, then use the free tools or
-            reach us in one tap.
-          </p>
-          <div className="btnrow">
-            <a className="btn saf" href="#cafe" data-i18n="audCafeB1">
-              Services & rates
-            </a>
-            <Link className="btn ghost" href="/tools/passport-photo/" data-i18n="audCafeB2">
-              Open the tools
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+

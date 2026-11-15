@@ -40,11 +40,23 @@ export function PassportTool() {
                 <select id="ppPaperSel" className="sel" data-i18n-aria="ariaPaper" aria-label="Paper size">
                   <option value="4x6" data-i18n="ppPaper4x6">4 × 6 inch (photo paper)</option>
                   <option value="5x7" data-i18n="ppPaper5x7">5 × 7 inch (photo paper)</option>
+                  <option value="6x8" data-i18n="ppPaper6x8">6 × 8 inch (photo paper)</option>
+                  <option value="8x10" data-i18n="ppPaper8x10">8 × 10 inch (photo paper)</option>
                   <option value="a5" data-i18n="ppPaperA5">A5</option>
+                  <option value="a6" data-i18n="ppPaperA6">A6</option>
                   <option value="a4" data-i18n="ppPaperA4">A4</option>
                   <option value="a3" data-i18n="ppPaperA3">A3</option>
                   <option value="letter" data-i18n="ppPaperLetter">Letter</option>
                   <option value="legal" data-i18n="ppPaperLegal">Legal</option>
+                </select>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppPaperTypeLabel">Paper type</label>
+                <select id="ppPaperType" className="sel">
+                  <option value="glossy" data-i18n="ppTypeGlossy">Glossy paper</option>
+                  <option value="matte" data-i18n="ppTypeMatte">Matte paper</option>
+                  <option value="satin" data-i18n="ppTypeSatin">Satin paper</option>
+                  <option value="plain" data-i18n="ppTypePlain">Plain paper</option>
                 </select>
               </div>
               <div className="field">
@@ -60,10 +72,11 @@ export function PassportTool() {
                 <label className="fl" data-i18n="ppQualityLabel">
                   Print quality
                 </label>
-                <select id="ppQuality" className="sel" data-i18n-aria="ariaQuality" aria-label="Print quality">
-                  <option value="300" data-i18n="ppQualityHigh">Highest — 300 DPI</option>
-                  <option value="200" data-i18n="ppQualityMed">Medium — 200 DPI</option>
-                  <option value="150" data-i18n="ppQualityLow">Low — 150 DPI</option>
+                <select id="ppQuality" className="sel" data-i18n-aria="ariaQuality" aria-label="Print quality" defaultValue="300">
+                  <option value="600" data-i18n="ppQualityHighest">Highest — 600 DPI</option>
+                  <option value="300" data-i18n="ppQualityHigh">High — 300 DPI</option>
+                  <option value="200" data-i18n="ppQualityMed">Normal — 200 DPI</option>
+                  <option value="150" data-i18n="ppQualityLow">Draft — 150 DPI</option>
                 </select>
               </div>
               <div className="field">
@@ -263,7 +276,10 @@ export function PassportTool() {
                 <select id="ppBulkPaperSel" className="sel" data-i18n-aria="ariaPaper" aria-label="Paper size">
                   <option value="4x6" data-i18n="ppPaper4x6">4 × 6 inch (photo paper)</option>
                   <option value="5x7" data-i18n="ppPaper5x7">5 × 7 inch (photo paper)</option>
+                  <option value="6x8" data-i18n="ppPaper6x8">6 × 8 inch (photo paper)</option>
+                  <option value="8x10" data-i18n="ppPaper8x10">8 × 10 inch (photo paper)</option>
                   <option value="a5" data-i18n="ppPaperA5">A5</option>
+                  <option value="a6" data-i18n="ppPaperA6">A6</option>
                   <option value="a4" data-i18n="ppPaperA4">A4</option>
                   <option value="a3" data-i18n="ppPaperA3">A3</option>
                   <option value="letter" data-i18n="ppPaperLetter">Letter</option>
@@ -274,10 +290,20 @@ export function PassportTool() {
                 <label className="fl" data-i18n="ppQualityLabel">
                   Print quality
                 </label>
-                <select id="ppBulkQuality" className="sel" data-i18n-aria="ariaQuality" aria-label="Print quality">
-                  <option value="300" data-i18n="ppQualityHigh">Highest — 300 DPI</option>
-                  <option value="200" data-i18n="ppQualityMed">Medium — 200 DPI</option>
-                  <option value="150" data-i18n="ppQualityLow">Low — 150 DPI</option>
+                <select id="ppBulkQuality" className="sel" data-i18n-aria="ariaQuality" aria-label="Print quality" defaultValue="300">
+                  <option value="600" data-i18n="ppQualityHighest">Highest — 600 DPI</option>
+                  <option value="300" data-i18n="ppQualityHigh">High — 300 DPI</option>
+                  <option value="200" data-i18n="ppQualityMed">Normal — 200 DPI</option>
+                  <option value="150" data-i18n="ppQualityLow">Draft — 150 DPI</option>
+                </select>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppPaperTypeLabel">Paper type</label>
+                <select id="ppBulkPaperType" className="sel">
+                  <option value="glossy" data-i18n="ppTypeGlossy">Glossy paper</option>
+                  <option value="matte" data-i18n="ppTypeMatte">Matte paper</option>
+                  <option value="satin" data-i18n="ppTypeSatin">Satin paper</option>
+                  <option value="plain" data-i18n="ppTypePlain">Plain paper</option>
                 </select>
               </div>
               <div className="field">

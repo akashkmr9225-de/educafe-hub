@@ -33,10 +33,13 @@ interface PassportState {
 
 const PAPER_SIZES: Record<string, { w: number; h: number }> = {
   "4x6": { w: 101.6, h: 152.4 },
+  "6x8": { w: 152.4, h: 203.2 },
+  "8x10": { w: 203.2, h: 254 },
   "5x7": { w: 127, h: 177.8 },
   a5: { w: 148, h: 210 },
   a4: { w: 210, h: 297 },
   a3: { w: 297, h: 420 },
+  a6: { w: 105, h: 148 },
   letter: { w: 215.9, h: 279.4 },
   legal: { w: 215.9, h: 355.6 },
 };
@@ -74,6 +77,7 @@ export function initPassport(): void {
     pp.quality = parseInt(qualitySel.value, 10) || 300;
     renderPP();
   });
+  input("ppPaperType").addEventListener("change", () => renderPP());
   chipGroup("ppPreset", (v) => {
     if (v === "custom") {
       $("ppCustomRow").style.display = "flex";
@@ -132,9 +136,9 @@ export function initPassport(): void {
   function renderPP(): void {
     const cv = canvas("ppCanvas");
     const ctx = ctx2d(cv);
-    const DPI = pp.quality;
-    const MM = DPI / 25.4;
     const paperSize = PAPER_SIZES[pp.paper] || PAPER_SIZES["4x6"];
+    const DPI = Math.min(pp.quality, Math.floor(8000 / (Math.max(paperSize.w, paperSize.h) / 25.4)));
+    const MM = DPI / 25.4;
     let paperW = Math.round(paperSize.w * MM);
     let paperH = Math.round(paperSize.h * MM);
     const pw = pp.wmm * MM;
@@ -221,16 +225,20 @@ export function initPassport(): void {
     const paperNames: Record<string, string> = {
       "4x6": "4×6 inch",
       "5x7": "5×7 inch",
+      "6x8": "6×8 inch",
+      "8x10": "8×10 inch",
       a5: "A5",
+      a6: "A6",
       a4: "A4",
       a3: "A3",
       letter: "Letter",
       legal: "Legal",
     };
     const paperLabel = paperNames[pp.paper] || pp.paper.toUpperCase();
+    const typeLabel = T("ppType" + (input("ppPaperType").value || "glossy").replace(/^./, (c) => c.toUpperCase()));
     setHTML(
       "ppStat",
-      `<span>${T("ppSheetWord").replace("{paper}", paperLabel)}</span><span class='good'>${T("bkPhotosN").replace("{n}", String(copies))}</span><span>${pp.wmm}×${pp.hmm} mm · ${DPI} DPI · ${W}×${H} px</span>${pp.copies > L.cap ? `<span>${T("ppMaxFit").replace("{cap}", String(L.cap)).replace("{paper}", paperLabel)}</span>` : ""}`,
+      `<span>${T("ppSheetWord").replace("{paper}", paperLabel)}</span><span class='good'>${T("bkPhotosN").replace("{n}", String(copies))}</span><span>${pp.wmm}×${pp.hmm} mm · ${DPI} DPI · ${W}×${H} px</span><span>${typeLabel}</span>${pp.quality > DPI ? `<span>${T("ppQualityCapped")}</span>` : ""}${pp.copies > L.cap ? `<span>${T("ppMaxFit").replace("{cap}", String(L.cap)).replace("{paper}", paperLabel)}</span>` : ""}`,
     );
     if (pp.copies > L.cap) {
       const copiesInput = input("ppCopiesInput");
@@ -326,9 +334,9 @@ export function initPassportBulk(): void {
   }
 
   function computeLayout(): { cols: number; rows: number; cap: number; W: number; H: number } {
-    const DPI = pb.quality;
-    const MM = DPI / 25.4;
     const paperSize = getPaperSize(pb.paper);
+    const DPI = Math.min(pb.quality, Math.floor(8000 / (Math.max(paperSize.w, paperSize.h) / 25.4)));
+    const MM = DPI / 25.4;
     let paperW = Math.round(paperSize.w * MM);
     let paperH = Math.round(paperSize.h * MM);
     const pw = pb.wmm * MM;
@@ -395,9 +403,9 @@ export function initPassportBulk(): void {
 
   function renderSheets(): void {
     const layout = computeLayout();
-    const DPI = pb.quality;
-    const MM = DPI / 25.4;
     const paperSize = getPaperSize(pb.paper);
+    const DPI = Math.min(pb.quality, Math.floor(8000 / (Math.max(paperSize.w, paperSize.h) / 25.4)));
+    const MM = DPI / 25.4;
     let paperW = Math.round(paperSize.w * MM);
     let paperH = Math.round(paperSize.h * MM);
     const { cols, rows, cap, W, H } = layout;
@@ -465,16 +473,21 @@ export function initPassportBulk(): void {
     const paperNames: Record<string, string> = {
       "4x6": "4×6 inch",
       "5x7": "5×7 inch",
+      "6x8": "6×8 inch",
+      "8x10": "8×10 inch",
       a5: "A5",
+      a6: "A6",
       a4: "A4",
       a3: "A3",
       letter: "Letter",
       legal: "Legal",
     };
     const paperLabel = paperNames[pb.paper] || pb.paper.toUpperCase();
+    const effDpiBulk = Math.min(pb.quality, Math.floor(8000 / (Math.max(getPaperSize(pb.paper).w, getPaperSize(pb.paper).h) / 25.4)));
+    const typeLabelB = T("ppType" + (input("ppPaperType").value || "glossy").replace(/^./, (c) => c.toUpperCase()));
     setHTML(
       "ppBulkStat",
-      `<span>${T("ppSheetWord").replace("{paper}", paperLabel)}</span><span class='good'>${T("ppBulkStatPage").replace("{p}", String(pb.currentPage + 1)).replace("{n}", String(pb.sheets.length))}</span><span>${T("bkPhotosN").replace("{n}", String(pb.items.length))} · ${pb.wmm}×${pb.hmm} mm · ${pb.quality} DPI</span>`,
+      `<span>${T("ppSheetWord").replace("{paper}", paperLabel)}</span><span class='good'>${T("ppBulkStatPage").replace("{p}", String(pb.currentPage + 1)).replace("{n}", String(pb.sheets.length))}</span><span>${T("bkPhotosN").replace("{n}", String(pb.items.length))} · ${pb.wmm}×${pb.hmm} mm · ${effDpiBulk} DPI</span><span>${typeLabelB}</span>${pb.quality > effDpiBulk ? `<span>${T("ppQualityCapped")}</span>` : ""}`,
     );
     const pageInfo = $("ppBulkPageInfo");
     pageInfo.textContent = T("ppPageInfo").replace("{p}", String(pb.currentPage + 1)).replace("{n}", String(pb.sheets.length)).replace("{c}", String(pb.items.length));
@@ -521,6 +534,10 @@ export function initPassportBulk(): void {
   input("ppBulkQuality").addEventListener("change", () => {
     input("ppQuality").value = input("ppBulkQuality").value;
     syncSharedControls();
+    renderSheets();
+  });
+  input("ppBulkPaperType").addEventListener("change", () => {
+    input("ppPaperType").value = input("ppBulkPaperType").value;
     renderSheets();
   });
 

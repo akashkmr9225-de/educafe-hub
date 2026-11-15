@@ -307,7 +307,7 @@
     "legalTabContact": "Contact",
     "privT": "Privacy Policy — your files stay with you",
     "priv1": "Every tool runs in your browser on this device. Photos, signatures and PDFs you open are processed here only — they are never uploaded to us or to anyone else, and we cannot see them. This includes children's photos used for school forms.",
-    "priv2": "You may optionally save a small profile on this device (your name, a mobile number or email, and a School / Cyber Cafe label) plus a list of your tasks. Both are stored only in this browser on this device — they are never sent to us or to anyone else, and signing out or clearing browser data removes them. This page sets no cookies and runs no analytics or advertising trackers.",
+    "priv2": "You may optionally save a small profile on this device (your name, a mobile number or email, and a School / Cyber Cafe label). It is stored only in this browser on this device — it is never sent to us or to anyone else, and signing out or clearing browser data removes it. This page sets no cookies and runs no analytics or advertising trackers.",
     "priv3": "If advertising (such as Google AdSense) is added later, after we move to our own domain, ad providers like Google may use cookies to show and measure ads. This policy will be updated, with a new date, before any ads go live.",
     "priv4": "The Daily Links open official third-party websites (government portals, boards, railways and others). Those sites have their own privacy policies and may collect data under them — check the policy of the site you land on.",
     "priv5": "On a shared cafe or school computer, remember that finished files you download are saved on that computer by your browser. If they are not yours to keep, delete them from the Downloads folder when the work is done.",
@@ -315,7 +315,7 @@
     "terms1": "All tools are free for personal, school and shop-counter work, provided as they are. Before submitting, always check the finished photo or PDF against the form's own instructions (size, KB, format) — portals change their rules, and we cannot guarantee that a form will be accepted.",
     "terms2": "You are responsible for the files you process, and for following each official portal's own rules and deadlines.",
     "terms3": "Do not use these tools to forge, fake or alter official documents, certificates, photos or signatures, or for anything unlawful.",
-    "terms4": "We may add, change or remove tools at any time. If login and saved tasks launch later, the extra terms for accounts will be added here first.",
+    "terms4": "We may add, change or remove tools at any time. The optional sign-in is only a small profile saved on your own device — it creates no account on any server.",
     "discT": "Disclaimer — this is not a government website",
     "disc1": "EduCafe Hub is an independent, privately made tool page. It is NOT affiliated with, endorsed by, or run by the Government of India or Bihar, CBSE, UIDAI (Aadhaar), IRCTC / Indian Railways, SSC, UPSC, any board or university, or any website linked from here.",
     "disc2": "The names of those organisations are mentioned only so you can recognise the official service; they belong to their owners.",
@@ -443,7 +443,7 @@
     "navTasks": "✓ My Tasks",
     "navSignin": "👤 Sign in",
     "authTitle": "Sign in — a small profile on this device",
-    "authDesc": "One small profile, saved only in this browser on this device. No password, and nothing is sent to any server. Every tool stays free and open to everyone — signed in or not. Pick School and you also get My Tasks — a work list on this device, made for staff who use the tools every day. Cyber Cafe visitors, who come for one job, do not see it.",
+    "authDesc": "One small profile, saved only in this browser on this device. No password, and nothing is sent to any server. Every tool stays free and open to everyone — signed in or not. Pick School or Cyber Cafe — it is only a label on your profile.",
     "authNameL": "Your name",
     "authContactL": "Mobile number or email",
     "authKindL": "I am signing in as",
@@ -792,7 +792,10 @@
     "ppHeicFail": "HEIC photos could not be read on this connection — try JPG/PNG photos, or a faster connection, then add them again",
     "ppBulkCap": "Limit is 200 photos at a time — extra photos were not added",
     "ppBulkClear": "Clear all",
-    "ppThumbRemove": "Remove"
+    "ppThumbRemove": "Remove",
+    "footPrivacy": "Privacy Policy",
+    "footTerms": "Terms of Use",
+    "footContactLink": "Contact"
   },
   "hi": {
     "navCapacity": "🛡️ क्षमता और स्थिति",
@@ -1102,7 +1105,7 @@
     "legalTabContact": "संपर्क (Contact)",
     "privT": "Privacy Policy — आपकी फ़ाइलें आपके पास ही रहती हैं",
     "priv1": "हर टूल इस डिवाइस पर आपके ब्राउज़र में चलता है। आप जो फ़ोटो, हस्ताक्षर और PDF खोलते हैं, वे यहीं प्रोसेस होते हैं — न हमारे पास अपलोड होते हैं, न किसी और के पास, और हम उन्हें देख भी नहीं सकते। स्कूल फ़ॉर्म के लिए बच्चों की फ़ोटो पर भी यही लागू है।",
-    "priv2": "आप चाहें तो इसी फ़ोन/कंप्यूटर पर अपनी छोटी-सी जानकारी (आपका नाम, मोबाइल नंबर या ईमेल, और स्कूल या साइबर कैफ़े का नाम) और अपने कामों की सूची सेव कर सकते हैं। दोनों सिर्फ़ इसी ब्राउज़र में, इसी फ़ोन/कंप्यूटर पर रहते हैं — ये कहीं नहीं भेजे जाते, और साइन आउट करने या ब्राउज़र का डेटा साफ़ करने से हट जाते हैं। यह पेज कोई कुकी नहीं लगाता और आपकी जानकारी पर नज़र रखने वाला कोई प्रोग्राम नहीं चलाता।",
+    "priv2": "आप चाहें तो इसी फ़ोन/कंप्यूटर पर अपनी छोटी-सी जानकारी (आपका नाम, मोबाइल नंबर या ईमेल, और स्कूल या साइबर कैफ़े का लेबल) सेव कर सकते हैं। यह सिर्फ़ इसी ब्राउज़र में, इसी डिवाइस पर रहती है — यह हमें या किसी और को कभी नहीं भेजी जाती, और साइन आउट करने या ब्राउज़र डेटा साफ़ करने से हट जाती है। यह पेज कोई कुकी नहीं रखता और कोई एनालिटिक्स या विज्ञापन ट्रैकर नहीं चलाता।",
     "priv3": "यदि बाद में, अपने डोमेन पर जाने के बाद, विज्ञापन (जैसे Google AdSense) जुड़ते हैं, तो Google जैसे विज्ञापनदाता विज्ञापन दिखाने और मापने के लिए कुकी का उपयोग कर सकते हैं। कोई विज्ञापन लाइव होने से पहले यह नीति नई तारीख के साथ बदली जाएगी।",
     "priv4": "Daily Links आधिकारिक तीसरे-पक्ष की वेबसाइटें खोलते हैं (सरकारी पोर्टल, बोर्ड, रेलवे आदि)। उन साइटों की अपनी गोपनीयता नीतियाँ हैं और वे उनके अनुसार डेटा ले सकती हैं — जिस साइट पर पहुँचें, उसकी नीति देखें।",
     "priv5": "साझा कैफ़े या स्कूल कंप्यूटर पर ध्यान दें: आप जो तैयार फ़ाइलें डाउनलोड करते हैं, वे ब्राउज़र से उसी कंप्यूटर पर सेव हो जाती हैं। यदि वे आपकी रखने योग्य नहीं हैं, तो काम हो जाने पर उन्हें Downloads फ़ोल्डर से हटा दें।",
@@ -1110,7 +1113,7 @@
     "terms1": "सारे टूल निजी, स्कूल और दुकान के काम के लिए मुफ़्त हैं। जमा करने से पहले तैयार फ़ोटो या PDF को फ़ॉर्म के अपने निर्देशों (आकार, KB, फ़ॉर्मेट) से ज़रूर मिलाएँ — पोर्टल अपने नियम बदलते हैं और हम गारंटी नहीं दे सकते कि फ़ॉर्म स्वीकार होगा।",
     "terms2": "आप जो फ़ाइलें यहाँ बनाते या बदलते हैं, उनकी ज़िम्मेदारी आपकी है, और हर आधिकारिक पोर्टल के अपने नियमों व समय-सीमाओं का पालन भी आपको करना है।",
     "terms3": "इन टूलों का उपयोग आधिकारिक दस्तावेज़ों, प्रमाणपत्रों, फ़ोटो या हस्ताक्षरों की जालसाज़ी, नकल या बदलाव के लिए, या किसी भी गैरकानूनी काम के लिए न करें।",
-    "terms4": "हम कभी भी टूल जोड़, बदल या हटा सकते हैं। यदि बाद में लॉगिन और सहेजे गए काम आते हैं, तो खातों के अतिरिक्त नियम पहले यहीं जोड़े जाएँगे।",
+    "terms4": "हम कभी भी टूल जोड़, बदल या हटा सकते हैं। वैकल्पिक साइन-इन सिर्फ़ आपके अपने डिवाइस पर सेव एक छोटी-सी प्रोफ़ाइल है — इससे किसी सर्वर पर कोई खाता नहीं बनता।",
     "discT": "Disclaimer — यह कोई सरकारी साइट नहीं है",
     "disc1": "EduCafe Hub एक स्वतंत्र, निजी तौर पर बनाया गया टूल पेज है। यह भारत सरकार या बिहार सरकार, CBSE, UIDAI (Aadhaar), IRCTC/भारतीय रेल, SSC, UPSC, किसी बोर्ड या विश्वविद्यालय, या यहाँ से लिंक की गई किसी वेबसाइट से न जुड़ा है, न उनकी तरफ़ से है, न वे इसे चलाते हैं।",
     "disc2": "उन संस्थाओं के नाम यहाँ केवल इसलिए लिखे हैं ताकि आप आधिकारिक सेवा को पहचान सकें; वे उनके मालिकों के हैं।",
@@ -1239,7 +1242,7 @@
     "navSignin": "👤 साइन इन",
     "authTitle": "साइन इन — इसी फ़ोन/कंप्यूटर पर आपकी छोटी-सी जानकारी",
     "authClose": "बंद करें",
-    "authDesc": "एक छोटी-सी जानकारी, जो सिर्फ़ इसी ब्राउज़र में, इसी फ़ोन/कंप्यूटर पर रहती है। कोई पासवर्ड नहीं, और कुछ भी कहीं नहीं भेजा जाता। हर टूल सबके लिए मुफ़्त है — साइन इन हो या न हो। स्कूल चुनने पर आपको My Tasks भी मिलेगा — इसी डिवाइस पर रहने वाली काम की सूची, जो रोज़ टूल इस्तेमाल करने वाले स्टाफ़ के लिए है। एक ही काम से आने वाले साइबर कैफ़े ग्राहकों को यह नहीं दिखता।",
+    "authDesc": "एक छोटी-सी प्रोफ़ाइल, जो सिर्फ़ इसी ब्राउज़र में, इसी डिवाइस पर सेव होती है। कोई पासवर्ड नहीं, और कुछ भी किसी सर्वर पर नहीं भेजा जाता। हर टूल सबके लिए मुफ़्त और खुला रहता है — साइन इन करें या न करें। स्कूल या साइबर कैफ़े चुनें — यह आपकी प्रोफ़ाइल पर सिर्फ़ एक लेबल है।",
     "authNameL": "आपका नाम",
     "authContactL": "मोबाइल नंबर या ईमेल",
     "authKindL": "आप किस रूप में साइन इन कर रहे हैं?",
@@ -1587,6 +1590,9 @@
     "ppHeicFail": "HEIC फ़ोटो इस कनेक्शन पर पढ़ी नहीं जा सकीं — JPG/PNG फ़ोटो आज़माएँ, या तेज़ कनेक्शन पर फिर से जोड़ें",
     "ppBulkCap": "एक बार में सीमा 200 फ़ोटो है — अतिरिक्त फ़ोटो नहीं जोड़े गए",
     "ppBulkClear": "सभी हटाएँ",
-    "ppThumbRemove": "हटाएँ"
+    "ppThumbRemove": "हटाएँ",
+    "footPrivacy": "गोपनीयता नीति",
+    "footTerms": "उपयोग की शर्तें",
+    "footContactLink": "संपर्क करें"
   }
 }

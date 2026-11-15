@@ -1,8 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { watchAuthState, type Profile } from "./runtime/auth-helpers";
-
 export function LoginSection() {
   return (
     <section id="login">
@@ -11,9 +6,7 @@ export function LoginSection() {
         <h2 data-i18n="authTitle">Sign in — a small profile on this device</h2>
       </div>
       <p className="sec-sub" data-i18n="authDesc">
-        One small profile, saved only in this browser on this device. No password, and nothing is
-        sent to any server. Every tool stays free and open to everyone — signed in or not. The
-        Pick School and you also get My Tasks — a work list on this device, made for staff who use the tools every day. Cyber Cafe visitors, who come for one job, do not see it.
+        One small profile, saved only in this browser on this device. No password, and nothing is sent to any server. Every tool stays free and open to everyone — signed in or not. Pick School or Cyber Cafe — it is only a label on your profile.
       </p>
       <div className="card">
         <form id="authForm" noValidate>
@@ -68,46 +61,6 @@ export function LoginSection() {
           phone or computer. Accounts that follow you everywhere arrive with the educafehub.com
           domain phase. Signing out removes the profile from this device.
         </p>
-      </div>
-    </section>
-  );
-}
-
-export function TasksSection() {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  useEffect(() => watchAuthState((s) => setProfile(s.profile)), []);
-  if (!profile || profile.kind !== "school") return null;
-  return (
-    <section id="tasks">
-      <div className="sec-head">
-        <span className="no">✓</span>
-        <h2 data-i18n="tasksTitle">My Tasks — work done on this device</h2>
-      </div>
-      <p className="sec-sub" data-i18n="tasksDesc">
-        Every download from the tools above is noted here automatically, and you can add your own
-        notes. The list is stored only in this browser on this device.
-      </p>
-      <div className="card">
-        <ul className="tasklist" id="taskList" />
-        <p className="hint" id="taskEmpty" data-i18n="tasksEmpty">
-          Nothing yet — downloads and notes you add will appear here.
-        </p>
-        <div className="taskadd">
-          <input
-            type="text"
-            id="taskNote"
-            data-i18n-ph="tasksAddPh"
-            placeholder="Add a note — e.g. Printed 30 sheets for Class 8"
-            data-i18n-aria="ariaTaskNote"
-            aria-label="Add a task note"
-          />
-          <button className="btn small" id="taskAdd" data-i18n="tasksAdd">
-            ＋ Add
-          </button>
-          <button className="btn ghost small" id="taskClear" data-i18n="tasksClear">
-            Clear all
-          </button>
-        </div>
       </div>
     </section>
   );

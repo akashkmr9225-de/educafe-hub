@@ -26,12 +26,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function LanguageBar() {
   const auth = useAuth();
   const [who, setWho] = useState("");
-  const [kind, setKind] = useState("");
   useEffect(
     () =>
       watchAuthState((s) => {
         setWho(s.profile ? s.profile.name : "");
-        setKind(s.profile ? s.profile.kind : "");
       }),
     [],
   );
@@ -45,7 +43,7 @@ export function LanguageBar() {
         <button type="button" className="langbtn" id="langHi" aria-pressed="false">
           हिंदी
         </button>
-      </span><span className="grp topbar-actions">{who ? <button type="button" className="langbtn signedin" onClick={auth?.openAuth}>👤 {who} ✓</button> : <button type="button" className="langbtn" onClick={auth?.openAuth} data-i18n="navSignin">👤 Sign in</button>}{kind === "school" && (<a className="langbtn" href="#tasks" data-i18n="navTasks">✓ My Tasks</a>)}</span></span>
+      </span><span className="grp topbar-actions">{who ? <button type="button" className="langbtn signedin" onClick={auth?.openAuth}>👤 {who} ✓</button> : <button type="button" className="langbtn" onClick={auth?.openAuth} data-i18n="navSignin">👤 Sign in</button>}</span></span>
     </div>
   );
 }
@@ -127,7 +125,6 @@ const NAV: Array<{ href: string; key: string; label: string; hot?: boolean }> = 
   { href: "/tools/receipt-bill-maker/", key: "navReceipt", label: "🧾 Receipt / Bill" },
   { href: "/tools/print-cost-calculator/", key: "navCost", label: "🛮 Print Cost" },
   { href: "auth:", key: "navLoginLink", label: "🔐 Sign in" },
-  { href: "#tasks", key: "navTasks", label: "✓ My Tasks" },
   { href: "#legal", key: "navLegal", label: "⚖️ Legal & Contact" },
 ];
 

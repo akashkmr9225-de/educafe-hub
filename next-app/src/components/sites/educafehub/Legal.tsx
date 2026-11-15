@@ -217,12 +217,12 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a href="#links" data-i18n="navLinks">
+              <a href="/#links" data-i18n="navLinks">
                 🔗 Daily Links
               </a>
             </li>
             <li>
-              <a href="#legal" data-i18n="navLegal">
+              <a href="/legal/" data-i18n="navLegal">
                 ⚖️ Legal & Contact
               </a>
             </li>
@@ -245,6 +245,13 @@ export function Footer() {
           </ul>
         </div>
       </div>
+      <p className="flegal">
+        <a href="/legal/" data-i18n="footPrivacy">Privacy Policy</a>
+        <span aria-hidden="true">·</span>
+        <a href="/legal/" data-i18n="footTerms">Terms of Use</a>
+        <span aria-hidden="true">·</span>
+        <a href="/legal/" data-i18n="footContactLink">Contact</a>
+      </p>
       <p data-i18n="footer.copyrightLine">
         All tools are completely free and work without any login. Always confirm a form's exact
         size/KB requirement in the form's own instructions once — every portal has different rules.

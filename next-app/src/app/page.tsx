@@ -1,9 +1,8 @@
 import { EduCafeRuntime } from "@/components/sites/educafehub/EduCafeRuntime";
 import { LanguageBar, Intro, AuthProvider } from "@/components/sites/educafehub/Hero";
 import { ToolGrid } from "@/components/sites/educafehub/ToolGrid";
-import { TasksSection } from "@/components/sites/educafehub/Account";
-import { LinksSection, OwnerNotesSection } from "@/components/sites/educafehub/Links";
-import { LegalSection, Footer } from "@/components/sites/educafehub/Legal";
+import { LinksSection } from "@/components/sites/educafehub/Links";
+import { Footer } from "@/components/sites/educafehub/Legal";
 
 export default function Home() {
   return (
@@ -19,10 +18,7 @@ export default function Home() {
         <LanguageBar />
         <Intro />
         <ToolGrid />
-        <TasksSection />
         <LinksSection />
-        <OwnerNotesSection />
-        <LegalSection />
         <Footer />
         <div className="toast" id="toast" role="status" aria-live="polite">
           <span className="tick">✓</span>

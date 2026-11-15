@@ -121,7 +121,7 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
         ) : (
           <form ref={formRef} id="authForm" onSubmit={handleFormSubmit}>
             <h2 id="authTitle" data-i18n="authTitle">Sign in — a small profile on this device</h2>
-            <p className="sec-sub" data-i18n="authDesc">One small profile, saved only in this browser on this device. No password, and nothing is sent to any server. Every tool stays free and open to everyone — signed in or not. Pick School and you also get My Tasks — a work list on this device, made for staff who use the tools every day. Cyber Cafe visitors, who come for one job, do not see it.</p>
+            <p className="sec-sub" data-i18n="authDesc">One small profile, saved only in this browser on this device. No password, and nothing is sent to any server. Every tool stays free and open to everyone — signed in or not. Pick School or Cyber Cafe — it is only a label on your profile.</p>
             <div className="field">
               <label className="fl" htmlFor="authName" data-i18n="authNameL">
                 Your name

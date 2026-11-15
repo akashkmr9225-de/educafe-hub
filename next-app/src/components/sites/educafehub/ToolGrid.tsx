@@ -113,6 +113,25 @@ const ICONS: Record<string, ReactNode> = {
   ),
 };
 
+const COLORS: Record<string, string> = {
+  "passport-photo": "#0F766E",
+  "exact-kb-photo": "#2563EB",
+  "exam-form-photo": "#7C3AED",
+  "bulk-student-photos": "#DB2777",
+  "signature-maker": "#B45309",
+  "photo-signature-joiner": "#0891B2",
+  "image-to-pdf": "#DC2626",
+  "pdf-compress": "#EA580C",
+  "image-compressor": "#059669",
+  "file-converter": "#4F46E5",
+  "file-tools": "#CA8A04",
+  "qr-code-maker": "#1F2937",
+  "receipt-bill-maker": "#0D9488",
+  "print-cost-calculator": "#9333EA",
+  "age-calculator": "#E11D48",
+  "marks-percentage-calculator": "#16A34A",
+};
+
 const FALLBACK_ICON: ReactNode = (
   <>
     <rect x="3" y="8" width="18" height="11" rx="2" />
@@ -133,12 +152,12 @@ export function ToolGrid() {
         {TOOLS.map((t, i) => (
           <a key={t.slug} className="toolbox" href={`/tools/${t.slug}/`}>
             <span className="tb-no">Tool {i + 1}</span>
-            <span className="tb-ic" aria-hidden="true">
+            <span className="tb-ic" aria-hidden="true" style={{ "--tc": COLORS[t.slug] || "#0F766E" } as React.CSSProperties}>
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="1.7"
+                strokeWidth="2.05"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 focusable="false"

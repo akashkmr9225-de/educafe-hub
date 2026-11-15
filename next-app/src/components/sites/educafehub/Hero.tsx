@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Wordmark } from "./Brand";
 
 export function LanguageBar() {
@@ -22,14 +23,13 @@ export function Intro() {
   return (
     <div className="intro">
       <Wordmark />
-      <h1 data-i18n="introTitle">EduCafe Hub — school &amp; cyber cafe ke liye</h1>
-      <p className="lede" data-i18n="introLede">
-        Passport photo, form ke liye exact-KB photo aur signature, image se PDF, age aur marks
-        calculator — aur roz khulne wali saari sarkari websites, ek hi page par. Koi login nahi,
-        koi upload server nahi.
+      <h1 data-i18n="site.heroHeading">EduCafe Hub — for school & cyber cafe</h1>
+      <p className="lede" data-i18n="site.heroSubheading">
+        Passport photos, exact-KB photo & signature for forms, image to PDF, age & marks
+        calculators — plus every government website you open daily, on one page. Sign in is optional and stays on this device; files are never uploaded anywhere.
       </p>
       <div className="hero-cta">
-        <a href="#login" data-i18n="heroSignin">
+        <a href="#login" data-i18n="site.heroSignin">
           🔐 Sign in (optional)
         </a>
         <a href="#tasks" data-i18n="navTasks">
@@ -49,7 +49,7 @@ export function Intro() {
             <path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-3z" />
             <path d="M9 12l2 2 4-4" />
           </svg>{" "}
-          <span data-i18n="trust1">
+          <span data-i18n="heroTrust.trust1">
             Photos never leave this computer — everything runs in the browser
           </span>
         </span>
@@ -64,7 +64,7 @@ export function Intro() {
           >
             <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" />
           </svg>{" "}
-          <span data-i18n="trust2">Zero server load — fast even on old PCs</span>
+          <span data-i18n="heroTrust.trust2">Zero server load — fast even on old PCs</span>
         </span>
         <span className="trust">
           <svg
@@ -78,7 +78,7 @@ export function Intro() {
             <circle cx="12" cy="12" r="9" />
             <path d="M12 7v5l3 3" />
           </svg>{" "}
-          <span data-i18n="trust3">100% free — no limits, no watermark</span>
+          <span data-i18n="heroTrust.trust3">100% free — no limits, no watermark</span>
         </span>
       </div>
     </div>
@@ -86,26 +86,24 @@ export function Intro() {
 }
 
 const NAV: Array<{ href: string; key: string; label: string; hot?: boolean }> = [
-  { href: "#passport", key: "navPassport", label: "📸 Passport Photo", hot: true },
-  { href: "#school", key: "navSchool", label: "🏫 School" },
+  { href: "/tools/passport-photo/", key: "navPassport", label: "📸 Passport Photo", hot: true },
   { href: "#cafe", key: "navCafe", label: "🖥️ Cyber Cafe" },
-  { href: "#notices", key: "navNotices", label: "📢 Notices" },
-  { href: "#kb", key: "navKb", label: "🗜️ Exact KB Photo" },
-  { href: "#signature", key: "navSign", label: "✍️ Signature" },
-  { href: "#joiner", key: "navJoiner", label: "🧾 Photo + Sign" },
-  { href: "#pdf", key: "navPdf", label: "📄 Image → PDF" },
-  { href: "#pdfcompress", key: "navPdfComp", label: "🗜️ PDF Compress" },
-  { href: "#compress", key: "navComp", label: "🖼️ Compressor" },
-  { href: "#age", key: "navAge", label: "🎂 Age Calculator" },
-  { href: "#marks", key: "navMarks", label: "🧮 Marks %" },
+  { href: "/tools/exact-kb-photo/", key: "navKb", label: "🗜️ Exact KB Photo" },
+  { href: "/tools/signature-maker/", key: "navSign", label: "✍️ Signature" },
+  { href: "/tools/photo-signature-joiner/", key: "navJoiner", label: "🧾 Photo + Sign" },
+  { href: "/tools/image-to-pdf/", key: "navPdf", label: "📄 Image → PDF" },
+  { href: "/tools/pdf-compress/", key: "navPdfComp", label: "🗜️ PDF Compress" },
+  { href: "/tools/image-compressor/", key: "navComp", label: "🖼️ Compressor" },
+  { href: "/tools/age-calculator/", key: "navAge", label: "🎂 Age Calculator" },
+  { href: "/tools/marks-percentage-calculator/", key: "navMarks", label: "🧮 Marks %" },
   { href: "#links", key: "navLinks", label: "🔗 Daily Links" },
-  { href: "#filetools", key: "navFile", label: "📁 File Tools" },
-  { href: "#converter", key: "navConvert", label: "🔄 File Converter" },
-  { href: "#qr", key: "navQr", label: "🔳 QR Code" },
-  { href: "#bulk", key: "navBulk", label: "👥 Bulk Photos" },
-  { href: "#exam", key: "navExam", label: "📝 Exam Photo" },
-  { href: "#receipt", key: "navReceipt", label: "🧾 Receipt / Bill" },
-  { href: "#printcost", key: "navCost", label: "🧮 Print Cost" },
+  { href: "/tools/file-tools/", key: "navFile", label: "📁 File Tools" },
+  { href: "/tools/file-converter/", key: "navConvert", label: "🔄 File Converter" },
+  { href: "/tools/qr-code-maker/", key: "navQr", label: "🔳 QR Code" },
+  { href: "/tools/bulk-student-photos/", key: "navBulk", label: "👥 Bulk Photos" },
+  { href: "/tools/exam-form-photo/", key: "navExam", label: "📝 Exam Photo" },
+  { href: "/tools/receipt-bill-maker/", key: "navReceipt", label: "🧾 Receipt / Bill" },
+  { href: "/tools/print-cost-calculator/", key: "navCost", label: "🧮 Print Cost" },
   { href: "#earn", key: "navEarn", label: "💰 Earn Money" },
   { href: "#golive", key: "navLive", label: "🚀 Go Live Free" },
   { href: "#capacity", key: "navCapacity", label: "🛡️ Capacity & Status" },
@@ -143,23 +141,6 @@ export function StartHere() {
         <h2 data-i18n="audTitle">Who are you here for?</h2>
       </div>
       <div className="audgrid">
-        <div className="card aud">
-          <span className="audtag" data-i18n="audSchoolTag">
-            Buddha World School
-          </span>
-          <p data-i18n="audSchoolD">
-            Parents &amp; students — admission details, notices and contact, without hunting
-            through the page.
-          </p>
-          <div className="btnrow">
-            <a className="btn" href="#school" data-i18n="audSchoolB1">
-              Admissions &amp; school info
-            </a>
-            <a className="btn ghost" href="#notices" data-i18n="audSchoolB2">
-              See notices
-            </a>
-          </div>
-        </div>
         <div className="card aud cafe">
           <span className="audtag" data-i18n="audCafeTag">
             Cyber Cafe
@@ -170,11 +151,11 @@ export function StartHere() {
           </p>
           <div className="btnrow">
             <a className="btn saf" href="#cafe" data-i18n="audCafeB1">
-              Services &amp; rates
+              Services & rates
             </a>
-            <a className="btn ghost" href="#passport" data-i18n="audCafeB2">
+            <Link className="btn ghost" href="/tools/passport-photo/" data-i18n="audCafeB2">
               Open the tools
-            </a>
+            </Link>
           </div>
         </div>
       </div>

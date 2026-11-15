@@ -1,6 +1,6 @@
 import { EduCafeRuntime } from "@/components/sites/educafehub/EduCafeRuntime";
 import { LanguageBar, Intro, ToolNav, StartHere } from "@/components/sites/educafehub/Hero";
-import { SchoolSection, NoticesSection, CafeSection } from "@/components/sites/educafehub/Info";
+import { CafeSection } from "@/components/sites/educafehub/Info";
 import { PassportTool, ExactKbTool } from "@/components/sites/educafehub/PhotoTools1";
 import { SignatureTool, JoinerTool } from "@/components/sites/educafehub/PhotoTools2";
 import {
@@ -32,8 +32,6 @@ export default function Home() {
       <Intro />
       <ToolNav />
       <StartHere />
-      <SchoolSection />
-      <NoticesSection />
       <CafeSection />
       <PassportTool />
       <ExactKbTool />

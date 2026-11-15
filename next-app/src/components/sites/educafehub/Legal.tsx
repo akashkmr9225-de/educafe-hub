@@ -226,7 +226,7 @@ export function Footer() {
         <div>
           <FootBrand />
           <p style={{ margin: 0 }}>
-            <span data-i18n="foot1">
+            <span data-i18n="footer.aboutLine">
               photo, signature, PDF, calculators and official links for the daily work of a school
               office and cyber cafe, all on one page.
             </span>
@@ -236,18 +236,8 @@ export function Footer() {
           <h3 data-i18n="footLinksT">Quick links</h3>
           <ul>
             <li>
-              <a href="#school" data-i18n="navSchool">
-                🏫 School
-              </a>
-            </li>
-            <li>
               <a href="#cafe" data-i18n="navCafe">
                 🖥️ Cyber Cafe
-              </a>
-            </li>
-            <li>
-              <a href="#notices" data-i18n="navNotices">
-                📢 Notices
               </a>
             </li>
             <li>
@@ -262,7 +252,7 @@ export function Footer() {
             </li>
             <li>
               <a href="#legal" data-i18n="navLegal">
-                ⚖️ Legal &amp; Contact
+                ⚖️ Legal & Contact
               </a>
             </li>
           </ul>
@@ -271,16 +261,10 @@ export function Footer() {
           <h3 data-i18n="footContactT">Contact</h3>
           <ul>
             <li>
-              <a href="mailto:educafehub@gmail.com">educafehub@gmail.com</a>{" "}
-              <span className="ph" data-i18n="schPh">
-                To be added
-              </span>
+              <a href="mailto:educafehub@gmail.com">educafehub@gmail.com</a>
             </li>
             <li>
-              <a href="tel:+919000000000">+91 90000 00000</a>{" "}
-              <span className="ph" data-i18n="schPh">
-                To be added
-              </span>
+              <a href="tel:+919000000000">+91 90000 00000</a>
             </li>
             <li>
               <a href="https://wa.me/919000000000" target="_blank" rel="noopener" data-i18n="cafeWaB">
@@ -289,27 +273,10 @@ export function Footer() {
             </li>
           </ul>
         </div>
-        <div>
-          <h3 data-i18n="footVisitT">Visit</h3>
-          <ul>
-            <li data-i18n="footAddr">Buddha World School, Vaishali, Bihar</li>
-            <li>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=Buddha+World+School+Vaishali+Bihar"
-                target="_blank"
-                rel="noopener"
-                data-i18n="footMapB"
-              >
-                Open in Google Maps
-              </a>
-            </li>
-            <li data-i18n="footTimeL">Timings: to be added by the owner</li>
-          </ul>
-        </div>
       </div>
-      <p data-i18n="foot2">
-        All tools are completely free and work without any login. Always confirm a form’s exact
-        size/KB requirement in the form’s own instructions once — every portal has different rules.
+      <p data-i18n="footer.copyrightLine">
+        All tools are completely free and work without any login. Always confirm a form's exact
+        size/KB requirement in the form's own instructions once — every portal has different rules.
       </p>
     </footer>
   );

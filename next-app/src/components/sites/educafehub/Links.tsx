@@ -9,7 +9,7 @@ export function LinksSection() {
     <section id="links">
       <div className="sec-head">
         <span className="no">Daily</span>
-        <h2 data-i18n="linksTitle">Roz Ki Websites — Ek Click</h2>
+        <h2 data-i18n="sections.dailyLinks">Daily Websites — One Click</h2>
       </div>
       <p className="sec-sub" data-i18n="linksDesc">
         School office aur cyber cafe mein roz khulne wali official websites. Naam likh kar filter
@@ -20,7 +20,7 @@ export function LinksSection() {
         type="text"
         id="linkSearch"
         placeholder="🔎 Website dhundo — jaise: aadhaar, result, train, pan…"
-        data-i18n-ph="linkSearchPh"
+        data-i18n-ph="site.heroSearchPlaceholder"
         aria-label="Search links"
       />
       <div className="linkgrid" id="linkGrid">

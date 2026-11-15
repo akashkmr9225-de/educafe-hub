@@ -39,20 +39,41 @@
       --btn-shadow-saf:0 6px 16px rgba(0,0,0,.4);
     }
   }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth;scroll-padding-top:20px}
-  html,body{overflow-x:clip}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-public-sans),"Public Sans",var(--font-devanagari),"Noto Sans Devanagari",system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+*{box-sizing:border-box}
+   html{scroll-behavior:smooth;scroll-padding-top:20px}
+   html,body{overflow-x:clip}
+   img,canvas,svg,video{max-width:100%;height:auto}
+   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-public-sans),"Public Sans",var(--font-devanagari),"Noto Sans Devanagari",system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   h1,h2,h3{font-family:var(--font-bricolage),"Bricolage Grotesque",var(--font-public-sans),"Public Sans",var(--font-devanagari),"Noto Sans Devanagari",sans-serif;line-height:1.15;margin:0}
   a{color:var(--accent)}
   ::selection{background:var(--accent);color:var(--accent-ink)}
   button,[role="button"],select,summary,input:not([type="checkbox"],[type="radio"]){min-height:44px}
   :focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
-  .wrap{max-width:1140px;margin:0 auto;padding:0 16px 72px}
+   .wrap{max-width:1160px;margin:0 auto;padding:0 16px 72px}
+   @media (min-width:768px){.wrap{padding:0 24px 72px}}
+   @media (min-width:1024px){.wrap{padding:0 32px 72px}}
+
+/* ---------- responsive grid system ---------- */
+    .grid{display:grid;grid-template-columns:1fr;gap:20px}
+    @media (min-width:480px){.grid{grid-template-columns:1fr 1fr}}
+    @media (min-width:768px){.grid{grid-template-columns:1fr 1fr 1fr}}
+    @media (min-width:1024px){.grid{grid-template-columns:1fr 1fr 1fr 1fr}}
+    @media (min-width:1280px){.grid{grid-template-columns:1fr 1fr 1fr 1fr}}
+
 
   /* ---------- language bar (segmented switch) ---------- */
-  .langbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding:4px 4px 4px 16px}
-  .langbar .lbl{font-weight:700;font-size:14px;color:var(--ink2);letter-spacing:.01em}
+   .langbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;padding:4px 4px 4px 16px}
+@media (max-width:767px){
+      .langbar{flex-direction:column;align-items:stretch}
+      .searchlinks{width:100%}
+    }
+
+   /* ---------- search full width on mobile ---------- */
+   @media (max-width:767px){
+     .searchlinks input,.searchlinks select{width:100%}
+   }
+
+   .langbar .lbl{font-weight:700;font-size:14px;color:var(--ink2);letter-spacing:.01em}
   .langbar .grp{display:flex;gap:4px;background:var(--surface2);border:1px solid var(--line);border-radius:999px;padding:4px}
   .langbtn{min-height:38px;padding:6px 20px;border-radius:999px;border:0;background:transparent;color:var(--ink2);font:inherit;font-weight:700;font-size:14.5px;cursor:pointer;transition:background .18s var(--ease),color .18s var(--ease),box-shadow .18s var(--ease),transform .12s var(--ease)}
   .langbtn:hover{color:var(--ink)}
@@ -165,7 +186,8 @@
   .kv div{background:var(--surface3);border:1px solid var(--line);border-radius:var(--radius-s);padding:11px 13px}
   .kv dt{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink2)}
   .kv dd{margin:2px 0 0;font-size:17px;font-weight:700}
-  table.marks{width:100%;border-collapse:collapse}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+   table.marks{width:100%;border-collapse:collapse}
   table.marks th,table.marks td{padding:6px;text-align:left}
   table.marks th{font-size:13px;color:var(--ink2);border-bottom:2px solid var(--line)}
   table.marks tbody tr{transition:background .15s var(--ease)}
@@ -232,7 +254,8 @@
   .aud .btnrow{margin-top:auto;padding-top:8px}
   .steps{margin:8px 0 0;padding-left:22px;color:var(--ink2);font-size:15px}
   .steps li{margin:6px 0}
-  table.rates{width:100%;border-collapse:collapse}
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+   table.rates{width:100%;border-collapse:collapse}
   table.rates th,table.rates td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
   table.rates th{font-size:13px;color:var(--ink2)}
   table.rates td:first-child{font-weight:600}

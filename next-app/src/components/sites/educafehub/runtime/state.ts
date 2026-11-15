@@ -1,7 +1,27 @@
 import rawDict from "@/data/i18n.json";
+import siteContent from "@/content/site.json";
 import type { Lang } from "@/types/educafe";
 
-const I18N = rawDict as Record<Lang, Record<string, string>>;
+function flattenSiteContent(obj: unknown, prefix = ""): Record<string, Record<Lang, string>> {
+  const result: Record<string, Record<Lang, string>> = {};
+  if (obj && typeof obj === "object") {
+    for (const [key, value] of Object.entries(obj)) {
+      const newPrefix = prefix ? `${prefix}.${key}` : key;
+      if (value && typeof value === "object" && "en" in value && "hi" in value) {
+        result[newPrefix] = value as Record<Lang, string>;
+      } else if (value && typeof value === "object") {
+        Object.assign(result, flattenSiteContent(value, newPrefix));
+      }
+    }
+  }
+  return result;
+}
+
+const siteFlat = flattenSiteContent(siteContent);
+const I18N: Record<Lang, Record<string, string>> = {
+  en: { ...rawDict.en, ...Object.fromEntries(Object.entries(siteFlat).map(([k, v]) => [k, v.en])) },
+  hi: { ...rawDict.hi, ...Object.fromEntries(Object.entries(siteFlat).map(([k, v]) => [k, v.hi])) },
+};
 
 let curLang: Lang = "en";
 

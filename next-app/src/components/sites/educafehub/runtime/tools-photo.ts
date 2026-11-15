@@ -8,6 +8,7 @@ import {
   drawContain,
   drawCover,
   fmtKB,
+  fmtSize,
   input,
   loadImg,
   loadScriptOnce,
@@ -1873,28 +1874,44 @@ export function initCompressor(): void {
       cv.height = Math.round(img.naturalHeight * sc);
       ctx2d(cv).drawImage(img, 0, 0, cv.width, cv.height);
       const q = parseInt(input("cpQ").value, 10) / 100;
-      const blob = await c2b(cv, q);
+      const fmt = input("cpFormat") ? input("cpFormat").value : "jpg";
+      const cx = cv.getContext("2d") as CanvasRenderingContext2D;
+      if (fmt === "jpg") {
+        cx.fillStyle = "#ffffff";
+        cx.fillRect(0, 0, cv.width, cv.height);
+        cx.drawImage(img, 0, 0, cv.width, cv.height);
+      }
+      const blob = fmt === "png" ? await kbEncode(cv, "image/png", 1) : await c2b(cv, q);
       const url = URL.createObjectURL(blob);
       ($("cpImg") as HTMLImageElement).src = url;
       $("cpPreview").classList.add("show");
-      const saved = cp.file ? Math.max(0, Math.round((1 - blob.size / cp.file.size) * 100)) : 0;
+      const saved = cp.file ? Math.round((1 - blob.size / cp.file.size) * 100) : 0;
       setHTML(
         "cpStat",
-        `<span>Pehele: ${cp.file ? fmtKB(cp.file.size) : "—"}</span><span class='good'>Ab: ${fmtKB(blob.size)}</span>${cp.file ? `<span>${saved}% chhota</span>` : ""}<span>${cv.width}×${cv.height} px</span>`,
+        `<span>${T("kbStatBefore")}: ${cp.file ? fmtSize(cp.file.size) : "—"}</span><span class='good'>${T("kbStatNow")}: ${fmtSize(blob.size)}</span>${cp.file ? (blob.size > cp.file.size ? `<span style="color:var(--warn)">${T("cpLarger")}</span>` : saved > 0 ? `<span class='good'>${T("pcSmaller").replace("{p}", String(saved))}</span>` : "") : ""}<span>${cv.width}×${cv.height} px</span>`,
       );
       const dl = $("cpDownload") as HTMLAnchorElement;
       dl.href = url;
+      const base = cp.file ? cp.file.name.replace(/\.[^.]+$/, "") : "photo";
+      dl.setAttribute("download", `${base}-compressed-${Date.now().toString(36)}.${fmt === "png" ? "png" : "jpg"}`);
       dl.style.display = "inline-flex";
     }, 180);
   }
   wireDrop("cpDrop", "cpFile", (f) => {
     cp.file = f;
-    loadImg(f).then((r) => {
-      cp.img = r.img;
-      $("cpName").textContent = `✔ ${f.name} · ${fmtKB(f.size)}`;
-      cpRender();
-    });
+    loadImg(f)
+      .then((r) => {
+        cp.img = r.img;
+        $("cpName").textContent = `✔ ${f.name} · ${fmtKB(f.size)}`;
+        $("cpMsg").textContent = "";
+        cpRender();
+      })
+      .catch(() => {
+        cp.img = null;
+        setMsg("cpMsg", T(/\.hei[cf]$/i.test(f.name) ? "ppHeicFail" : "fileNotImage"), "warn");
+      });
   });
+  input("cpFormat").addEventListener("change", cpRender);
 }
 
 const EX: Record<string, { w: number; h: number; min: number; max: number }> = {

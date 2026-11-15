@@ -26,6 +26,11 @@ export function fmtKB(bytes: number): string {
   return `${kb >= 100 ? Math.round(kb) : kb.toFixed(1)} KB`;
 }
 
+export function fmtSize(bytes: number): string {
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(2).replace(/\.?0+$/, "")} MB`;
+  return fmtKB(bytes);
+}
+
 export interface LoadedImage {
   img: HTMLImageElement;
   url: string;

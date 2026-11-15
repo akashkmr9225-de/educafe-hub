@@ -124,8 +124,8 @@ export const TOOLS: Tool[] = [
     slug: "pdf-compress",
     nameEn: "PDF Compress",
     nameHi: "PDF छोटा करें",
-    titleEn: "Compress PDF to 20KB / 50KB / 100KB — Shrink Scanned Documents",
-    titleHi: "PDF को 20KB / 50KB / 100KB में कंप्रेस करें — स्कैन किए गए दस्तावेज़ छोटे करें",
+    titleEn: "Compress PDF — Shrink Scanned Documents & Photo PDFs",
+    titleHi: "PDF कंप्रेस करें — स्कैन किए गए दस्तावेज़ और फ़ोटो PDF छोटे करें",
     descriptionEn:
       "Shrink a large PDF — works best on scanned documents and photo PDFs. Pick a quality level for portal limits like 200 KB / 500 KB.",
     descriptionHi:

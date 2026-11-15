@@ -2,7 +2,9 @@ import {
   $,
   chipGroup,
   ctx2d,
+  downloadBlob,
   fmtKB,
+  fmtSize,
   input,
   loadImg,
   parsePages,
@@ -23,34 +25,83 @@ export function initImageToPdf(): void {
   chipGroup("pdfSize", (v) => {
     pdf.size = v;
   });
-  function pdfSetFiles(files: File[]): void {
-    pdf.files = files;
+  function renderPdfThumbs(): void {
     $("pdfName").textContent = pdf.files.length
-    ? T("pdfSelPhotos").replace("{n}", String(pdf.files.length))
-    : "";
+      ? T("pdfSelPhotos").replace("{n}", String(pdf.files.length))
+      : "";
     (input("pdfGo") as HTMLButtonElement).disabled = !pdf.files.length;
+    const hint = $("pdfThumbsHint");
+    if (hint) hint.style.display = pdf.files.length > 1 ? "block" : "none";
     const box = $("pdfThumbs");
     box.innerHTML = "";
-    pdf.files.forEach((f) => {
+    pdf.files.forEach((f, ix) => {
+      const wrap = document.createElement("div");
+      wrap.style.cssText = "position:relative;width:74px;height:74px;flex:none";
       const im = document.createElement("img");
       im.src = URL.createObjectURL(f);
       im.alt = f.name;
       im.title = f.name;
       im.style.cssText =
         "width:74px;height:74px;object-fit:cover;border-radius:8px;border:1px solid var(--line)";
-      box.appendChild(im);
+      wrap.appendChild(im);
+      const mk = (txt: string, label: string, right: string, fn: () => void) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = txt;
+        b.title = label;
+        b.setAttribute("aria-label", label);
+        b.style.cssText = `position:absolute;top:3px;right:${right};width:20px;height:20px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:11px;line-height:1;display:grid;place-items:center;cursor:pointer;padding:0`;
+        b.addEventListener("click", fn);
+        wrap.appendChild(b);
+      };
+      mk("✕", T("pdfRemove"), "3px", () => {
+        pdf.files.splice(ix, 1);
+        renderPdfThumbs();
+      });
+      if (ix > 0)
+        mk("◀", T("pdfMoveBack"), "26px", () => {
+          const t = pdf.files[ix - 1];
+          pdf.files[ix - 1] = pdf.files[ix];
+          pdf.files[ix] = t;
+          renderPdfThumbs();
+        });
+      if (ix < pdf.files.length - 1)
+        mk("▶", T("pdfMoveFwd"), "49px", () => {
+          const t = pdf.files[ix + 1];
+          pdf.files[ix + 1] = pdf.files[ix];
+          pdf.files[ix] = t;
+          renderPdfThumbs();
+        });
+      box.appendChild(wrap);
     });
   }
-  wireDropMulti("pdfDrop", "pdfFiles", pdfSetFiles);
+  function pdfAddFiles(files: File[]): void {
+    const bad: string[] = [];
+    let added = 0;
+    files.forEach((f) => {
+      const okType = f.type.startsWith("image/") || /\.(jpe?g|png|webp|hei[cf]|bmp|gif)$/i.test(f.name);
+      if (!okType) {
+        bad.push(f.name);
+        return;
+      }
+      if (pdf.files.some((x) => x.name === f.name && x.size === f.size)) return;
+      pdf.files.push(f);
+      added++;
+    });
+    if (bad.length) {
+      const names = bad.slice(0, 3).join(", ") + (bad.length > 3 ? ` +${bad.length - 3}` : "");
+      setMsg("pdfMsg", T("pdfSkipped").replace("{names}", names), "warn");
+    } else if (added) {
+      $("pdfMsg").textContent = "";
+    }
+    renderPdfThumbs();
+  }
+  wireDropMulti("pdfDrop", "pdfFiles", pdfAddFiles);
 
   input("pdfGo").addEventListener("click", async function (this: HTMLButtonElement, e: Event) {
     if (!pdf.files.length) return;
     if (!window.jspdf) {
-      setMsg(
-        "pdfMsg",
-        T("libPdfMissing"),
-        "warn",
-      );
+      setMsg("pdfMsg", T("libPdfMissing"), "warn");
       return;
     }
     const btn = e.currentTarget as HTMLButtonElement;
@@ -59,8 +110,16 @@ export function initImageToPdf(): void {
     try {
       const JsPDF = window.jspdf.jsPDF;
       let doc: JsPdfDoc | null = null;
+      let pages = 0;
+      let failed = 0;
       for (let i = 0; i < pdf.files.length; i++) {
-        const r = await loadImg(pdf.files[i]);
+        let r: Awaited<ReturnType<typeof loadImg>>;
+        try {
+          r = await loadImg(pdf.files[i]);
+        } catch {
+          failed++;
+          continue;
+        }
         const img = r.img;
         const fmt: string | number[] =
           pdf.size === "fit"
@@ -70,9 +129,8 @@ export function initImageToPdf(): void {
               : "a4";
         const orient =
           pdf.size !== "fit" && img.naturalWidth > img.naturalHeight ? "landscape" : "portrait";
-        if (i === 0) doc = new JsPDF({ unit: "mm", format: fmt, orientation: orient });
-        else doc?.addPage(fmt, orient);
-        if (!doc) throw new Error("PDF init failed");
+        if (!doc) doc = new JsPDF({ unit: "mm", format: fmt, orientation: orient });
+        else doc.addPage(fmt, orient);
         const pw = doc.internal.pageSize.getWidth();
         const ph = doc.internal.pageSize.getHeight();
         const margin = pdf.size === "fit" ? 0 : 10;
@@ -92,23 +150,33 @@ export function initImageToPdf(): void {
         cx.drawImage(img, 0, 0, cv.width, cv.height);
         doc.addImage(cv.toDataURL("image/jpeg", 0.9), "JPEG", (pw - dw) / 2, (ph - dh) / 2, dw, dh);
         URL.revokeObjectURL(r.url);
+        pages++;
       }
+      if (!doc || pages === 0) throw new Error("no readable photos");
+      const blob = doc.output("blob");
       const name =
-        (input("pdfNameInput").value || "documents").replace(/[^\w\- ]+/g, "").trim() || "documents";
-      doc?.save(`${name}.pdf`);
-      setMsg("pdfMsg", T("pdfDone").replace("{n}", String(pdf.files.length)), "good");
+        (input("pdfNameInput").value || "documents").replace(/[\\/:*?"<>|]+/g, "").trim() || "documents";
+      downloadBlob(blob, `${name}-${Date.now().toString(36)}.pdf`);
+      if (failed > 0) {
+        setMsg(
+          "pdfMsg",
+          T("pdfSomeFailed").replace("{f}", String(failed)).replace("{n}", String(pages)),
+          "warn",
+        );
+      } else {
+        setMsg(
+          "pdfMsg",
+          T("pdfDone").replace("{n}", String(pages)).replace("{size}", fmtSize(blob.size)),
+          "good",
+        );
+      }
     } catch {
-      setMsg(
-        "pdfMsg",
-        T("pdfFail"),
-        "warn",
-      );
+      setMsg("pdfMsg", T("pdfFail"), "warn");
     }
     btn.disabled = false;
     btn.textContent = T("pdfGo");
   });
 }
-
 interface PdfCompressState {
   file: File | null;
   level: string;
@@ -116,8 +184,16 @@ interface PdfCompressState {
 
 export function initPdfCompress(): void {
   const pc: PdfCompressState = { file: null, level: "med" };
+  function pcShowStat(): void {
+    if (!pc.file) return;
+    setHTML(
+      "pcStat",
+      `<span>${T("pcOrigSize").replace("{size}", fmtSize(pc.file.size))}</span><span>${T("pcLevelLine").replace("{lvl}", T(pc.level === "high" ? "pcLvlNameHigh" : pc.level === "low" ? "pcLvlNameLow" : "pcLvlNameMed"))}</span>`,
+    );
+  }
   chipGroup("pcLevel", (v) => {
     pc.level = v;
+    pcShowStat();
   });
   wireDrop("pcDrop", "pcFile", (f) => {
     if (!/pdf$/i.test(f.name) && f.type !== "application/pdf") {
@@ -126,10 +202,7 @@ export function initPdfCompress(): void {
     }
     pc.file = f;
     $("pcName").textContent = `✔ ${f.name}`;
-    setHTML(
-      "pcStat",
-      `<span>${T("pcOrigSize").replace("{size}", fmtKB(f.size))}</span><span>${T("pcLevelLine").replace("{lvl}", T(pc.level === "high" ? "pcLvlNameHigh" : pc.level === "low" ? "pcLvlNameLow" : "pcLvlNameMed"))}</span>`,
-    );
+    pcShowStat();
     (input("pcGo") as HTMLButtonElement).disabled = false;
     $("pcMsg").textContent = "";
     $("pcDownload").style.display = "none";
@@ -184,12 +257,12 @@ export function initPdfCompress(): void {
       const url = URL.createObjectURL(blob);
       const dl = $("pcDownload") as HTMLAnchorElement;
       dl.href = url;
-      dl.setAttribute("download", pc.file.name.replace(/\.pdf$/i, "") + "-compressed.pdf");
+      dl.setAttribute("download", pc.file.name.replace(/\.pdf$/i, "") + "-compressed-" + Date.now().toString(36) + ".pdf");
       dl.style.display = "inline-flex";
       const saved = Math.round((1 - blob.size / pc.file.size) * 100);
       setHTML(
         "pcStat",
-        `<span>${T("kbStatBefore")}: ${fmtKB(pc.file.size)}</span><span class='good'>${T("kbStatNow")}: ${fmtKB(blob.size)}</span><span>${T("pcPages").replace("{n}", String(pdfDoc.numPages))}</span>${saved > 0 ? `<span class='good'>${T("pcSmaller").replace("{p}", String(saved))}</span>` : `<span>${T("pcSameSize")}</span>`}`,
+        `<span>${T("kbStatBefore")}: ${fmtSize(pc.file.size)}</span><span class='good'>${T("kbStatNow")}: ${fmtSize(blob.size)}</span><span>${T("pcPages").replace("{n}", String(pdfDoc.numPages))}</span>${saved > 0 ? `<span class='good'>${T("pcSmaller").replace("{p}", String(saved))}</span>` : `<span>${T("pcSameSize")}</span>`}`,
       );
       setMsg(
         "pcMsg",

@@ -58,6 +58,9 @@ export function ImageToPdfTool() {
           </div>
           <div>
             <div id="pdfThumbs" style={{ display: "flex", flexWrap: "wrap", gap: 8 }} />
+            <p className="hint" id="pdfThumbsHint" style={{ display: "none" }} data-i18n="pdfThumbsHint">
+              Page order = photo order. Use ◀ ▶ to fix the order, ✕ to remove a photo.
+            </p>
             <p className="hint" data-i18n="pdfHint">
               Every photo fits the page with a margin, so document edges are never cut. Use this
               PDF for form portals — and it is also the best file for printing.
@@ -181,6 +184,15 @@ export function ImageCompressorTool() {
                 <span id="cpQVal">— 80%</span>
               </label>
               <input type="range" id="cpQ" min={20} max={100} defaultValue={80} />
+            </div>
+            <div className="field">
+              <label className="fl" htmlFor="cpFormat" data-i18n="cpFormatLabel">
+                Format
+              </label>
+              <select id="cpFormat" defaultValue="jpg">
+                <option value="jpg">JPG</option>
+                <option value="png">PNG</option>
+              </select>
             </div>
             <div className="field">
               <label className="fl" data-i18n="cpDimLabel">

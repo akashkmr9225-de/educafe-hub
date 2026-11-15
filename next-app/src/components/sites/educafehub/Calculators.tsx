@@ -25,6 +25,9 @@ export function AgeTool() {
               <button className="btn" id="ageGo" data-i18n="ageGo">Calculate age</button>
             </div>
             <div className="msg" id="ageMsg" />
+            <p className="hint" data-i18n="ageClass1Rule">
+              Class 1 rule: the child should be 6 years or older on 31 March of the admission year.
+            </p>
           </div>
           <div>
             <div className="result-big" id="ageBig">
@@ -51,6 +54,7 @@ export function AgeTool() {
                 <dd id="ageNext">—</dd>
               </div>
             </dl>
+            <div className="msg" id="ageClass1" style={{ display: "none" }} />
           </div>
         </div>
       </div>

@@ -53,7 +53,17 @@ export function initAge(): void {
       d.toLocaleDateString(loc, { day: "numeric", month: "short", year: "numeric" });
     $("ageLine").textContent = T("ageLineFmt").replace("{dob}", fmtD(dob)).replace("{on}", fmtD(on));
     const yr = on.getFullYear();
-    $("ageMar").textContent = `${ageStr(ageDiff(dob, new Date(yr, 2, 31)))} (${yr})`;
+    const marThis = new Date(yr, 2, 31);
+    const admYear = marThis <= on ? yr + 1 : yr;
+    const marAge = ageDiff(dob, new Date(admYear, 2, 31));
+    $("ageMar").textContent = T("ageMarFmt").replace("{age}", ageStr(marAge)).replace("{y}", String(admYear));
+    const c1 = $("ageClass1");
+    const eligible = marAge.y >= 6;
+    c1.style.display = "block";
+    c1.className = `msg ${eligible ? "good" : "warn"}`;
+    c1.textContent = T(eligible ? "ageClass1Ok" : "ageClass1No")
+      .replace("{age}", ageStr(marAge))
+      .replace("{y}", String(admYear));
     $("ageDec").textContent = `${ageStr(ageDiff(dob, new Date(yr, 11, 31)))} (${yr})`;
     $("ageDays").textContent = T("ageDaysFmt").replace(
       "{n}",

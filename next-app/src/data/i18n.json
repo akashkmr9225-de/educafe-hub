@@ -779,7 +779,8 @@
     "ppTypeGlossy": "Glossy paper",
     "ppTypeMatte": "Matte paper",
     "ppTypeSatin": "Satin paper",
-    "ppTypePlain": "Plain paper"
+    "ppTypePlain": "Plain paper",
+    "ppFolderBtn": "📁 Choose a whole folder"
   },
   "hi": {
     "navCapacity": "🛡️ क्षमता और स्थिति",
@@ -1561,6 +1562,7 @@
     "ppTypeGlossy": "ग्लॉसी काग़ज़",
     "ppTypeMatte": "मैट काग़ज़",
     "ppTypeSatin": "साटन काग़ज़",
-    "ppTypePlain": "सादा काग़ज़"
+    "ppTypePlain": "सादा काग़ज़",
+    "ppFolderBtn": "📁 पूरा फ़ोल्डर चुनें"
   }
 }

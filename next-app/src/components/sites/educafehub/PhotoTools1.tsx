@@ -1,3 +1,5 @@
+const DIRECTORY_ATTRS: Record<string, string> = { webkitdirectory: '', directory: '' };
+
 export function PassportTool() {
   return (
     <section id="passport">
@@ -267,6 +269,12 @@ export function PassportTool() {
                   JPG / PNG / HEIC — 100-1000 photos, file name becomes student name
                 </p>
                 <input type="file" id="ppBulkFiles" accept="image/*" multiple />
+              </div>
+              <div className="btnrow" style={{ marginTop: 10 }}>
+                <button type="button" className="btn ghost small" id="ppFolderBtn" data-i18n="ppFolderBtn">
+                  📁 Choose a whole folder
+                </button>
+                <input type="file" id="ppFolder" multiple style={{ display: 'none' }} {...DIRECTORY_ATTRS} />
               </div>
               <div className="fname" id="ppBulkName" />
               <div className="field" style={{ marginTop: 16 }}>

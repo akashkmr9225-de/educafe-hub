@@ -663,6 +663,11 @@ export function initPassportBulk(): void {
     addFiles(this.files);
     this.value = "";
   });
+  $("ppFolderBtn").addEventListener("click", () => input("ppFolder").click());
+  input("ppFolder").addEventListener("change", function (this: HTMLInputElement) {
+    addFiles(this.files);
+    this.value = "";
+  });
 
   input("ppBulkPrev").addEventListener("click", () => {
     showPage(pb.currentPage - 1);

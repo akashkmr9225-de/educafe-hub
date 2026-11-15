@@ -29,6 +29,11 @@ interface PassportState {
   guides: boolean;
   labels: boolean;
   quality: number;
+  file: File | null;
+  bright: number;
+  contrast: number;
+  strip: boolean;
+  bgRemoved: boolean;
 }
 
 const PAPER_SIZES: Record<string, { w: number; h: number }> = {
@@ -55,6 +60,11 @@ export function initPassport(): void {
     guides: true,
     labels: true,
     quality: 300,
+    file: null,
+    bright: 100,
+    contrast: 100,
+    strip: false,
+    bgRemoved: false,
   };
 
   const paperSel = input("ppPaperSel");
@@ -139,8 +149,11 @@ export function initPassport(): void {
     loadImg(f)
       .then((r) => {
         pp.img = r.img;
+        pp.file = f;
+        pp.bgRemoved = false;
         $("ppName").textContent = `✔ ${f.name}`;
         (input("ppDownload") as HTMLButtonElement).disabled = false;
+        syncDocButtons();
         $("ppMsg").textContent = "";
         renderPP();
       })
@@ -196,7 +209,14 @@ export function initPassport(): void {
     const zoom = parseInt(input("ppZoom").value, 10) / 100;
     const ysh = parseInt(input("ppY").value, 10) / 100;
     const bgc = input("ppBg").value || "#ffffff";
-    const label = (input("ppLabelText").value || "").trim();
+    let label = (input("ppLabelText").value || "").trim();
+    if (pp.strip) {
+      const spName = (input("ppStripName") as HTMLInputElement).value.trim();
+      const spRaw = (input("ppStripDate") as HTMLInputElement).value;
+      const spDate = spRaw ? spRaw.split("-").reverse().join("/") : "";
+      const parts = [spName || label, spDate].filter(Boolean);
+      if (parts.length) label = parts.join("  •  ");
+    }
     let n = 0;
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
@@ -205,6 +225,7 @@ export function initPassport(): void {
         const x = x0 + c * (pw + gap);
         const y = y0 + r * (cellH + gap);
         if (pp.img) {
+          ctx.filter = "brightness(" + pp.bright + "%) contrast(" + pp.contrast + "%)";
           if (pp.mode === "fit") {
             ctx.fillStyle = bgc;
             ctx.fillRect(x, y, pw, ph);
@@ -212,6 +233,7 @@ export function initPassport(): void {
           } else {
             drawCover(ctx, pp.img, x, y, pw, ph, zoom, ysh);
           }
+          ctx.filter = "none";
         } else {
           ctx.fillStyle = "#e8e2d2";
           ctx.fillRect(x, y, pw, ph);
@@ -286,6 +308,164 @@ export function initPassport(): void {
       "good",
     );
   });
+
+  // ---- PASSPORT3: document presets, name+date strip, brightness/contrast, background removal ----
+  interface DocPreset { w: number; h: number; minKB: number; maxKB: number; bg: string; file: string }
+  const DOC_PRESETS: Record<string, DocPreset> = {
+    "passport-seva": { w: 630, h: 810, minKB: 10, maxKB: 250, bg: "#ffffff", file: "passport-seva" },
+    ibps: { w: 200, h: 230, minKB: 20, maxKB: 50, bg: "#f2f2f2", file: "ibps" },
+    sbi: { w: 200, h: 230, minKB: 20, maxKB: 50, bg: "#f2f2f2", file: "sbi" },
+    oci: { w: 600, h: 600, minKB: 0, maxKB: 200, bg: "#f2f2f2", file: "oci" },
+    dl: { w: 420, h: 525, minKB: 10, maxKB: 20, bg: "#f2f2f2", file: "dl" },
+    neet: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "neet" },
+  };
+  const ppDynImport = new Function("u", "return import(u)") as (u: string) => Promise<Record<string, unknown>>;
+  let ppImglyFn: ((file: Blob, cfg: Record<string, unknown>) => Promise<Blob>) | null = null;
+  async function ppLoadImgly(): Promise<(file: Blob, cfg: Record<string, unknown>) => Promise<Blob>> {
+    if (ppImglyFn) return ppImglyFn;
+    const urls = [
+      "https://esm.sh/@imgly/background-removal@1.7.0?bundle",
+      "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm",
+      "https://esm.run/@imgly/background-removal@1.7.0",
+      "https://unpkg.com/@imgly/background-removal@1.7.0/dist/index.mjs",
+    ];
+    for (const u of urls) {
+      try {
+        const mod = await ppDynImport(u);
+        const fn = (mod.removeBackground || mod.default) as (file: Blob, cfg: Record<string, unknown>) => Promise<Blob>;
+        if (typeof fn === "function") { ppImglyFn = fn; return fn; }
+      } catch { continue; }
+    }
+    throw new Error("engine missing");
+  }
+  const PP_AI_CONFIGS: { device: string; publicPath: string }[] = [
+    { device: "gpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
+    { device: "cpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
+    { device: "cpu", publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.7.0/dist/" },
+    { device: "cpu", publicPath: "https://unpkg.com/@imgly/background-removal-data@1.7.0/dist/" },
+  ];
+  function docPreset(): DocPreset | null {
+    const v = ($("ppDocPreset") as HTMLSelectElement).value;
+    return DOC_PRESETS[v] || null;
+  }
+  function syncDocButtons(): void {
+    (input("ppDocDownload") as HTMLButtonElement).disabled = !(pp.img && docPreset());
+    (input("ppBgRemove") as HTMLButtonElement).disabled = !pp.img;
+  }
+  function stripParts(): { name: string; date: string } {
+    const raw = (input("ppStripDate") as HTMLInputElement).value;
+    const date = raw ? raw.split("-").reverse().join("/") : "";
+    const name = (input("ppStripName") as HTMLInputElement).value.trim() || (input("ppLabelText").value || "").trim();
+    return { name, date };
+  }
+  async function ppEncodeInRange(cv: HTMLCanvasElement, minKB: number, maxKB: number): Promise<Blob> {
+    const max = maxKB * 1024;
+    let blob = await kbEncode(cv, "image/jpeg", 0.92);
+    if (blob.size > max) {
+      let lo = 0.08, hi = 0.92;
+      for (let i = 0; i < 9; i++) {
+        const mid = (lo + hi) / 2;
+        const b = await kbEncode(cv, "image/jpeg", mid);
+        if (b.size <= max) { blob = b; lo = mid; } else { hi = mid; }
+      }
+    }
+    if (minKB > 0 && blob.size < minKB * 1024) {
+      const target = Math.round((minKB + Math.max(1, (maxKB - minKB) * 0.1)) * 1024);
+      blob = await padJpeg(blob, target);
+    }
+    return blob;
+  }
+  ($("ppDocPreset") as HTMLSelectElement).addEventListener("change", () => {
+    if (($("ppDocPreset") as HTMLSelectElement).value === "neet" && !pp.strip) {
+      pp.strip = true;
+      $("ppStrip").setAttribute("aria-pressed", "true");
+      renderPP();
+    }
+    syncDocButtons();
+  });
+  $("ppStrip").addEventListener("click", function (this: HTMLElement) {
+    pp.strip = this.getAttribute("aria-pressed") !== "true";
+    this.setAttribute("aria-pressed", pp.strip ? "true" : "false");
+    renderPP();
+  });
+  input("ppStripName").addEventListener("input", renderPP);
+  input("ppStripDate").addEventListener("input", renderPP);
+  input("ppBright").addEventListener("input", () => { pp.bright = parseInt(input("ppBright").value, 10) || 100; renderPP(); });
+  input("ppContrast").addEventListener("input", () => { pp.contrast = parseInt(input("ppContrast").value, 10) || 100; renderPP(); });
+  $("ppAdjReset").addEventListener("click", () => {
+    pp.bright = 100; pp.contrast = 100;
+    (input("ppBright") as HTMLInputElement).value = "100";
+    (input("ppContrast") as HTMLInputElement).value = "100";
+    renderPP();
+  });
+  $("ppDocDownload").addEventListener("click", async () => {
+    const P = docPreset();
+    if (!P || !pp.img) return;
+    const cv = document.createElement("canvas");
+    cv.width = P.w; cv.height = P.h;
+    const ctx = ctx2d(cv);
+    ctx.fillStyle = P.bg;
+    ctx.fillRect(0, 0, P.w, P.h);
+    const stripH = pp.strip ? Math.max(30, Math.round(P.h * 0.12)) : 0;
+    const ph = P.h - stripH;
+    ctx.save();
+    ctx.filter = "brightness(" + pp.bright + "%) contrast(" + pp.contrast + "%)";
+    if (pp.mode === "fit") drawContain(ctx, pp.img, 0, 0, P.w, ph);
+    else drawCover(ctx, pp.img, 0, 0, P.w, ph, 1, 0.25);
+    ctx.restore();
+    if (stripH) {
+      const sp = stripParts();
+      const lines = [sp.name, sp.date].filter(Boolean);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, ph, P.w, stripH);
+      ctx.fillStyle = "#111111";
+      ctx.textAlign = "center";
+      ctx.font = "700 " + Math.round(stripH * (lines.length > 1 ? 0.3 : 0.42)) + "px sans-serif";
+      lines.forEach((ln, i) => {
+        ctx.fillText(ln, P.w / 2, ph + stripH * (lines.length > 1 ? (i === 0 ? 0.4 : 0.8) : 0.64), P.w - 10);
+      });
+      ctx.textAlign = "left";
+    }
+    const blob = await ppEncodeInRange(cv, P.minKB, P.maxKB);
+    const base = pp.file ? pp.file.name.replace(/\.[^.]+$/, "") : "photo";
+    downloadBlob(blob, P.file + "-" + base + "-" + Date.now().toString(36) + ".jpg");
+    setMsg("ppMsg", T("ppDocDone").replace("{kb}", (blob.size / 1024).toFixed(1)).replace("{w}", String(P.w)).replace("{h}", String(P.h)), "good");
+    $("ppDocInfo").textContent = pp.bgRemoved ? "" : T("ppDocBgNote");
+  });
+  $("ppBgRemove").addEventListener("click", async function (this: HTMLButtonElement) {
+    if (!pp.file) { setMsg("ppMsg", T("ppGenNeedPhoto"), "warn"); return; }
+    this.disabled = true;
+    setMsg("ppMsg", T("ppBgWorking"), "");
+    try {
+      const fn = await ppLoadImgly();
+      let out: Blob | null = null;
+      for (let c = 0; c < PP_AI_CONFIGS.length && !out; c++) {
+        try {
+          out = await fn(pp.file, { device: PP_AI_CONFIGS[c].device, publicPath: PP_AI_CONFIGS[c].publicPath, model: "isnet_fp16", output: { format: "image/png", quality: 1 } });
+        } catch { out = null; }
+      }
+      if (!out) throw new Error("ai failed");
+      const r = await loadImg(out);
+      const P = docPreset();
+      const fill = P ? P.bg : (input("ppBg").value || "#ffffff");
+      const cv = document.createElement("canvas");
+      cv.width = r.img.naturalWidth; cv.height = r.img.naturalHeight;
+      const ctx = ctx2d(cv);
+      ctx.fillStyle = fill;
+      ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(r.img, 0, 0);
+      const flat = await kbEncode(cv, "image/png", 1);
+      const r2 = await loadImg(flat);
+      pp.img = r2.img;
+      pp.bgRemoved = true;
+      renderPP();
+      setMsg("ppMsg", T("ppBgDone"), "good");
+    } catch {
+      setMsg("ppMsg", T("ppBgFail"), "warn");
+    }
+    syncDocButtons();
+  });
+  syncDocButtons();
 
   chipGroup("ppModeSwitch", (v) => {
     const singlePanel = $("ppSinglePanel");

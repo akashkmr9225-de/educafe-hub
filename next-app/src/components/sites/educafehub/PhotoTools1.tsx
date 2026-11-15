@@ -512,8 +512,17 @@ export function ExactKbTool() {
                 <button
                   type="button"
                   className="chip saf"
-                  data-v="under"
+                  data-v="exact"
                   aria-pressed="true"
+                  data-i18n="kbModeExact"
+                >
+                  Exact size
+                </button>
+                <button
+                  type="button"
+                  className="chip"
+                  data-v="under"
+                  aria-pressed="false"
                   data-i18n="kbModeUnder"
                 >
                   Under the size
@@ -548,7 +557,7 @@ export function ExactKbTool() {
                 </div>
               </div>
               <p className="hint" id="kbBetweenNote" style={{ marginTop: 4 }} />
-              <p className="hint" style={{ marginTop: 4 }} id="kbModeHint" data-i18n="kbModeHint">“At least” first raises quality, then adds harmless padding inside the JPG file — the photo itself does not change.</p>
+              <p className="hint" style={{ marginTop: 4 }} id="kbModeHint" data-i18n="kbHintExact">The downloaded photo will be exactly the size you chose — a smaller photo is padded up inside the file, a bigger one is compressed down. The photo itself does not change.</p>
             </div>
             <div className="field">
               <label className="fl" htmlFor="kbDim" data-i18n="kbDimLabel">
@@ -629,7 +638,10 @@ export function ExactKbTool() {
           <div className="field">
             <label className="fl" data-i18n="kbModeLabel">Size rule — some forms give a range, not just a limit</label>
             <div className="chips" id="kbBMode">
-              <button type="button" className="chip saf" data-v="under" aria-pressed="true" data-i18n="kbModeUnder">
+              <button type="button" className="chip saf" data-v="exact" aria-pressed="true" data-i18n="kbModeExact">
+                Exact size
+              </button>
+              <button type="button" className="chip" data-v="under" aria-pressed="false" data-i18n="kbModeUnder">
                 Under the size
               </button>
               <button type="button" className="chip" data-v="atleast" aria-pressed="false" data-i18n="kbModeAtLeast">

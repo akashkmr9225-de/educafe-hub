@@ -922,7 +922,7 @@ async function kbMakeZip(files: { name: string; blob: Blob }[]): Promise<Blob> {
 }
 
 export function initKb(): void {
-  const kb: KbState = { img: null, file: null, target: 50, mode: "under", format: "jpg" };
+  const kb: KbState = { img: null, file: null, target: 50, mode: "exact", format: "jpg" };
   let kbTimer: ReturnType<typeof setTimeout> | null = null;
 
   function kbTargetKB(): number {
@@ -1002,9 +1002,15 @@ export function initKb(): void {
     let blob: Blob;
     let fittedByDims = false;
     let ok = true;
-    const ruleTxt = fmtTarget(target);
+    const ruleTxt = (kb.mode === "exact" ? "= " : "") + fmtTarget(target);
     const mime = format === "png" ? "image/png" : format === "webp" ? "image/webp" : "image/jpeg";
-    if (kb.mode === "atleast") {
+    if (kb.mode === "exact") {
+      const r = await kbFitToTargetKB(cv, target, format);
+      blob = r.blob;
+      fittedByDims = r.fittedByDims;
+      if (format === "jpg" && blob.size < target * 1024) blob = await padJpeg(blob, target * 1024);
+      ok = format === "jpg" ? blob.size <= target * 1024 && target * 1024 - blob.size < 4 : blob.size <= target * 1024;
+    } else if (kb.mode === "atleast") {
       blob = await kbEncode(cv, mime, 0.95);
       if (blob.size < target * 1024 && format !== "png") blob = await padJpeg(blob, target * 1024);
       ok = blob.size >= target * 1024;
@@ -1057,11 +1063,11 @@ export function initKb(): void {
       kb.mode = v;
       $("kbMaxRow").style.display = v === "between" ? "flex" : "none";
       $("kbModeHint").textContent =
-        v === "atleast" ? T("kbHintAtLeast") : v === "between" ? T("kbBetweenHint") : T("kbHintUnder");
+        v === "atleast" ? T("kbHintAtLeast") : v === "between" ? T("kbBetweenHint") : v === "under" ? T("kbHintUnder") : T("kbHintExact");
       if (v === "between") kbFixBetween();
       else $("kbBetweenNote").textContent = "";
       scheduleKbRender();
-    }) || "under";
+    }) || "exact";
   input("kbTargetNum").addEventListener("input", () => {
     kb.target = kbTargetKB();
     syncKbChips();
@@ -1112,7 +1118,7 @@ export function initKb(): void {
     size: number;
   }
   const kbB: { files: File[]; results: KbBItem[] } = { files: [], results: [] };
-  let kbBMode = "under";
+  let kbBMode = "exact";
 
   chipGroup("kbModeSwitch", (v) => {
     $("kbSinglePanel").style.display = v === "bulk" ? "none" : "";
@@ -1205,7 +1211,11 @@ export function initKb(): void {
     drawCover(ctx, img, 0, 0, cw, ch, 1, 0.5);
     const mime = format === "png" ? "image/png" : format === "webp" ? "image/webp" : "image/jpeg";
     let blob: Blob;
-    if (kbBMode === "atleast") {
+    if (kbBMode === "exact") {
+      const rr = await kbFitToTargetKB(cv, target, format);
+      blob = rr.blob;
+      if (format === "jpg" && blob.size < target * 1024) blob = await padJpeg(blob, target * 1024);
+    } else if (kbBMode === "atleast") {
       blob = await kbEncode(cv, mime, 0.95);
       if (blob.size < target * 1024 && format !== "png") blob = await padJpeg(blob, target * 1024);
     } else if (kbBMode === "between") {

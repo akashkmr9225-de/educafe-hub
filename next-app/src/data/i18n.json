@@ -80,7 +80,7 @@
     "kbFmtWebP": "WebP",
     "kbFormatHint": "JPG & WebP fit the target by quality. PNG fits by reducing dimensions.",
     "kbPngNote": "PNG cannot shrink by quality, so this photo was fitted by reducing its size.",
-    "kbHint": "How it works: pick a size rule above. Under keeps the photo below the target; At least raises it to the target; Between keeps it between the two sizes. Large photos are reduced in dimensions first, automatically.",
+    "kbHint": "How it works: pick a size rule above. Exact makes the photo exactly the target size; Under keeps it below the target; At least raises it to the target; Between keeps it between the two sizes. Large photos are reduced in dimensions first, automatically.",
     "kbCustomLabel": "Or type your own size (KB)",
     "kbDimLabel": "Pixel size the form wants (optional) — e.g. 200 × 230",
     "kbGo": "Resize now",
@@ -767,7 +767,9 @@
     "ppBulkPdfFail": "PDF generation failed — check internet connection.",
     "ppBulkPdfGen": "Generating PDF…",
     "ppXlFail": "Could not read Excel file.",
-    "pcLevelLine": "Level: {lvl}"
+    "pcLevelLine": "Level: {lvl}",
+    "kbModeExact": "Exact size",
+    "kbHintExact": "The downloaded photo will be exactly the size you chose — a smaller photo is padded up inside the file, a bigger one is compressed down. The photo itself does not change."
   },
   "hi": {
     "navCapacity": "🛡️ क्षमता और स्थिति",
@@ -897,7 +899,7 @@
     "kbCustomLabel": "या खुद KB लिखें",
     "kbDimLabel": "फ़ॉर्म में माँगी गई पिक्सेल साइज़ — जैसे 200 × 230 (अगर माँगी हो तो)",
     "kbGo": "आकार बदलें",
-    "kbHint": "यह टूल फ़ोटो की क्वालिटी धीरे-धीरे बदलकर उसे आपके बताए साइज़ के पास ले जाता है — साइज़ से कम में हमेशा उससे छोटा रखता है। फ़ोटो बहुत बड़ी हो तो उसकी लंबाई-चौड़ाई पहले अपने-आप छोटी कर दी जाती है।",
+    "kbHint": "यह कैसे काम करता है: ऊपर एक साइज़ नियम चुनें। ठीक यही साइज़ — फ़ोटो ठीक लक्ष्य साइज़ की बनती है; साइज़ से कम — फ़ोटो लक्ष्य से नीचे रहती है; कम से कम — फ़ोटो लक्ष्य तक बढ़ती है; दो साइज़ के बीच — फ़ोटो दो साइज़ों के बीच रहती है। फ़ोटो बहुत बड़ी हो तो उसकी लंबाई-चौड़ाई पहले अपने-आप छोटी कर दी जाती है।",
     "t3Title": "हस्ताक्षर मेकर",
     "t3Desc": "सफ़ेद काग़ज़ पर किए हस्ताक्षर की फ़ोटो डालें — पीछे का सफ़ेद हिस्सा साफ़ होगा, फ़ालतू हिस्सा कटेगा और फ़ॉर्म के साइज़ में डाउनलोड मिलेगा।",
     "sgDropBig": "✍️ हस्ताक्षर की फ़ोटो अपलोड करें",
@@ -1537,6 +1539,8 @@
     "ppBulkPdfFail": "PDF बन नहीं पाई — इंटरनेट कनेक्शन देखें।",
     "ppBulkPdfGen": "PDF बनाई जा रही है…",
     "ppXlFail": "Excel फ़ाइल पढ़ी नहीं जा सकी।",
-    "pcLevelLine": "लेवल: {lvl}"
+    "pcLevelLine": "लेवल: {lvl}",
+    "kbModeExact": "ठीक यही साइज़",
+    "kbHintExact": "डाउनलोड होने वाली फ़ोटो ठीक उसी साइज़ की होगी जो आपने चुना है — छोटी फ़ोटो को फ़ाइल के अंदर बढ़ाकर और बड़ी को घटाकर ठीक यही साइज़ बनाया जाता है। फ़ोटो जैसी है वैसी ही रहती है।"
   }
 }

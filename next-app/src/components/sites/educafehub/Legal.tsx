@@ -13,14 +13,14 @@ export function LegalSection() {
     <section id="legal">
       <div className="sec-head">
         <span className="no">⚖️</span>
-        <h2 data-i18n="legalTitle">Legal pages — Privacy, Terms, Disclaimer, About &amp; Contact</h2>
+        <h2 data-i18n="legalTitle">Legal pages — Privacy, Terms, Disclaimer, About & Contact</h2>
       </div>
       <p className="sec-sub" data-i18n="legalDesc">
         The plain-language pages every real website needs — and the ones Google AdSense asks for.
         Last updated: 13 November 2026.
       </p>
       <div className="card">
-        <div className="tablist" role="tablist" aria-label="Legal pages">
+        <div className="tablist" role="tablist" data-i18n-aria="ariaLegal" aria-label="Legal pages">
           {TABS.map((tab) => (
             <button
               key={tab.id}
@@ -41,16 +41,8 @@ export function LegalSection() {
         <div className="tabpanel" role="tabpanel" id="panel-priv" aria-labelledby="tab-priv" tabIndex={0}>
           <h3 data-i18n="privT">Privacy Policy — your files stay with you</h3>
           <ul>
-            <li data-i18n="priv1">
-              Every tool runs in your browser on this device. Photos, signatures and PDFs you open
-              are processed here only — they are never uploaded to us or to anyone else, and we
-              cannot see them. This includes children&apos;s photos used for school forms.
-            </li>
-            <li data-i18n="priv2">
-              There is no account, sign-up or login on this site today, and we collect nothing: no
-              names, no files, no usage history. This page sets no cookies and runs no analytics or
-              advertising trackers.
-            </li>
+            <li data-i18n="priv1">Every tool runs in your browser on this device. Photos, signatures and PDFs you open are processed here only — they are never uploaded to us or to anyone else, and we cannot see them. This includes children's photos used for school forms.</li>
+            <li data-i18n="priv2">You may optionally save a small profile on this device (your name, a mobile number or email, and a School / Cyber Cafe label) plus a list of your tasks. Both are stored only in this browser on this device — they are never sent to us or to anyone else, and signing out or clearing browser data removes them. This page sets no cookies and runs no analytics or advertising trackers.</li>
             <li data-i18n="priv3">
               If advertising (such as Google AdSense) is added later, after we move to our own
               domain, ad providers like Google may use cookies to show and measure ads. This policy
@@ -72,16 +64,8 @@ export function LegalSection() {
         <div className="tabpanel" role="tabpanel" id="panel-terms" aria-labelledby="tab-terms" tabIndex={0} hidden>
           <h3 data-i18n="termsT">Terms of Use</h3>
           <ul>
-            <li data-i18n="terms1">
-              All tools are free for personal, school and shop-counter work, provided as they are.
-              Before submitting, always check the finished photo or PDF against the form&apos;s own
-              instructions (size, KB, format) — portals change their rules, and we cannot guarantee
-              that a form will be accepted.
-            </li>
-            <li data-i18n="terms2">
-              You are responsible for the files you process, and for following each official
-              portal&apos;s own rules and deadlines.
-            </li>
+            <li data-i18n="terms1">All tools are free for personal, school and shop-counter work, provided as they are. Before submitting, always check the finished photo or PDF against the form's own instructions (size, KB, format) — portals change their rules, and we cannot guarantee that a form will be accepted.</li>
+            <li data-i18n="terms2">You are responsible for the files you process, and for following each official portal's own rules and deadlines.</li>
             <li data-i18n="terms3">
               Do not use these tools to forge, fake or alter official documents, certificates,
               photos or signatures, or for anything unlawful.
@@ -125,11 +109,7 @@ export function LegalSection() {
               Made for students, parents, school staff and cyber-cafe operators, especially around
               Vaishali and Muzaffarpur, Bihar — but anyone can use it, free, without login.
             </li>
-            <li data-i18n="about3">
-              Why it is free: everything runs in the visitor&apos;s own browser, so there is no
-              server bill. That is why it stays free and fast, and never collects your files. How it
-              may earn later is explained in the Earn Money section above.
-            </li>
+            <li data-i18n="about3">Why it is free: everything runs in the visitor's own browser, so there is no server bill. That is why it stays free and fast, and never collects your files.</li>
           </ul>
         </div>
 

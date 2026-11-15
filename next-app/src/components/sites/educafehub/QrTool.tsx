@@ -5,10 +5,7 @@ export function QrTool() {
         <span className="no">Tool 10</span>
         <h2 data-i18n="qrTitle">QR Code Maker — UPI, Wi-Fi, Link</h2>
       </div>
-      <p className="sec-sub" data-i18n="qrDesc">
-        Dukaan ke counter ke liye payment QR, Wi-Fi QR ya kisi link ka QR — banao, print karo,
-        counter par lagao. Koi sign-up nahi, QR yahin browser mein banta hai.
-      </p>
+      <p className="sec-sub" data-i18n="qrDesc">A payment QR for the shop counter, a Wi-Fi QR, or a QR for any link — make it, print it, put it on the counter. No sign-up, and the QR is made right here in the browser.</p>
       <div className="card">
         <div className="grid2">
           <div>
@@ -103,9 +100,7 @@ export function QrTool() {
               </div>
             </div>
             <div className="btnrow">
-              <button className="btn" id="qrGo" data-i18n="qrGo">
-                QR banao
-              </button>
+              <button className="btn" id="qrGo" data-i18n="qrGo">Make QR</button>
               <a className="btn saf" id="qrDownload" style={{ display: "none" }} download="qr-code.png">
                 ⬇ Download PNG
               </a>

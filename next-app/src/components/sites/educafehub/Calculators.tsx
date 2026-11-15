@@ -3,12 +3,9 @@ export function AgeTool() {
     <section id="age">
       <div className="sec-head">
         <span className="no">Tool 8</span>
-        <h2 data-i18n="t8Title">Age Calculator — Admission Ke Liye</h2>
+        <h2 data-i18n="t8Title">Age Calculator — for Admission</h2>
       </div>
-      <p className="sec-sub" data-i18n="t8Desc">
-        Janam tithi (DOB) daalo — aaj ki umar ke saath school admission wali cutoff dates (31 March
-        / 31 December) par umar bhi nikal jayegi.
-      </p>
+      <p className="sec-sub" data-i18n="t8Desc">Enter the date of birth — get today's age plus the age on admission cut-off dates (31 March / 31 December).</p>
       <div className="card">
         <div className="grid2">
           <div>
@@ -25,9 +22,7 @@ export function AgeTool() {
               <input type="date" id="ageOn" />
             </div>
             <div className="btnrow" style={{ marginTop: 4 }}>
-              <button className="btn" id="ageGo" data-i18n="ageGo">
-                Age nikalo
-              </button>
+              <button className="btn" id="ageGo" data-i18n="ageGo">Calculate age</button>
             </div>
             <div className="msg" id="ageMsg" />
           </div>
@@ -68,12 +63,9 @@ export function MarksTool() {
     <section id="marks">
       <div className="sec-head">
         <span className="no">Tool 9</span>
-        <h2 data-i18n="t9Title">Marks &amp; Percentage Calculator</h2>
+        <h2 data-i18n="t9Title">Marks & Percentage Calculator</h2>
       </div>
-      <p className="sec-sub" data-i18n="t9Desc">
-        Har subject ke number daalo — total, percentage, division aur grade apne-aap. Neeche CGPA ↔
-        percentage converter bhi hai.
-      </p>
+      <p className="sec-sub" data-i18n="t9Desc">Enter marks for every subject — total, percentage, division and grade are automatic. A CGPA ↔ percentage converter is below.</p>
       <div className="card">
         <div style={{ overflowX: "auto" }}>
           <table className="marks" id="mkTable">
@@ -84,7 +76,7 @@ export function MarksTool() {
                 </th>
                 <th data-i18n="mkMaxH">Full marks (Max)</th>
                 <th data-i18n="mkObtH">Marks obtained</th>
-                <th aria-label="Remove" />
+                <th aria-label="Remove subject" data-i18n-aria="mkRemoveAria" />
               </tr>
             </thead>
             <tbody id="mkBody" />
@@ -94,9 +86,7 @@ export function MarksTool() {
           <button className="btn ghost small" id="mkAdd" data-i18n="mkAdd">
             + Add subject
           </button>
-          <button className="btn" id="mkGo" data-i18n="mkGo">
-            Percentage nikalo
-          </button>
+          <button className="btn" id="mkGo" data-i18n="mkGo">Calculate percentage</button>
         </div>
         <div id="mkResult" style={{ display: "none" }}>
           <div className="result-big" id="mkBig">

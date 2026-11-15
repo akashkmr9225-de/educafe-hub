@@ -21,9 +21,7 @@ export function Wordmark() {
         Edu<span className="wm-cafe">Cafe</span> Hub
       </span>
       <span className="wm-dom">educafehub.com</span>
-      <span className="wm-tag" data-i18n="wmTag">
-        One stop for school &amp; cyber cafe work
-      </span>
+      <span className="wm-tag" data-i18n="wmTag">One stop for school & cyber cafe work</span>
     </div>
   );
 }

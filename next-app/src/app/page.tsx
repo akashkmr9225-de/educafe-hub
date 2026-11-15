@@ -54,7 +54,7 @@ export default function Home() {
           <span className="tick">✓</span>
           <span id="toastTxt" />
         </div>
-        <a className="totop" href="#top" aria-label="Back to top">
+        <a className="totop" href="#top" data-i18n-aria="ariaTop" aria-label="Back to top" data-i18n="totopLbl">
           ↑ Top
         </a>
         <EduCafeRuntime />

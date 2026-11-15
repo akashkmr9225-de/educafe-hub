@@ -5,10 +5,7 @@ export function ImageToPdfTool() {
         <span className="no">Tool 5</span>
         <h2 data-i18n="t5Title">Image → PDF</h2>
       </div>
-      <p className="sec-sub" data-i18n="t5Desc">
-        Marksheet, Aadhaar, certificate — kitni bhi photos select karo, ek saaf PDF ban jayegi.
-        Page order wahi rahega jo select karne ka order hai.
-      </p>
+      <p className="sec-sub" data-i18n="t5Desc">Marksheets, Aadhaar, certificates — select as many photos as you like and get one clean PDF, in the order you selected them.</p>
       <div className="card">
         <div className="grid2">
           <div>
@@ -17,7 +14,7 @@ export function ImageToPdfTool() {
               id="pdfDrop"
               tabIndex={0}
               role="button"
-              aria-label="Upload images to make PDF"
+              data-i18n-aria="ariaPdfDrop" aria-label="Upload images to make PDF"
             >
               <div className="big" data-i18n="pdfDropBig">
                 📄 Choose photos (several at once)
@@ -55,9 +52,7 @@ export function ImageToPdfTool() {
               <input type="text" id="pdfNameInput" defaultValue="documents" />
             </div>
             <div className="btnrow">
-              <button className="btn" id="pdfGo" disabled data-i18n="pdfGo">
-                PDF banao
-              </button>
+              <button className="btn" id="pdfGo" disabled data-i18n="pdfGo">Make PDF</button>
             </div>
             <div className="msg" id="pdfMsg" />
           </div>
@@ -81,10 +76,7 @@ export function PdfCompressTool() {
         <span className="no">Tool 6</span>
         <h2 data-i18n="t6Title">PDF Compress</h2>
       </div>
-      <p className="sec-sub" data-i18n="t6Desc">
-        Badi PDF ko chhota karo — scanned documents aur photo-wali PDF mein sabse zyada fark padta
-        hai. Form portal ki limit (jaise 200 KB / 500 KB) ke liye quality level chuno.
-      </p>
+      <p className="sec-sub" data-i18n="t6Desc">Shrink a large PDF — works best on scanned documents and photo PDFs. Pick a quality level for portal limits like 200 KB / 500 KB.</p>
       <div className="card">
         <div className="grid2">
           <div>
@@ -93,7 +85,7 @@ export function PdfCompressTool() {
               id="pcDrop"
               tabIndex={0}
               role="button"
-              aria-label="Upload PDF to compress"
+              data-i18n-aria="ariaPcDrop" aria-label="Upload PDF to compress"
             >
               <div className="big" data-i18n="pcDropBig">
                 🗜️ Upload a PDF
@@ -133,10 +125,8 @@ export function PdfCompressTool() {
               </div>
             </div>
             <div className="btnrow">
-              <button className="btn" id="pcGo" disabled data-i18n="pcGo">
-                Compress karo
-              </button>
-              <a className="btn saf" id="pcDownload" style={{ display: "none" }}>
+              <button className="btn" id="pcGo" disabled data-i18n="pcGo">Compress now</button>
+              <a className="btn saf" id="pcDownload" style={{ display: "none" }} data-i18n="pcDownloadBtn">
                 ⬇ Compressed PDF download
               </a>
             </div>
@@ -168,10 +158,7 @@ export function ImageCompressorTool() {
         <span className="no">Tool 7</span>
         <h2 data-i18n="t7Title">Image Compressor</h2>
       </div>
-      <p className="sec-sub" data-i18n="t7Desc">
-        WhatsApp par bhejni ho ya email — photo ki quality thodi kam karke size bahut kam. Slider
-        ghumao, live size dekho.
-      </p>
+      <p className="sec-sub" data-i18n="t7Desc">For WhatsApp or email — lower the quality a little and the size drops a lot. Move the slider and watch the size live.</p>
       <div className="card">
         <div className="grid2">
           <div>
@@ -180,7 +167,7 @@ export function ImageCompressorTool() {
               id="cpDrop"
               tabIndex={0}
               role="button"
-              aria-label="Upload image to compress"
+              data-i18n-aria="ariaCpDrop" aria-label="Upload image to compress"
             >
               <div className="big" data-i18n="cpDropBig">
                 🖼️ Upload a photo
@@ -226,6 +213,7 @@ export function ImageCompressorTool() {
                 id="cpDownload"
                 style={{ display: "none" }}
                 download="compressed.jpg"
+                data-i18n="cpDownloadBtn"
               >
                 ⬇ Compressed photo download
               </a>

@@ -28,10 +28,8 @@ export function LanguageBar() {
   const [who, setWho] = useState("");
   useEffect(() => watchAuthState((s) => setWho(s.profile ? s.profile.name : "")), []);
   return (
-    <div className="langbar" role="group" aria-label="Language / Bhasha">
-      <span className="lbl" data-i18n="langLabel">
-        🌐 Bhasha / Language
-      </span>
+    <div className="langbar" role="group" data-i18n-aria="ariaLangGroup" aria-label="Language">
+      <span className="lbl" data-i18n="langLabel">🌐 Language</span>
       <span className="langbar-right"><span className="grp">
         <button type="button" className="langbtn" id="langEn" aria-pressed="true">
           English
@@ -48,7 +46,7 @@ export function Intro() {
   return (
     <div className="intro">
       <Wordmark />
-      <h1 data-i18n="site.heroHeading">EduCafe Hub — for school & cyber cafe</h1>
+      <h1 data-i18n="site.heroHeading">EduCafe Hub — For School & Cyber cafe</h1>
       <p className="lede" data-i18n="site.heroSubheading">
         Passport photos, exact-KB photo & signature for forms, image to PDF, age & marks
         calculators — plus every government website you open daily, on one page. Sign in is optional and stays on this device; files are never uploaded anywhere.
@@ -128,7 +126,7 @@ const NAV: Array<{ href: string; key: string; label: string; hot?: boolean }> = 
 export function ToolNav() {
   const auth = useAuth();
   return (
-    <nav className="toolnav" aria-label="Tools">
+    <nav className="toolnav" data-i18n-aria="ariaTools" aria-label="Tools">
       <div className="row">
         {NAV.map((item) => {
           const isAuthLink = item.key === "navLoginLink";

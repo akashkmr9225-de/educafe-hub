@@ -1,4 +1,5 @@
 import { $, chipGroup, input, setHTML, setMsg } from "./helpers";
+import { T } from "./state";
 
 interface QrState {
   type: string;
@@ -51,7 +52,7 @@ export function initQr(): void {
     if (!window.QRCode) {
       setMsg(
         "qrMsg",
-        "QR library load nahi hui — net connection check karke page refresh karo.",
+        T("libQrMissing"),
         "warn",
       );
       return;
@@ -61,10 +62,10 @@ export function initQr(): void {
       setMsg(
         "qrMsg",
         qr.type === "upi"
-          ? "Pehle UPI ID likho — bina ID ke QR nahi banega."
+          ? T("qrNeedUpi")
           : qr.type === "wifi"
-            ? "Pehle Wi-Fi ka naam (SSID) likho."
-            : "Pehle link ya text likho.",
+            ? T("qrNeedWifi")
+            : T("qrNeedText"),
         "warn",
       );
       return;
@@ -81,7 +82,7 @@ export function initQr(): void {
         correctLevel: window.QRCode.CorrectLevel.M,
       });
     } catch {
-      setMsg("qrMsg", "Ye text QR ke liye bahut lamba hai — chhota karke try karo.", "warn");
+      setMsg("qrMsg", T("qrTooLong"), "warn");
       return;
     }
     $("qrPreview").classList.add("show");
@@ -97,6 +98,6 @@ export function initQr(): void {
         }
       }, "image/png");
     }
-    setMsg("qrMsg", "✔ QR taiyaar hai — apne phone se scan karke ek baar test zaroor karo.", "good");
+    setMsg("qrMsg", T("qrDone"), "good");
   });
 }

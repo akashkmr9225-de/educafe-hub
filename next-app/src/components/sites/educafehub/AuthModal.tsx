@@ -105,7 +105,7 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
         <button
           className="auth-close"
           onClick={handleClose}
-          aria-label="Close"
+          aria-label={T("ariaClose")}
         >
           ×
         </button>
@@ -113,17 +113,15 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
           <div className="auth-profile">
             <p data-i18n="authHello">Signed in as</p>
             <h3 id="authTitle">{auth.profile.name}</h3>
-            <p className="auth-meta">{auth.profile.contact} · {auth.profile.kind === "cafe" ? "🖨️ Cyber Cafe" : "🏫 School"}</p>
+            <p className="auth-meta">{auth.profile.contact} · {auth.profile.kind === "cafe" ? T("authKindCafe") : T("authKindSchool")}</p>
             <button className="btn ghost small" onClick={handleSignOut}>
-              Sign out
+              {T("authOut")}
             </button>
           </div>
         ) : (
-          <form ref={formRef} id="authForm" onSubmit={handleFormSubmit} data-i18n="authDesc">
+          <form ref={formRef} id="authForm" onSubmit={handleFormSubmit}>
             <h2 id="authTitle" data-i18n="authTitle">Sign in — a small profile on this device</h2>
-            <p className="sec-sub" data-i18n="authDesc">
-              One small profile, saved only in this browser on this device. No password, and nothing is sent to any server.
-            </p>
+            <p className="sec-sub" data-i18n="authDesc">One small profile, saved only in this browser on this device. No password, and nothing is sent to any server. Every tool stays free and open to everyone — signed in or not. The School / Cyber Cafe pick is only a label on your profile; it changes nothing on the site.</p>
             <div className="field">
               <label className="fl" htmlFor="authName" data-i18n="authNameL">
                 Your name
@@ -159,7 +157,7 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
                    aria-pressed={kind === "school" ? "true" : "false"}
                    onClick={() => updateKind("school")}
                  >
-                   🏫 School
+                   {T("authKindSchool")}
                  </button>
                  <button
                    type="button"
@@ -168,7 +166,7 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
                    aria-pressed={kind === "cafe" ? "true" : "false"}
                    onClick={() => updateKind("cafe")}
                  >
-                   🖨️ Cyber Cafe
+                   {T("authKindCafe")}
                  </button>
               </div>
             </div>

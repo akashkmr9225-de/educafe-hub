@@ -14,6 +14,7 @@ import {
   toTargetKB,
   wireDrop,
 } from "./helpers";
+import { T as TT } from "./state";
 
 interface BkItem {
   id: number;
@@ -170,9 +171,9 @@ export function initBulk(): void {
       const perT = bk.template.slots.length;
       const boxT = $("bkLayout");
       if (bk.items.length) {
-        boxT.innerHTML = `<span class='good'>${bk.items.length} photos</span><span>Layout: ${perT} photo slots per template page</span><span>${Math.ceil(bk.items.length / perT)} page(s)</span>`;
+        boxT.innerHTML = `<span class='good'>${TT("bkPhotosN").replace("{n}", String(bk.items.length))}</span><span>${TT("bkLayoutSlots").replace("{n}", String(perT))}</span><span>${TT("bkPagesN").replace("{n}", String(Math.ceil(bk.items.length / perT)))}</span>`;
       } else {
-        boxT.innerHTML = `<span>Layout: ${perT} photo slots per template page</span>`;
+        boxT.innerHTML = `<span>${TT("bkLayoutSlots").replace("{n}", String(perT))}</span>`;
       }
       return perT;
     }
@@ -188,9 +189,9 @@ export function initBulk(): void {
     const per = Math.max(lay(210, 297), lay(297, 210));
     const box = $("bkLayout");
     if (bk.items.length) {
-      box.innerHTML = `<span class='good'>${bk.items.length} photos</span><span>Layout: ${per} photos per A4 sheet</span><span>${Math.ceil(bk.items.length / per)} sheet(s)</span><span>${bk.wmm}×${bk.hmm} mm · ${bk.dpi} DPI</span>`;
+      box.innerHTML = `<span class='good'>${TT("bkPhotosN").replace("{n}", String(bk.items.length))}</span><span>${TT("bkLayoutPer").replace("{n}", String(per))}</span><span>${TT("bkSheetsN").replace("{n}", String(Math.ceil(bk.items.length / per)))}</span><span>${bk.wmm}×${bk.hmm} mm · ${bk.dpi} DPI</span>`;
     } else {
-      box.innerHTML = `<span>Layout: ${per} photos per A4 sheet</span><span>${bk.wmm}×${bk.hmm} mm · ${bk.dpi} DPI</span>`;
+      box.innerHTML = `<span>${TT("bkLayoutPer").replace("{n}", String(per))}</span><span>${bk.wmm}×${bk.hmm} mm · ${bk.dpi} DPI</span>`;
     }
     return per;
   }
@@ -381,7 +382,7 @@ export function initBulk(): void {
     );
     if (!files.length) return;
     const msg = $("bkMsg");
-    msg.textContent = "Loading photos…";
+    msg.textContent = TT("bkLoading");
     msg.className = "msg";
     let done = 0;
     files.forEach((f) => {
@@ -409,7 +410,7 @@ export function initBulk(): void {
           if (done === files.length) {
             bkRenderThumbs();
             bkLayoutInfo();
-            msg.textContent = `✔ ${bk.items.length} photos ready — check the names, then make sheets or download separate files.`;
+            msg.textContent = TT("bkReady").replace("{n}", String(bk.items.length));
             msg.className = "msg good";
           }
         });
@@ -422,7 +423,7 @@ export function initBulk(): void {
     (input("bkIndBtn") as HTMLButtonElement).disabled = !has;
     (input("bkAiRun") as HTMLButtonElement).disabled = !has;
     $("bkClear").style.display = has ? "inline-flex" : "none";
-    $("bkName").textContent = has ? `✔ ${bk.items.length} photos loaded` : "";
+    $("bkName").textContent = has ? TT("bkLoadedN").replace("{n}", String(bk.items.length)) : "";
     if (!has) {
       $("bkSheets").innerHTML = "";
       bk.sheets = [];
@@ -444,8 +445,8 @@ export function initBulk(): void {
       const ni = document.createElement("input");
       ni.type = "text";
       ni.value = it.name;
-      ni.placeholder = "Name / ID";
-      ni.setAttribute("aria-label", "Student name");
+      ni.placeholder = TT("bkNamePh");
+      ni.setAttribute("aria-label", TT("bkNameAria"));
       ni.addEventListener("input", function (this: HTMLInputElement) {
         it.name = this.value;
       });
@@ -453,7 +454,7 @@ export function initBulk(): void {
       const di = document.createElement("input");
       di.type = "date";
       di.value = it.date || "";
-      di.setAttribute("aria-label", "Date for this student");
+      di.setAttribute("aria-label", TT("bkDateAria"));
       di.addEventListener("input", function (this: HTMLInputElement) {
         it.date = this.value;
       });
@@ -464,7 +465,7 @@ export function initBulk(): void {
       dl.type = "button";
       dl.className = "btn saf small";
       dl.textContent = "⬇";
-      dl.setAttribute("aria-label", "Download this photo");
+      dl.setAttribute("aria-label", TT("bkDlAria"));
       dl.addEventListener("click", async () => {
         const r = await bkIndividualBlob(it);
         downloadBlob(r.blob, `${bkSafeName(it)}.${r.ext}`);
@@ -473,7 +474,7 @@ export function initBulk(): void {
       rm.type = "button";
       rm.className = "btn ghost small";
       rm.textContent = "✕";
-      rm.setAttribute("aria-label", "Remove this photo");
+      rm.setAttribute("aria-label", TT("bkRmAria"));
       rm.addEventListener("click", () => {
         bk.items = bk.items.filter((x) => x.id !== it.id);
         bkRenderThumbs();
@@ -530,7 +531,7 @@ export function initBulk(): void {
     if (!bk.items.length) return;
     const n = bkRenderSheets();
     const msg = $("bkMsg");
-    msg.textContent = `✔ ${n} A4 sheet(s) ready — see the preview below, then download the PDF or ZIP.`;
+    msg.textContent = TT("bkSheetsReady").replace("{n}", String(n));
     msg.className = "msg good";
     bkLayoutInfo();
   });
@@ -577,7 +578,7 @@ export function initBulk(): void {
     if (!bk.items.length || !window.JSZip) return;
     const btn = e.currentTarget as HTMLButtonElement;
     btn.disabled = true;
-    btn.textContent = "Making ZIP…";
+    btn.textContent = TT("bkMakingZip");
     const zip = new window.JSZip();
     const used: Record<string, number> = {};
     for (let i = 0; i < bk.items.length; i++) {
@@ -590,9 +591,9 @@ export function initBulk(): void {
     }
     downloadBlob(await zip.generateAsync({ type: "blob" }), "student-photos.zip");
     btn.disabled = false;
-    btn.textContent = "⬇ Download all photos (ZIP)";
+    btn.textContent = TT("bkIndBtn");
     const msg = $("bkMsg");
-    msg.textContent = "✔ ZIP downloaded — one file per student, each with its own name.";
+    msg.textContent = TT("bkZipDone");
     msg.className = "msg good";
   });
 
@@ -617,7 +618,7 @@ export function initBulk(): void {
   wireDrop("bkPsdDrop", "bkPsdFile", async (f) => {
     const stat = $("bkPsdStat");
     $("bkPsdName").textContent = `✔ ${f.name}`;
-    stat.innerHTML = "<span>Reading template…</span>";
+    stat.innerHTML = `<span>${TT("bkPsdReading")}</span>`;
     try {
       if (!window.agPsd) {
         await loadScriptOnce("https://cdn.jsdelivr.net/npm/ag-psd@34.2.0/dist/bundle.js");
@@ -637,8 +638,7 @@ export function initBulk(): void {
         .filter((l) => l && l.name && /\bname\b|label|caption/i.test(l.name) && !l.hidden)
         .sort((a, b) => a.top - b.top || a.left - b.left);
       if (!slots.length) {
-        stat.innerHTML =
-          "<span>⚠ No photo slot layers found — rename the layers so the name includes photo, slot or placeholder.</span>";
+        stat.innerHTML = `<span>${TT("bkPsdNoSlots")}</span>`;
         bk.template = null;
         return;
       }
@@ -662,11 +662,10 @@ export function initBulk(): void {
         dpi = 300;
       }
       bk.template = { slots, nameSlots, w: psd.width, h: psd.height, comp, dpi: dpi || 300 };
-      stat.innerHTML = `<span class='good'>${slots.length} photo slots</span><span>${nameSlots.length} name layers</span><span>${psd.width}×${psd.height} px · ${bk.template.dpi} DPI</span>`;
+      stat.innerHTML = `<span class='good'>${TT("bkSlotsN").replace("{n}", String(slots.length))}</span><span>${TT("bkNameLayersN").replace("{n}", String(nameSlots.length))}</span><span>${psd.width}×${psd.height} px · ${bk.template.dpi} DPI</span>`;
       bkLayoutInfo();
     } catch {
-      stat.innerHTML =
-        "<span>⚠ This PSD could not be read — it may be corrupt or use an unsupported feature.</span>";
+      stat.innerHTML = `<span>${TT("bkPsdFail")}</span>`;
       bk.template = null;
     }
   });
@@ -678,7 +677,7 @@ export function initBulk(): void {
     if (!bk.template) {
       setMsg(
         "bkMsg",
-        "Upload a PSD template first — template sheets cannot be made without one.",
+        TT("bkNeedTemplate"),
         "warn",
       );
       return 0;
@@ -943,7 +942,7 @@ export function initBulk(): void {
       const o = document.createElement("option");
       o.value = String(c);
       const head = bk.xl.header ? rows[0][c] || "" : "";
-      o.textContent = `Column ${String.fromCharCode(65 + c)}${head ? ` — ${head}` : ""}`;
+      o.textContent = TT("bkColLabel").replace("{letter}", String.fromCharCode(65 + c)) + (head ? ` — ${head}` : "");
       colSel.appendChild(o);
     }
     colSel.value = String(bkGuessCol(rows, bk.xl.header));
@@ -971,7 +970,7 @@ export function initBulk(): void {
       bkXlLoadSheet();
       msg.textContent = "";
     } catch {
-      setMsg("bkXlMsg", "This file could not be read as Excel/CSV — check the file and try again.", "warn");
+      setMsg("bkXlMsg", TT("bkXlReadFail"), "warn");
     }
   });
 
@@ -1014,10 +1013,10 @@ export function initBulk(): void {
       lab.style.margin = "0";
       lab.textContent = `${it.origName} →`;
       const sel = document.createElement("select");
-      sel.setAttribute("aria-label", `Pick the correct name for ${it.origName}`);
+      sel.setAttribute("aria-label", TT("bkPickNameAria").replace("{name}", it.origName));
       const keep = document.createElement("option");
       keep.value = "";
-      keep.textContent = `Keep my name: ${it.origName}`;
+      keep.textContent = TT("bkKeepName").replace("{name}", it.origName);
       sel.appendChild(keep);
       m.cands.forEach((c) => {
         const o = document.createElement("option");
@@ -1042,7 +1041,7 @@ export function initBulk(): void {
     const msg = $("bkXlMsg");
     const stat = $("bkXlStat");
     if (!bk.items.length) {
-      setMsg("bkXlMsg", "Add the student photos first, then match names.", "warn");
+      setMsg("bkXlMsg", TT("bkXlNeedPhotos"), "warn");
       return;
     }
     const col = parseInt(input("bkXlCol").value, 10) || 0;
@@ -1052,7 +1051,7 @@ export function initBulk(): void {
       .filter(Boolean);
     bk.xl.names = names;
     if (!names.length) {
-      setMsg("bkXlMsg", "No names found in that column — pick another column.", "warn");
+      setMsg("bkXlMsg", TT("bkXlNoNames"), "warn");
       return;
     }
     const matches = bkComputeMatches(
@@ -1073,10 +1072,9 @@ export function initBulk(): void {
     });
     bkRenderThumbs();
     bkRenderMatchList(matches);
-    stat.innerHTML = `<span class='good'>Auto-renamed: ${auto}</span><span>Needs your check: ${review}</span><span>No match: ${none}</span><span>Names in list: ${names.length}</span>`;
+    stat.innerHTML = `<span class='good'>${TT("bkStatAuto").replace("{n}", String(auto))}</span><span>${TT("bkStatReview").replace("{n}", String(review))}</span><span>${TT("bkStatNone").replace("{n}", String(none))}</span><span>${TT("bkStatNames").replace("{n}", String(names.length))}</span>`;
     $("bkXlUndo").style.display = "inline-flex";
-    msg.textContent =
-      "✔ Matching done. Auto-renamed photos are final; the “needs check” ones are listed below — pick the right name for each.";
+    msg.textContent = TT("bkXlDone");
     msg.className = "msg good";
   });
 
@@ -1088,7 +1086,7 @@ export function initBulk(): void {
     $("bkMatchList").innerHTML = "";
     $("bkXlStat").innerHTML = "";
     this.style.display = "none";
-    setMsg("bkXlMsg", "✔ All renaming undone — original file names are back.", "good");
+    setMsg("bkXlMsg", TT("bkXlUndone"), "good");
   });
 
   let bkImglyFn: ((file: Blob, cfg: Record<string, unknown>) => Promise<Blob>) | null = null;
@@ -1203,8 +1201,7 @@ export function initBulk(): void {
     const btn = e.currentTarget as HTMLButtonElement;
     if (!bk.items.length) return;
     btn.disabled = true;
-    msg.textContent =
-      "AI engine loading… the first run downloads the model and WASM (about 40 MB) — keep this tab open.";
+    msg.textContent = TT("bkAiLoading");
     msg.className = "msg";
     let fn: (file: Blob, cfg: Record<string, unknown>) => Promise<Blob>;
     try {
@@ -1212,7 +1209,7 @@ export function initBulk(): void {
     } catch {
       setMsg(
         "bkAiMsg",
-        "The AI engine could not load — check the internet connection and try again. Nothing was changed.",
+        TT("bkAiFail"),
         "warn",
       );
       btn.disabled = false;
@@ -1223,7 +1220,7 @@ export function initBulk(): void {
     let failed = 0;
     for (let i = 0; i < bk.items.length; i++) {
       const it = bk.items[i];
-      msg.textContent = `Processing ${i + 1} / ${bk.items.length} — ${it.name}…`;
+      msg.textContent = TT("bkAiProcessing").replace("{i}", String(i + 1)).replace("{n}", String(bk.items.length)).replace("{name}", it.name);
       let outBlob: Blob | null = null;
       for (let c = 0; c < BK_AI_CONFIGS.length && !outBlob; c++) {
         try {
@@ -1257,7 +1254,7 @@ export function initBulk(): void {
     }
     bkRenderThumbs();
     $("bkAiZip").style.display = bk.items.some((x) => x.aiCanvas) ? "inline-flex" : "none";
-    msg.textContent = `✔ AI portraits done: ${done} processed${failed ? `, ${failed} could not be processed — their original photos are unchanged.` : "."} Sheets and separate files now use the portraits.`;
+    msg.textContent = TT("bkAiDone").replace("{done}", String(done)).replace("{fail}", failed ? TT("bkAiFailPart").replace("{f}", String(failed)) : ".");
     msg.className = `msg ${failed ? "warn" : "good"}`;
     btn.disabled = false;
   });

@@ -1,5 +1,5 @@
 import { $, input, setHTML, setMsg } from "./helpers";
-import { T } from "./state";
+import { T, getLang, onLangChange } from "./state";
 
 interface AgeParts {
   y: number;
@@ -24,37 +24,50 @@ function ageDiff(dob: Date, on: Date): AgeParts {
 }
 
 function ageStr(a: AgeParts): string {
-  return `${a.y} saal, ${a.m} mahina, ${a.d} din`;
+  return T("ageStrFmt")
+    .replace("{y}", String(a.y))
+    .replace("{m}", String(a.m))
+    .replace("{d}", String(a.d));
 }
 
 export function initAge(): void {
   input("ageOn").value = new Date().toISOString().slice(0, 10);
-  $("ageGo").addEventListener("click", () => {
+  const calcAge = () => {
     const dv = input("ageDob").value;
     const ov = input("ageOn").value;
     if (!dv) {
-      setMsg("ageMsg", "Pehle Date of Birth select karo.", "warn");
+      setMsg("ageMsg", T("ageNeedDob"), "warn");
       return;
     }
     const dob = new Date(`${dv}T00:00:00`);
     const on = ov ? new Date(`${ov}T00:00:00`) : new Date();
     if (dob > on) {
-      setMsg("ageMsg", "DOB, “kis date par” wali date se aage hai — check karo.", "warn");
+      setMsg("ageMsg", T("ageDobFuture"), "warn");
       return;
     }
     $("ageMsg").textContent = "";
     const a = ageDiff(dob, on);
     $("ageBig").textContent = ageStr(a);
-    $("ageLine").textContent = `DOB: ${dob.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} · Umar is date par: ${on.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}`;
+    const loc = getLang() === "hi" ? "hi-IN-u-nu-latn" : "en-IN";
+    const fmtD = (d: Date) =>
+      d.toLocaleDateString(loc, { day: "numeric", month: "short", year: "numeric" });
+    $("ageLine").textContent = T("ageLineFmt").replace("{dob}", fmtD(dob)).replace("{on}", fmtD(on));
     const yr = on.getFullYear();
     $("ageMar").textContent = `${ageStr(ageDiff(dob, new Date(yr, 2, 31)))} (${yr})`;
     $("ageDec").textContent = `${ageStr(ageDiff(dob, new Date(yr, 11, 31)))} (${yr})`;
-    $("ageDays").textContent = `${Math.floor((on.getTime() - dob.getTime()) / 86400000).toLocaleString("en-IN")} din`;
+    $("ageDays").textContent = T("ageDaysFmt").replace(
+      "{n}",
+      Math.floor((on.getTime() - dob.getTime()) / 86400000).toLocaleString("en-IN"),
+    );
     const next = new Date(on.getFullYear(), dob.getMonth(), dob.getDate());
     if (next <= on) next.setFullYear(next.getFullYear() + 1);
     const nd = Math.ceil((next.getTime() - on.getTime()) / 86400000);
-    $("ageNext").textContent = `${next.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} (${nd} din baad)`;
+    $("ageNext").textContent = T("ageNextFmt").replace("{date}", fmtD(next)).replace("{n}", String(nd));
     $("ageKv").style.display = "grid";
+  };
+  $("ageGo").addEventListener("click", calcAge);
+  onLangChange(() => {
+    if (input("ageDob").value && $("ageKv").style.display !== "none") calcAge();
   });
 }
 
@@ -62,7 +75,7 @@ function mkRow(name: string): void {
   const rmTxt = T("mkRemove") || "Remove";
   const rmAria = T("mkRemoveAria") || "Remove subject";
   const tr = document.createElement("tr");
-  tr.innerHTML = `<td><input type="text" class="mkName" placeholder="Subject" value="${name || ""}"></td><td><input type="number" class="mkMax" min="1" placeholder="100"></td><td><input type="number" class="mkObt" min="0" placeholder="0"></td><td><button type="button" class="del" data-i18n-aria="mkRemoveAria" aria-label="${rmAria}"><span aria-hidden="true">×</span> <span data-i18n="mkRemove">${rmTxt}</span></button></td>`;
+  tr.innerHTML = `<td><input type="text" class="mkName" placeholder="${T("mkSubjectPh")}" value="${name || ""}"></td><td><input type="number" class="mkMax" min="1" placeholder="100"></td><td><input type="number" class="mkObt" min="0" placeholder="0"></td><td><button type="button" class="del" data-i18n-aria="mkRemoveAria" aria-label="${rmAria}"><span aria-hidden="true">×</span> <span data-i18n="mkRemove">${rmTxt}</span></button></td>`;
   const del = tr.querySelector<HTMLButtonElement>(".del");
   del?.addEventListener("click", () => tr.remove());
   $("mkBody").appendChild(tr);
@@ -90,7 +103,7 @@ export function initMarks(): void {
       }
     });
     if (!used || totM === 0) {
-      setMsg("mkMsg", "Kam se kam ek subject ka Max aur Obtained number daalo.", "warn");
+      setMsg("mkMsg", T("mkNeedRow"), "warn");
       $("mkResult").style.display = "none";
       return;
     }
@@ -99,11 +112,14 @@ export function initMarks(): void {
     $("mkBig").textContent = `${pct.toFixed(2)}%`;
     $("mkTot").textContent = `${totO} / ${totM}`;
     $("mkDiv").textContent =
-      pct >= 60 ? "First (प्रथम)" : pct >= 45 ? "Second (द्वितीय)" : pct >= 33 ? "Third (तृतीय)" : "—";
+      pct >= 60 ? T("mkDiv1") : pct >= 45 ? T("mkDiv2") : pct >= 33 ? T("mkDiv3") : "—";
     $("mkGrade").textContent =
       pct >= 90 ? "A+" : pct >= 80 ? "A" : pct >= 70 ? "B+" : pct >= 60 ? "B" : pct >= 50 ? "C" : pct >= 40 ? "D" : pct >= 33 ? "E" : "F";
-    $("mkPass").textContent = fail ? "Fail (koi subject 33% se kam)" : pct >= 33 ? "Pass ✔" : "Fail";
+    $("mkPass").textContent = fail ? T("mkPassFailSub") : pct >= 33 ? T("mkPassOk") : T("mkPassFail");
     $("mkResult").style.display = "block";
+  });
+  onLangChange(() => {
+    if ($("mkResult").style.display !== "none") ($("mkGo") as HTMLButtonElement).click();
   });
 
   let cgLock = false;

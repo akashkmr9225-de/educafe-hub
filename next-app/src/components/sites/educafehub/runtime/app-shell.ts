@@ -1,4 +1,4 @@
-import { $, chipGroup, input, setMsg } from "./helpers";
+import { chipGroup, setMsg } from "./helpers";
 import {
   T,
   getLang,
@@ -14,6 +14,7 @@ import { pcCalc } from "./tools-calc";
 
 const PK = "educafehub_profile";
 const TK = "educafehub_tasks";
+const LK = "educafehub_lang";
 
 interface Profile {
   name: string;
@@ -24,6 +25,21 @@ interface Profile {
 interface TaskItem {
   t: string;
   ts: number;
+}
+
+// Null-safe element helpers: pages render different sections (the homepage has
+// Tasks + Links, tool pages do not), so every lookup here must tolerate a
+// missing element instead of throwing and killing the whole shell.
+function el(id: string): HTMLElement | null {
+  return document.getElementById(id);
+}
+
+function inp(id: string): HTMLInputElement | null {
+  return document.getElementById(id) as HTMLInputElement | null;
+}
+
+function on(id: string, ev: string, fn: (e: Event) => void): void {
+  el(id)?.addEventListener(ev, fn);
 }
 
 function getTasks(): TaskItem[] {
@@ -39,10 +55,12 @@ function addTask(text: string): void {
 }
 
 function renderTasks(): void {
+  const ul = el("taskList");
+  if (!ul) return;
   const list = getTasks();
-  const ul = $("taskList");
   ul.innerHTML = "";
-  $("taskEmpty").style.display = list.length ? "none" : "";
+  const empty = el("taskEmpty");
+  if (empty) empty.style.display = list.length ? "none" : "";
   list.forEach((it) => {
     const li = document.createElement("li");
     const a = document.createElement("span");
@@ -67,15 +85,20 @@ function renderTasks(): void {
 }
 
 function renderAuth(): void {
+  const form = el("authForm") as HTMLFormElement | null;
+  const box = el("authProfile");
+  if (!form || !box) return;
   const p = store.get<Profile>(PK);
-  const form = $("authForm") as HTMLFormElement;
-  const box = $("authProfile");
   if (p) {
     form.hidden = true;
     box.hidden = false;
-    $("authWho").textContent = p.name;
-    $("authMeta").textContent = `${p.contact} · ${p.kind === "cafe" ? T("authKindCafe") : T("authKindSchool")}`;
-    if (!input("rcShop").value) input("rcShop").value = p.name;
+    const who = el("authWho");
+    if (who) who.textContent = p.name;
+    const meta = el("authMeta");
+    if (meta)
+      meta.textContent = `${p.contact} · ${p.kind === "cafe" ? T("authKindCafe") : T("authKindSchool")}`;
+    const rc = inp("rcShop");
+    if (rc && !rc.value) rc.value = p.name;
     const qn = document.getElementById("qrUpiName") as HTMLInputElement | null;
     if (qn && !qn.value) qn.value = p.name;
   } else {
@@ -86,25 +109,28 @@ function renderAuth(): void {
 
 export function initAppShell(): void {
   let authKindVal = "school";
-  authKindVal =
-    chipGroup("authKind", (v) => {
-      authKindVal = v;
-    }) || "school";
+  if (el("authKind")) {
+    authKindVal =
+      chipGroup("authKind", (v) => {
+        authKindVal = v;
+      }) || "school";
+  }
 
-  $("taskAdd").addEventListener("click", function (this: HTMLElement) {
-    const v = input("taskNote").value.trim();
+  on("taskAdd", "click", () => {
+    const note = inp("taskNote");
+    const v = (note?.value || "").trim();
     if (!v) return;
-    input("taskNote").value = "";
+    if (note) note.value = "";
     addTask(`📝 ${v}`);
-    pulse(this);
+    pulse(el("taskAdd"));
   });
-  input("taskNote").addEventListener("keydown", (e) => {
+  inp("taskNote")?.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      $("taskAdd").click();
+      el("taskAdd")?.click();
     }
   });
-  $("taskClear").addEventListener("click", () => {
+  on("taskClear", "click", () => {
     store.set(TK, []);
     renderTasks();
   });
@@ -114,75 +140,86 @@ export function initAppShell(): void {
     showToast(T("tasksLogged"));
   });
 
-  ($("authForm") as HTMLFormElement).addEventListener("submit", (e) => {
+  el("authForm")?.addEventListener("submit", (e) => {
     e.preventDefault();
-    const name = input("authName").value.trim();
-    const contact = input("authContact").value.trim();
-    const msg = $("authMsg");
+    const name = (inp("authName")?.value || "").trim();
+    const contact = (inp("authContact")?.value || "").trim();
     if (!name || !contact) {
-      setMsg("authMsg", T("authNeed"), "warn");
+      if (el("authMsg")) setMsg("authMsg", T("authNeed"), "warn");
       return;
     }
-    msg.textContent = "";
+    const msg = el("authMsg");
+    if (msg) msg.textContent = "";
     store.set(PK, { name, contact, kind: authKindVal });
     renderAuth();
-    pulse($("authSave"));
+    pulse(el("authSave"));
     showToast(T("authSaved"));
   });
-  $("authEdit").addEventListener("click", () => {
+  on("authEdit", "click", () => {
     const p = store.get<Profile>(PK);
     if (!p) return;
-    input("authName").value = p.name;
-    input("authContact").value = p.contact;
-    document.querySelectorAll("#authKind .chip").forEach((c) => {
-      const on = c.getAttribute("data-v") === p.kind;
-      c.setAttribute("aria-pressed", on ? "true" : "false");
-      if (on) authKindVal = p.kind;
+    const n = inp("authName");
+    if (n) n.value = p.name;
+    const c = inp("authContact");
+    if (c) c.value = p.contact;
+    document.querySelectorAll("#authKind .chip").forEach((chip) => {
+      const onChip = chip.getAttribute("data-v") === p.kind;
+      chip.setAttribute("aria-pressed", onChip ? "true" : "false");
+      if (onChip) authKindVal = p.kind;
     });
-    $("authProfile").hidden = true;
-    ($("authForm") as HTMLFormElement).hidden = false;
+    const prof = el("authProfile");
+    if (prof) prof.hidden = true;
+    const form = el("authForm") as HTMLFormElement | null;
+    if (form) form.hidden = false;
   });
-  $("authOut").addEventListener("click", () => {
+  on("authOut", "click", () => {
     store.del(PK);
     renderAuth();
     showToast(T("authOutMsg"));
   });
 
-  $("langEn").addEventListener("click", () => setLang("en"));
-  $("langHi").addEventListener("click", () => setLang("hi"));
+  const applyLang = (lang: "en" | "hi") => {
+    store.set(LK, lang);
+    setLang(lang);
+  };
+  on("langEn", "click", () => applyLang("en"));
+  on("langHi", "click", () => applyLang("hi"));
 
-  const linkSearch = input("linkSearch");
-  const grid = $("linkGrid");
-  linkSearch.addEventListener("input", function (this: HTMLInputElement) {
-    const q = this.value.trim().toLowerCase();
-    let any = false;
-    grid.querySelectorAll<HTMLAnchorElement>("a.site").forEach((a) => {
-      const show = !q || (a.dataset.search || "").indexOf(q) >= 0;
-      a.style.display = show ? "flex" : "none";
-      if (show) any = true;
+  const linkSearch = inp("linkSearch");
+  const grid = el("linkGrid");
+  if (linkSearch && grid) {
+    linkSearch.addEventListener("input", function (this: HTMLInputElement) {
+      const q = this.value.trim().toLowerCase();
+      let any = false;
+      grid.querySelectorAll<HTMLAnchorElement>("a.site").forEach((a) => {
+        const show = !q || (a.dataset.search || "").indexOf(q) >= 0;
+        a.style.display = show ? "flex" : "none";
+        if (show) any = true;
+      });
+      grid.querySelectorAll<HTMLElement>(".lcat").forEach((h) => {
+        let n = h.nextElementSibling;
+        let vis = false;
+        while (n && !n.classList.contains("lcat")) {
+          if ((n as HTMLElement).style.display !== "none") vis = true;
+          n = n.nextElementSibling;
+        }
+        h.style.display = vis ? "flex" : "none";
+      });
+      const none = el("linkNone");
+      if (none) none.style.display = any ? "none" : "block";
     });
-    grid.querySelectorAll<HTMLElement>(".lcat").forEach((h) => {
-      let n = h.nextElementSibling;
-      let vis = false;
-      while (n && !n.classList.contains("lcat")) {
-        if ((n as HTMLElement).style.display !== "none") vis = true;
-        n = n.nextElementSibling;
-      }
-      h.style.display = vis ? "flex" : "none";
-    });
-    $("linkNone").style.display = any ? "none" : "block";
-  });
+  }
 
   const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('#legal [role="tab"]'));
   if (tabs.length) {
     const select = (tab: HTMLButtonElement, focus: boolean) => {
       tabs.forEach((t) => {
-        const on = t === tab;
-        t.setAttribute("aria-selected", on ? "true" : "false");
-        t.tabIndex = on ? 0 : -1;
+        const onTab = t === tab;
+        t.setAttribute("aria-selected", onTab ? "true" : "false");
+        t.tabIndex = onTab ? 0 : -1;
         const controls = t.getAttribute("aria-controls");
         const p = controls ? document.getElementById(controls) : null;
-        if (p) p.hidden = !on;
+        if (p) p.hidden = !onTab;
       });
       if (focus) tab.focus();
     };
@@ -203,7 +240,7 @@ export function initAppShell(): void {
   }
 
   const ADDR = "akashkmr9225@gmail.com";
-  $("ctCopy")?.addEventListener("click", () => {
+  el("ctCopy")?.addEventListener("click", () => {
     const done = (ok: boolean) => {
       const msg = document.getElementById("ctCopyMsg");
       if (msg) {
@@ -235,10 +272,10 @@ export function initAppShell(): void {
       done(ok);
     }
   });
-  $("ctSend")?.addEventListener("click", () => {
-    const name = (input("ctName").value || "").trim();
-    const topic = ($("ctTopic") as HTMLSelectElement).value || "";
-    const body = (input("ctMsg").value || "").trim();
+  el("ctSend")?.addEventListener("click", () => {
+    const name = (inp("ctName")?.value || "").trim();
+    const topic = (el("ctTopic") as HTMLSelectElement | null)?.value || "";
+    const body = (inp("ctMsg")?.value || "").trim();
     const subject = `EduCafe Hub — ${topic}${name ? ` — ${name}` : ""}`;
     const full = body + (name ? `\n\n— ${name}` : "");
     const a = document.createElement("a");
@@ -295,7 +332,7 @@ export function initAppShell(): void {
   onLangChange(() => {
     renderAuth();
     renderTasks();
-    pcCalc();
+    if (el("pcTotal")) pcCalc();
     document.querySelectorAll<HTMLInputElement>("#rcItems .rcn").forEach((i) => {
       i.placeholder = T("rcItemPh");
     });
@@ -304,8 +341,9 @@ export function initAppShell(): void {
     });
   });
 
-  setLang("en");
+  const saved = store.get<string>(LK);
+  setLang(saved === "hi" ? "hi" : "en");
   renderAuth();
   renderTasks();
-  pcCalc();
+  if (el("pcTotal")) pcCalc();
 }

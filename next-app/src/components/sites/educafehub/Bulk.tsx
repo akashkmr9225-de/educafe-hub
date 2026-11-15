@@ -7,22 +7,15 @@ export function BulkTool() {
         <span className="no">Tool 11</span>
         <h2 data-i18n="bkTitle">Bulk Student Photos — a whole class at once</h2>
       </div>
-      <p className="sec-sub" data-i18n="bkDesc">
-        Add a whole class’s photos together — a folder works too, and so do iPhone HEIC photos.
-        Each photo can print with its name (and a date) underneath, as A4 sheets or as one separate
-        file per student — the Photo FIX way, right here in the browser.
-      </p>
+      <p className="sec-sub" data-i18n="bkDesc">Add a whole class's photos together — a folder works too, and so do iPhone HEIC photos. Each photo can print with its name (and a date) underneath, as A4 sheets or as one separate file per student — the Photo FIX way, right here in the browser.</p>
       <div className="card">
         <div className="grid2">
           <div>
-            <div className="drop" id="bkDrop" tabIndex={0} role="button" aria-label="Upload many photos">
+            <div className="drop" id="bkDrop" tabIndex={0} role="button" data-i18n-aria="ariaBkDrop" aria-label="Upload many photos">
               <div className="big" data-i18n="bkDropBig">
                 👥 Drop many photos here or click to choose
               </div>
-              <p data-i18n="bkDropSub">
-                JPG / PNG / HEIC — the file name becomes the student’s name (you can change it).
-                Photos auto-rotate.
-              </p>
+              <p data-i18n="bkDropSub">JPG / PNG / HEIC — the file name becomes the student's name (you can change it). Photos auto-rotate.</p>
               <input type="file" id="bkFiles" accept="image/*,.heic,.heif" multiple />
             </div>
             <div className="btnrow" style={{ marginTop: 10 }}>
@@ -96,7 +89,7 @@ export function BulkTool() {
                   min={10}
                   max={100}
                   defaultValue={35}
-                  aria-label="Custom width mm"
+                  data-i18n-aria="ariaCustomW" aria-label="Custom width mm"
                 />
                 <span aria-hidden="true">×</span>
                 <input
@@ -105,7 +98,7 @@ export function BulkTool() {
                   min={10}
                   max={120}
                   defaultValue={45}
-                  aria-label="Custom height mm"
+                  data-i18n-aria="ariaCustomH" aria-label="Custom height mm"
                 />
                 <span className="hint" style={{ margin: 0 }}>
                   mm
@@ -169,9 +162,7 @@ export function BulkTool() {
               </div>
             </div>
             <div className="field">
-              <label className="fl" data-i18n="bkNameDateLabel">
-                Name &amp; date under each photo
-              </label>
+              <label className="fl" data-i18n="bkNameDateLabel">Name & date under each photo</label>
               <div className="num2">
                 <button
                   type="button"
@@ -200,7 +191,7 @@ export function BulkTool() {
                 >
                   Cutting guides
                 </button>
-                <input type="color" id="bkBg" defaultValue="#ffffff" aria-label="Background colour" />
+                <input type="color" id="bkBg" defaultValue="#ffffff" data-i18n-aria="ariaBg" aria-label="Background colour" />
               </div>
               <div className="num2" style={{ marginTop: 8 }}>
                 <span className="hint" style={{ margin: 0 }} data-i18n="bkDateAllL">
@@ -209,7 +200,7 @@ export function BulkTool() {
                 <input type="date" id="bkDate" />
               </div>
               <div className="num2" style={{ marginTop: 8 }}>
-                <select id="bkDateFmt" aria-label="Date format">
+                <select id="bkDateFmt" data-i18n-aria="ariaDateFmt" aria-label="Date format">
                   <option value="dmy">DD/MM/YYYY</option>
                   <option value="dmy-">DD-MM-YYYY</option>
                   <option value="mdy">MM/DD/YYYY</option>
@@ -228,9 +219,7 @@ export function BulkTool() {
             </div>
           </div>
           <div>
-            <h3 style={{ fontSize: 17 }} data-i18n="bkGenT">
-              Generate &amp; download
-            </h3>
+            <h3 style={{ fontSize: 17 }} data-i18n="bkGenT">Generate & download</h3>
             <div className="btnrow">
               <button className="btn" id="bkGenerate" disabled data-i18n="bkGenBtn">
                 Make A4 sheets
@@ -259,9 +248,7 @@ export function BulkTool() {
             </div>
             <hr style={{ border: 0, borderTop: "1px solid var(--line)", margin: "18px 0" }} />
             <div className="field">
-              <label className="fl" data-i18n="bkIndFmtLabel">
-                Each student’s separate file — format
-              </label>
+              <label className="fl" data-i18n="bkIndFmtLabel">Each student's separate file — format</label>
               <div className="chips" id="bkIndFmt">
                 <button
                   type="button"
@@ -313,7 +300,7 @@ export function BulkTool() {
                 File size rule (works best on JPG)
               </label>
               <div className="num2">
-                <select id="bkSzMode" aria-label="Size rule">
+                <select id="bkSzMode" data-i18n-aria="ariaSzMode" aria-label="Size rule">
                   <option value="none" data-i18n="bkSzNone">
                     No limit — best quality
                   </option>
@@ -327,16 +314,16 @@ export function BulkTool() {
                     Between (min and max)
                   </option>
                 </select>
-                <input type="number" id="bkSz1" min={1} defaultValue={50} aria-label="Size value 1" />
+                <input type="number" id="bkSz1" min={1} defaultValue={50} data-i18n-aria="ariaSz1" aria-label="Size value 1" />
                 <input
                   type="number"
                   id="bkSz2"
                   min={1}
                   defaultValue={100}
-                  aria-label="Size value 2"
+                  data-i18n-aria="ariaSz2" aria-label="Size value 2"
                   style={{ display: "none" }}
                 />
-                <select id="bkSzUnit" aria-label="Size unit">
+                <select id="bkSzUnit" data-i18n-aria="ariaSzUnit" aria-label="Size unit">
                   <option value="KB">KB</option>
                   <option value="MB">MB</option>
                 </select>
@@ -355,9 +342,7 @@ export function BulkTool() {
           </div>
         </div>
         <hr style={{ border: 0, borderTop: "1px solid var(--line)", margin: "20px 0" }} />
-        <h3 style={{ fontSize: 17 }} data-i18n="bkMoreT">
-          Template, Excel names &amp; AI portraits
-        </h3>
+        <h3 style={{ fontSize: 17 }} data-i18n="bkMoreT">Template, Excel names & AI portraits</h3>
         <div className="grid2" style={{ marginTop: 12 }}>
           <div>
             <div className="field">
@@ -386,30 +371,24 @@ export function BulkTool() {
               </div>
             </div>
             <div id="bkPsdBox" hidden>
-              <div className="drop" id="bkPsdDrop" tabIndex={0} role="button" aria-label="Upload PSD template">
+              <div className="drop" id="bkPsdDrop" tabIndex={0} role="button" data-i18n-aria="ariaBkPsd" aria-label="Upload PSD template">
                 <div className="big" data-i18n="psdDropBig">
                   🗂 Drop a .psd template or click to choose
                 </div>
-                <p data-i18n="psdDropSub">
-                  Name the placeholder layers “photo”, “slot1”, “photo2”… — any layer whose name
-                  contains photo, slot or placeholder becomes a photo slot; layers named name or
-                  label receive the student&apos;s name (and date, if on).
-                </p>
+                <p data-i18n="psdDropSub">Name the placeholder layers “photo”, “slot1”, “photo2”… — any layer whose name contains photo, slot or placeholder becomes a photo slot; layers named name or label receive the student's name (and date, if on).</p>
                 <input type="file" id="bkPsdFile" accept=".psd" />
               </div>
               <div className="fname" id="bkPsdName" />
               <div className="stat" id="bkPsdStat" />
             </div>
             <div className="field" style={{ marginTop: 16 }}>
-              <label className="fl" data-i18n="xlTitle">
-                Names &amp; Excel match — auto-rename
-              </label>
+              <label className="fl" data-i18n="xlTitle">Names & Excel match — auto-rename</label>
               <p className="hint" style={{ marginTop: 0 }} data-i18n="xlDesc">
                 Upload the class list (Excel or CSV) with the correct full names in one column.
                 Photos with short or incomplete names are matched and renamed automatically; close
                 matches are shown for you to confirm — nothing is renamed silently.
               </p>
-              <div className="drop" id="bkXlDrop" tabIndex={0} role="button" aria-label="Upload Excel or CSV name list">
+              <div className="drop" id="bkXlDrop" tabIndex={0} role="button" data-i18n-aria="ariaBkXl" aria-label="Upload Excel or CSV name list">
                 <div className="big" data-i18n="xlDropBig">
                   📄 Drop the Excel / CSV list or click to choose
                 </div>
@@ -455,9 +434,7 @@ export function BulkTool() {
                 </div>
               </div>
               <div className="btnrow">
-                <button className="btn" id="bkXlRun" data-i18n="xlRunBtn">
-                  Match &amp; rename
-                </button>
+                <button className="btn" id="bkXlRun" data-i18n="xlRunBtn">Match & rename</button>
                 <button
                   className="btn ghost small"
                   id="bkXlUndo"
@@ -477,11 +454,7 @@ export function BulkTool() {
               <label className="fl" data-i18n="aiTitle">
                 AI portrait processing — on this device
               </label>
-              <p className="hint" style={{ marginTop: 0 }} data-i18n="aiDesc">
-                Removes each student&apos;s background and frames a clean portrait, right here in the
-                browser — photos are never sent to a server. The AI engine (model + WASM, about 40
-                MB) loads only when you press the button below, the first time only.
-              </p>
+              <p className="hint" style={{ marginTop: 0 }} data-i18n="aiDesc">Removes each student's background and frames a clean portrait, right here in the browser — photos are never sent to a server. The AI engine (model + WASM, about 40 MB) loads only when you press the button below, the first time only.</p>
               <div className="num2">
                 <button type="button" className="chip" id="bkAiCrop" aria-pressed="true" data-i18n="aiAutoCrop">
                   Auto-crop empty space above the head
@@ -508,9 +481,7 @@ export function BulkTool() {
               </select>
             </div>
             <div className="btnrow">
-              <button className="btn" id="bkAiRun" disabled data-i18n="aiRunBtn">
-                Remove backgrounds &amp; create portraits
-              </button>
+              <button className="btn" id="bkAiRun" disabled data-i18n="aiRunBtn">Remove backgrounds & create portraits</button>
               <button
                 className="btn saf small"
                 id="bkAiZip"

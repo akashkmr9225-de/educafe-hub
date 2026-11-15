@@ -85,14 +85,14 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
       <AuthProvider><LanguageBar /></AuthProvider>
 
       <div style={{ margin: "20px 0 10px 0" }}>
-        <Link href="/" style={{ fontSize: 14, textDecoration: "none", color: "var(--brand)" }}>
-          ← Back to EduCafe Hub Home / होम पर वापस जाएँ
+        <Link href="/" style={{ fontSize: 14, textDecoration: "none", color: "var(--brand)" }} data-i18n="backHome">
+          ← Back to EduCafe Hub Home
         </Link>
       </div>
 
       <div className="sec-head" style={{ marginTop: 20 }}>
-        <h1>{tool.titleEn}</h1>
-        <p style={{ fontSize: 18, color: "var(--ink2)", marginTop: 6 }}>{tool.titleHi}</p>
+        <h1 className="en-only">{tool.titleEn}</h1>
+        <h1 className="hi-only">{tool.titleHi}</h1>
       </div>
 
       {renderToolComponent(tool.slug)}
@@ -115,30 +115,30 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
 
       {/* 3-Step How it works strip */}
       <div className="card" style={{ margin: "24px 0" }}>
-        <h3 style={{ fontSize: 18, marginBottom: 14 }}>How it works / यह कैसे काम करता है</h3>
+        <h3 style={{ fontSize: 18, marginBottom: 14 }} data-i18n="howTitle">How it works</h3>
         <div className="grid3" style={{ gap: 16 }}>
           <div style={{ background: "var(--surface2)", padding: 14, borderRadius: 8 }}>
-            <strong style={{ display: "block", marginBottom: 6, color: "var(--brand)" }}>
-              Step 1 / पहला कदम
+            <strong style={{ display: "block", marginBottom: 6, color: "var(--brand)" }} data-i18n="howStepLbl1">
+              Step 1
             </strong>
-            <p style={{ margin: 0, fontSize: 14, color: "var(--ink2)" }}>
-              Select or drop your file into the tool box above. / अपनी फ़ाइल ऊपर वाले बॉक्स में चुनें या खींचकर डालें।
+            <p style={{ margin: 0, fontSize: 14, color: "var(--ink2)" }} data-i18n="howStep1">
+              Select or drop your file into the tool box above.
             </p>
           </div>
           <div style={{ background: "var(--surface2)", padding: 14, borderRadius: 8 }}>
-            <strong style={{ display: "block", marginBottom: 6, color: "var(--brand)" }}>
-              Step 2 / दूसरा कदम
+            <strong style={{ display: "block", marginBottom: 6, color: "var(--brand)" }} data-i18n="howStepLbl2">
+              Step 2
             </strong>
-            <p style={{ margin: 0, fontSize: 14, color: "var(--ink2)" }}>
-              Adjust settings like size, quality, or dimensions as needed. / ज़रूरत के हिसाब से साइज़, क्वालिटी या लंबाई-चौड़ाई बदलें।
+            <p style={{ margin: 0, fontSize: 14, color: "var(--ink2)" }} data-i18n="howStep2">
+              Adjust settings like size, quality, or dimensions as needed.
             </p>
           </div>
           <div style={{ background: "var(--surface2)", padding: 14, borderRadius: 8 }}>
-            <strong style={{ display: "block", marginBottom: 6, color: "var(--brand)" }}>
-              Step 3 / तीसरा कदम
+            <strong style={{ display: "block", marginBottom: 6, color: "var(--brand)" }} data-i18n="howStepLbl3">
+              Step 3
             </strong>
-            <p style={{ margin: 0, fontSize: 14, color: "var(--ink2)" }}>
-              Download your processed file instantly — completely free! / अपनी बनी हुई फ़ाइल तुरंत डाउनलोड करें — बिल्कुल मुफ़्त!
+            <p style={{ margin: 0, fontSize: 14, color: "var(--ink2)" }} data-i18n="howStep3">
+              Download your processed file instantly — completely free!
             </p>
           </div>
         </div>
@@ -147,7 +147,7 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
       {/* Related tools row */}
       {relatedTools.length > 0 && (
         <div className="card" style={{ margin: "24px 0" }}>
-          <h3 style={{ fontSize: 18, marginBottom: 12 }}>Related Tools / संबंधित टूल</h3>
+          <h3 style={{ fontSize: 18, marginBottom: 12 }} data-i18n="relTools">Related Tools</h3>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
             {relatedTools.map((rel) => (
               <Link
@@ -156,7 +156,7 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
                 className="chip saf"
                 style={{ textDecoration: "none", display: "inline-block", padding: "8px 14px" }}
               >
-                {rel.nameEn} ({rel.nameHi})
+                <span className="en-only">{rel.nameEn}</span><span className="hi-only">{rel.nameHi}</span>
               </Link>
             ))}
           </div>
@@ -170,7 +170,7 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
         <span className="tick">✓</span>
         <span id="toastTxt" />
       </div>
-      <a className="totop" href="#top" aria-label="Back to top">
+      <a className="totop" href="#top" data-i18n-aria="ariaTop" aria-label="Back to top">
         ↑ Top
       </a>
       <EduCafeRuntime />

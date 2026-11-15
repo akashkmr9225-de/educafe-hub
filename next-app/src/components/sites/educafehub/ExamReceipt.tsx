@@ -31,7 +31,7 @@ export function ExamPhotoTool() {
                 </button>
               </div>
             </div>
-            <div className="drop" id="exDrop" tabIndex={0} role="button" aria-label="Upload photo">
+            <div className="drop" id="exDrop" tabIndex={0} role="button" data-i18n-aria="ariaExDrop" aria-label="Upload photo">
               <div className="big" data-i18n="exDropT">
                 Drop the photo here or tap to choose
               </div>
@@ -52,9 +52,7 @@ export function ExamPhotoTool() {
               <input type="date" id="exDateIn" />
             </div>
             <div className="btnrow">
-              <button className="btn" id="exGo" data-i18n="exGo">
-                ⬇ Make &amp; download exam photo
-              </button>
+              <button className="btn" id="exGo" data-i18n="exGo">⬇ Make & download exam photo</button>
             </div>
             <div className="msg" id="exMsg" />
             <p className="hint" data-i18n="exNote">
@@ -192,7 +190,7 @@ export function PrintCostTool() {
               id={row.rateId}
               min={0}
               defaultValue={row.rate}
-              aria-label={`${row.label} rate`}
+              aria-label={row.label}
             />
           </div>
         ))}

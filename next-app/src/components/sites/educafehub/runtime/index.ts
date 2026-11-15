@@ -1,4 +1,5 @@
 import { ensureCoreLibs } from "./helpers";
+import { setLang, store } from "./state";
 import { initAppShell } from "./app-shell";
 import { initBulk } from "./tool-bulk";
 import { initQr } from "./tool-qr";
@@ -31,6 +32,13 @@ export function initEduCafe(): Promise<void> {
   if (existing) return existing;
 
   const promise = (async () => {
+    // Apply the saved language first, before the library wait, so a Hindi
+    // visitor sees Hindi right away instead of the English fallback text.
+    try {
+      setLang(store.get<string>("educafehub_lang") === "hi" ? "hi" : "en");
+    } catch {
+      // language application must never block the tools
+    }
     await Promise.race([
       ensureCoreLibs(),
       new Promise((resolve) => setTimeout(resolve, 8000)),

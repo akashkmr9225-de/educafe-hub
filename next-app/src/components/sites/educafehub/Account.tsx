@@ -40,9 +40,7 @@ export function LoginSection() {
             </div>
           </div>
           <div className="btnrow">
-            <button className="btn" type="submit" id="authSave" data-i18n="authSave">
-              Save &amp; sign in
-            </button>
+            <button className="btn" type="submit" id="authSave" data-i18n="authSave">Save & sign in</button>
           </div>
           <div className="msg" id="authMsg" />
         </form>
@@ -92,6 +90,7 @@ export function TasksSection() {
             id="taskNote"
             data-i18n-ph="tasksAddPh"
             placeholder="Add a note — e.g. Printed 30 sheets for Class 8"
+            data-i18n-aria="ariaTaskNote"
             aria-label="Add a task note"
           />
           <button className="btn small" id="taskAdd" data-i18n="tasksAdd">

@@ -5,10 +5,7 @@ export function PassportTool() {
         <span className="no">Tool 1</span>
         <h2 data-i18n="t1Title">Passport Photo Sheet Maker</h2>
       </div>
-      <p className="sec-sub" data-i18n="t1Desc">
-        Ek photo upload karo, print-ready sheet download karo — 300 DPI, sahi passport size (35 ×
-        45 mm). Cafe mein sabse zyada chalne wala tool.
-      </p>
+      <p className="sec-sub" data-i18n="t1Desc">Upload one photo, download a print-ready sheet — 300 DPI, correct passport size (35 × 45 mm). The busiest tool in any cafe.</p>
       <div className="card">
         <div className="field" style={{ marginBottom: 16 }}>
           <label className="fl" data-i18n="ppModeSwitchLabel">Mode</label>
@@ -25,7 +22,7 @@ export function PassportTool() {
                 id="ppDrop"
                 tabIndex={0}
                 role="button"
-                aria-label="Upload photo for passport sheet"
+                data-i18n-aria="ariaPpDrop" aria-label="Upload photo for passport sheet"
               >
                 <div className="big" data-i18n="ppDropBig">
                   📷 Drop a photo here or click to choose
@@ -40,7 +37,7 @@ export function PassportTool() {
                 <label className="fl" data-i18n="ppPaperLabel">
                   Paper size
                 </label>
-                <select id="ppPaperSel" className="sel" aria-label="Paper size">
+                <select id="ppPaperSel" className="sel" data-i18n-aria="ariaPaper" aria-label="Paper size">
                   <option value="4x6" data-i18n="ppPaper4x6">4 × 6 inch (photo paper)</option>
                   <option value="5x7" data-i18n="ppPaper5x7">5 × 7 inch (photo paper)</option>
                   <option value="a5" data-i18n="ppPaperA5">A5</option>
@@ -63,7 +60,7 @@ export function PassportTool() {
                 <label className="fl" data-i18n="ppQualityLabel">
                   Print quality
                 </label>
-                <select id="ppQuality" className="sel" aria-label="Print quality">
+                <select id="ppQuality" className="sel" data-i18n-aria="ariaQuality" aria-label="Print quality">
                   <option value="300" data-i18n="ppQualityHigh">Highest — 300 DPI</option>
                   <option value="200" data-i18n="ppQualityMed">Medium — 200 DPI</option>
                   <option value="150" data-i18n="ppQualityLow">Low — 150 DPI</option>
@@ -118,7 +115,7 @@ export function PassportTool() {
                     min={10}
                     max={100}
                     defaultValue={35}
-                    aria-label="Custom width mm"
+                    data-i18n-aria="ariaCustomW" aria-label="Custom width mm"
                   />
                   <span aria-hidden="true">×</span>
                   <input
@@ -127,7 +124,7 @@ export function PassportTool() {
                     min={10}
                     max={120}
                     defaultValue={45}
-                    aria-label="Custom height mm"
+                    data-i18n-aria="ariaCustomH" aria-label="Custom height mm"
                   />
                   <span className="hint" style={{ margin: 0 }}>
                     mm
@@ -182,7 +179,7 @@ export function PassportTool() {
                   >
                     Name under photo
                   </button>
-                  <input type="color" id="ppBg" defaultValue="#ffffff" aria-label="Background colour" />
+                  <input type="color" id="ppBg" defaultValue="#ffffff" data-i18n-aria="ariaBg" aria-label="Background colour" />
                 </div>
                 <input
                   type="text"
@@ -215,9 +212,7 @@ export function PassportTool() {
                 </p>
               </div>
               <div className="btnrow">
-                <button className="btn saf" id="ppDownload" disabled data-i18n="ppDownload">
-                  ⬇ Sheet download karo (JPG, 300 DPI)
-                </button>
+                <button className="btn saf" id="ppDownload" disabled data-i18n="ppDownload">⬇ Download sheet (JPG, 300 DPI)</button>
               </div>
               <div className="msg" id="ppMsg" />
             </div>
@@ -232,7 +227,7 @@ export function PassportTool() {
                   />
                 </div>
                 <div className="stat" id="ppStat">
-                  <span>Photo upload karte hi sheet yahan banegi</span>
+                  <span data-i18n="ppStatWait">The sheet will appear here as soon as you upload a photo</span>
                 </div>
               </div>
               <p className="hint" data-i18n="ppPrintHint">
@@ -250,7 +245,7 @@ export function PassportTool() {
                 id="ppBulkDrop"
                 tabIndex={0}
                 role="button"
-                aria-label="Upload multiple photos for bulk passport sheets"
+                data-i18n-aria="ariaPpBulkDrop" aria-label="Upload multiple photos for bulk passport sheets"
               >
                 <div className="big" data-i18n="ppBulkDropBig">
                   👥 Drop many photos here or click to choose
@@ -265,7 +260,7 @@ export function PassportTool() {
                 <label className="fl" data-i18n="ppPaperLabel">
                   Paper size
                 </label>
-                <select id="ppBulkPaperSel" className="sel" aria-label="Paper size">
+                <select id="ppBulkPaperSel" className="sel" data-i18n-aria="ariaPaper" aria-label="Paper size">
                   <option value="4x6" data-i18n="ppPaper4x6">4 × 6 inch (photo paper)</option>
                   <option value="5x7" data-i18n="ppPaper5x7">5 × 7 inch (photo paper)</option>
                   <option value="a5" data-i18n="ppPaperA5">A5</option>
@@ -279,7 +274,7 @@ export function PassportTool() {
                 <label className="fl" data-i18n="ppQualityLabel">
                   Print quality
                 </label>
-                <select id="ppBulkQuality" className="sel" aria-label="Print quality">
+                <select id="ppBulkQuality" className="sel" data-i18n-aria="ariaQuality" aria-label="Print quality">
                   <option value="300" data-i18n="ppQualityHigh">Highest — 300 DPI</option>
                   <option value="200" data-i18n="ppQualityMed">Medium — 200 DPI</option>
                   <option value="150" data-i18n="ppQualityLow">Low — 150 DPI</option>
@@ -334,7 +329,7 @@ export function PassportTool() {
                     min={10}
                     max={100}
                     defaultValue={35}
-                    aria-label="Custom width mm"
+                    data-i18n-aria="ariaCustomW" aria-label="Custom width mm"
                   />
                   <span aria-hidden="true">×</span>
                   <input
@@ -343,7 +338,7 @@ export function PassportTool() {
                     min={10}
                     max={120}
                     defaultValue={45}
-                    aria-label="Custom height mm"
+                    data-i18n-aria="ariaCustomH" aria-label="Custom height mm"
                   />
                   <span className="hint" style={{ margin: 0 }}>
                     mm
@@ -373,7 +368,7 @@ export function PassportTool() {
                   >
                     Name under photo
                   </button>
-                  <input type="color" id="ppBulkBg" defaultValue="#ffffff" aria-label="Background colour" />
+                  <input type="color" id="ppBulkBg" defaultValue="#ffffff" data-i18n-aria="ariaBg" aria-label="Background colour" />
                 </div>
               </div>
               <div className="field">
@@ -431,12 +426,9 @@ export function ExactKbTool() {
     <section id="kb">
       <div className="sec-head">
         <span className="no">Tool 2</span>
-        <h2 data-i18n="t2Title">Photo Resize — Exact KB Mein</h2>
+        <h2 data-i18n="t2Title">Photo Resize — in Exact KB</h2>
       </div>
-      <p className="sec-sub" data-i18n="t2Desc">
-        Online form "photo 50 KB se kam" maangta hai aur photo reject ho jati hai — yahan target KB
-        set karo, photo bilkul usi size ke andar bankar milegi.
-      </p>
+      <p className="sec-sub" data-i18n="t2Desc">Online forms ask for “photo under 50 KB” and reject everything else — set the target KB here and get a photo that fits exactly.</p>
       <div className="card">
         <div className="field">
           <label className="fl" data-i18n="ppModeSwitchLabel">
@@ -459,7 +451,7 @@ export function ExactKbTool() {
               id="kbDrop"
               tabIndex={0}
               role="button"
-              aria-label="Upload photo to resize in KB"
+              data-i18n-aria="ariaKbDrop" aria-label="Upload photo to resize in KB"
             >
               <div className="big" data-i18n="kbDropBig">
                 🗜️ Upload a photo
@@ -469,9 +461,7 @@ export function ExactKbTool() {
             </div>
             <div className="fname" id="kbName" />
             <div className="field" style={{ marginTop: 16 }}>
-              <label className="fl" data-i18n="kbTargetLabel">
-                Target size
-              </label>
+              <label className="fl" data-i18n="kbTargetLabel">Target size (KB)</label>
               <div className="num2" style={{ gap: 8, flexWrap: "wrap", alignItems: "center" }}>
                 <input type="number" id="kbTargetNum" min={1} max={20000} defaultValue={50} style={{ width: 90 }} />
                 <select id="kbTargetUnit" className="sel" style={{ width: "auto", minWidth: 80 }}>
@@ -507,14 +497,12 @@ export function ExactKbTool() {
               <label className="fl" data-i18n="kbFormatLabel">
                 Output format
               </label>
-              <select id="kbFormat" className="sel" aria-label="Output format">
+              <select id="kbFormat" className="sel" data-i18n-aria="ariaOutFormat" aria-label="Output format">
                 <option value="jpg" data-i18n="kbFmtJPG">JPG</option>
                 <option value="png" data-i18n="kbFmtPNG">PNG</option>
                 <option value="webp" data-i18n="kbFmtWebP">WebP</option>
               </select>
-              <p className="hint" style={{ marginTop: 4 }} data-i18n="kbFormatHint">
-                JPG & WebP fit target by quality. PNG fits by reducing dimensions.
-              </p>
+              <p className="hint" style={{ marginTop: 4 }} data-i18n="kbFormatHint">JPG & WebP fit the target by quality. PNG fits by reducing dimensions.</p>
             </div>
             <div className="field">
               <label className="fl" data-i18n="kbModeLabel">
@@ -550,9 +538,7 @@ export function ExactKbTool() {
                 </button>
               </div>
               <div className="num2" id="kbMaxRow" style={{ display: "none", marginTop: 8 }}>
-                <label className="fl" htmlFor="kbMax" style={{ margin: 0 }} data-i18n="kbMaxLabel">
-                  Maximum size
-                </label>
+                <label className="fl" htmlFor="kbMax" style={{ margin: 0 }} data-i18n="kbMaxLabel">Maximum size (KB)</label>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                   <input type="number" id="kbMaxNum" min={1} max={20000} defaultValue={100} style={{ width: 90 }} />
                   <select id="kbMaxUnit" className="sel" style={{ width: "auto", minWidth: 80 }}>
@@ -562,10 +548,7 @@ export function ExactKbTool() {
                 </div>
               </div>
               <p className="hint" id="kbBetweenNote" style={{ marginTop: 4 }} />
-              <p className="hint" style={{ marginTop: 4 }} id="kbModeHint" data-i18n="kbModeHint">
-                "At least" first raises quality, then adds harmless padding inside the JPG file —
-                the photo itself does not change.
-              </p>
+              <p className="hint" style={{ marginTop: 4 }} id="kbModeHint" data-i18n="kbModeHint">“At least” first raises quality, then adds harmless padding inside the JPG file — the photo itself does not change.</p>
             </div>
             <div className="field">
               <label className="fl" htmlFor="kbDim" data-i18n="kbDimLabel">
@@ -601,17 +584,13 @@ export function ExactKbTool() {
                 </a>
               </div>
             </div>
-            <p className="hint" data-i18n="kbHint">
-              How it works: the tool adjusts quality step by step to land as close as possible to
-              the target — but always under it. If the photo is very large, its dimensions are
-              reduced first, automatically.
-            </p>
+            <p className="hint" data-i18n="kbHint">How it works: pick a size rule above. Under keeps the photo below the target; At least raises it to the target; Between keeps it between the two sizes. Large photos are reduced in dimensions first, automatically.</p>
           </div>
         </div>
           </div>
         <div id="kbBulkPanel" style={{ display: "none" }}>
           <h3 data-i18n="kbBatchTitle">Bulk Resize — many photos at once</h3>
-          <div className="drop" id="kbBatchDrop" tabIndex={0} role="button" aria-label="Drop many photos">
+          <div className="drop" id="kbBatchDrop" tabIndex={0} role="button" data-i18n-aria="ariaKbBatchDrop" aria-label="Drop many photos">
             <div className="big" data-i18n="kbBatchDrop">
               👥 Drop many photos here
             </div>
@@ -619,9 +598,7 @@ export function ExactKbTool() {
           </div>
           <div className="fname" id="kbBatchCount" />
           <div className="field" style={{ marginTop: 16 }}>
-            <label className="fl" data-i18n="kbTargetSetting">
-              Same target setting for all
-            </label>
+            <label className="fl" data-i18n="kbTargetSetting">Target settings for all</label>
             <div className="num2" style={{ gap: 8, flexWrap: "wrap", alignItems: "center" }}>
               <input type="number" id="kbBTargetNum" min={1} max={20000} defaultValue={50} style={{ width: 90 }} />
               <select id="kbBTargetUnit" className="sel" style={{ width: "auto", minWidth: 80 }}>
@@ -643,16 +620,14 @@ export function ExactKbTool() {
             <label className="fl" data-i18n="kbFormatLabel">
               Output format
             </label>
-            <select id="kbBFormat" className="sel" aria-label="Output format">
+            <select id="kbBFormat" className="sel" data-i18n-aria="ariaOutFormat" aria-label="Output format">
               <option value="jpg" data-i18n="kbFmtJPG">JPG</option>
               <option value="png" data-i18n="kbFmtPNG">PNG</option>
               <option value="webp" data-i18n="kbFmtWebP">WebP</option>
             </select>
           </div>
           <div className="field">
-            <label className="fl" data-i18n="kbModeLabel">
-              Size rule
-            </label>
+            <label className="fl" data-i18n="kbModeLabel">Size rule — some forms give a range, not just a limit</label>
             <div className="chips" id="kbBMode">
               <button type="button" className="chip saf" data-v="under" aria-pressed="true" data-i18n="kbModeUnder">
                 Under the size
@@ -665,9 +640,7 @@ export function ExactKbTool() {
               </button>
             </div>
             <div className="num2" id="kbBMaxRow" style={{ display: "none", marginTop: 8 }}>
-              <label className="fl" htmlFor="kbBMaxNum" style={{ margin: 0 }} data-i18n="kbMaxLabel">
-                Maximum size
-              </label>
+              <label className="fl" htmlFor="kbBMaxNum" style={{ margin: 0 }} data-i18n="kbMaxLabel">Maximum size (KB)</label>
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                 <input type="number" id="kbBMaxNum" min={1} max={20000} defaultValue={100} style={{ width: 90 }} />
                 <select id="kbBMaxUnit" className="sel" style={{ width: "auto", minWidth: 80 }}>
@@ -678,9 +651,7 @@ export function ExactKbTool() {
             </div>
           </div>
           <div className="field">
-            <label className="fl" htmlFor="kbBW" data-i18n="kbDimLabel">
-              Pixel size the form wants (optional)
-            </label>
+            <label className="fl" htmlFor="kbBW" data-i18n="kbDimLabel">Pixel size the form wants (optional) — e.g. 200 × 230</label>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
               <input type="number" id="kbBW" min={10} placeholder="Width px" data-i18n-ph="kbWPh" />
               <span aria-hidden="true">×</span>

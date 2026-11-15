@@ -5,10 +5,7 @@ export function SignatureTool() {
         <span className="no">Tool 3</span>
         <h2 data-i18n="t3Title">Signature Maker</h2>
       </div>
-      <p className="sec-sub" data-i18n="t3Desc">
-        Safed kagaz par kiye gaye sign ki photo upload karo — background saaf hoga, extra hissa
-        cut hoga, aur form ke size mein download milega.
-      </p>
+      <p className="sec-sub" data-i18n="t3Desc">Upload a photo of a signature on white paper — the background is cleaned, extra area is cropped, and you download it in form size.</p>
       <div className="card">
         <div className="grid2">
           <div>
@@ -21,7 +18,7 @@ export function SignatureTool() {
               id="sgDrop"
               tabIndex={0}
               role="button"
-              aria-label="Upload signature photo"
+              data-i18n-aria="ariaSgDrop" aria-label="Upload signature photo"
             >
               <div className="big" data-i18n="sgDropBig">
                 ✍️ Upload a photo of the signature
@@ -109,10 +106,7 @@ export function JoinerTool() {
         <span className="no">Tool 4</span>
         <h2 data-i18n="t4Title">Photo + Signature Joiner</h2>
       </div>
-      <p className="sec-sub" data-i18n="t4Desc">
-        Kuch form ek hi image mein upar photo aur neeche signature maangte hain. Dono upload karo
-        — ek combined image ban jayegi.
-      </p>
+      <p className="sec-sub" data-i18n="t4Desc">Some forms want photo on top and signature below in a single image. Upload both — one combined image is ready.</p>
       <div className="card">
         <div className="grid2">
           <div>
@@ -121,7 +115,7 @@ export function JoinerTool() {
               id="jnPhotoDrop"
               tabIndex={0}
               role="button"
-              aria-label="Upload photo for joiner"
+              data-i18n-aria="ariaJnPhoto" aria-label="Upload photo for joiner"
             >
               <div className="big" data-i18n="jnPhotoBig">
                 📷 1 — Upload the photo
@@ -134,7 +128,7 @@ export function JoinerTool() {
               id="jnSignDrop"
               tabIndex={0}
               role="button"
-              aria-label="Upload signature for joiner"
+              data-i18n-aria="ariaJnSign" aria-label="Upload signature for joiner"
               style={{ marginTop: 12 }}
             >
               <div className="big" data-i18n="jnSignBig">

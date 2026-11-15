@@ -17,7 +17,7 @@ import {
   toTargetKB,
   wireDrop,
 } from "./helpers";
-import { T, pulse } from "./state";
+import { T, onLangChange, pulse } from "./state";
 
 interface PassportState {
   img: HTMLImageElement | null;
@@ -125,7 +125,7 @@ export function initPassport(): void {
         renderPP();
       })
       .catch(() => {
-        setMsg("ppMsg", "This file does not look like an image — try a JPG/PNG.", "warn");
+        setMsg("ppMsg", T("fileNotImage"), "warn");
       });
   });
 
@@ -230,22 +230,22 @@ export function initPassport(): void {
     const paperLabel = paperNames[pp.paper] || pp.paper.toUpperCase();
     setHTML(
       "ppStat",
-      `<span>${paperLabel} sheet</span><span class='good'>${copies} photos</span><span>${pp.wmm}×${pp.hmm} mm · ${DPI} DPI · ${W}×${H} px</span>${pp.copies > L.cap ? `<span>Max ${L.cap} fit on this paper</span>` : ""}`,
+      `<span>${T("ppSheetWord").replace("{paper}", paperLabel)}</span><span class='good'>${T("bkPhotosN").replace("{n}", String(copies))}</span><span>${pp.wmm}×${pp.hmm} mm · ${DPI} DPI · ${W}×${H} px</span>${pp.copies > L.cap ? `<span>${T("ppMaxFit").replace("{cap}", String(L.cap)).replace("{paper}", paperLabel)}</span>` : ""}`,
     );
     if (pp.copies > L.cap) {
       const copiesInput = input("ppCopiesInput");
       copiesInput.max = String(L.cap);
       setMsg(
         "ppMsg",
-        `Note: more than ${L.cap} passport photos do not fit on ${paperLabel} paper — copies capped at ${L.cap}.`,
+        T("ppCapNote").replace("{cap}", String(L.cap)).replace("{paper}", paperLabel).replace("{cap}", String(L.cap)),
         "warn",
       );
       const note = $("ppCopiesNote");
-      note.textContent = `Max ${L.cap} fit on ${paperLabel} paper`;
+      note.textContent = T("ppMaxFit").replace("{cap}", String(L.cap)).replace("{paper}", paperLabel);
     } else if (pp.img) {
       $("ppMsg").textContent = "";
       const note = $("ppCopiesNote");
-      note.textContent = `Max ${L.cap} fit on ${paperLabel} paper`;
+      note.textContent = T("ppMaxFit").replace("{cap}", String(L.cap)).replace("{paper}", paperLabel);
     }
   }
 
@@ -257,7 +257,7 @@ export function initPassport(): void {
     downloadBlob(blob, `passport-sheet-${pp.paper}-${pp.copies}copies-${pp.quality}dpi.jpg`);
     setMsg(
       "ppMsg",
-      "✔ Sheet downloaded — choose “Actual size / 100%” when printing.",
+      T("ppSheetDone"),
       "good",
     );
   });
@@ -474,10 +474,10 @@ export function initPassportBulk(): void {
     const paperLabel = paperNames[pb.paper] || pb.paper.toUpperCase();
     setHTML(
       "ppBulkStat",
-      `<span>${paperLabel} sheet</span><span class='good'>Page ${pb.currentPage + 1} of ${pb.sheets.length}</span><span>${pb.items.length} photos · ${pb.wmm}×${pb.hmm} mm · ${pb.quality} DPI</span>`,
+      `<span>${T("ppSheetWord").replace("{paper}", paperLabel)}</span><span class='good'>${T("ppBulkStatPage").replace("{p}", String(pb.currentPage + 1)).replace("{n}", String(pb.sheets.length))}</span><span>${T("bkPhotosN").replace("{n}", String(pb.items.length))} · ${pb.wmm}×${pb.hmm} mm · ${pb.quality} DPI</span>`,
     );
     const pageInfo = $("ppBulkPageInfo");
-    pageInfo.textContent = `Page ${pb.currentPage + 1} of ${pb.sheets.length} — ${pb.items.length} photos`;
+    pageInfo.textContent = T("ppPageInfo").replace("{p}", String(pb.currentPage + 1)).replace("{n}", String(pb.sheets.length)).replace("{c}", String(pb.items.length));
   }
 
   function updateNav(): void {
@@ -587,7 +587,7 @@ export function initPassportBulk(): void {
       (f) => /image|hei[cf]/i.test(f.type) || /\.(jpe?g|png|webp|hei[cf])$/i.test(f.name),
     );
     if (!files.length) return;
-    bulkMsg.textContent = `Loading ${files.length} photos…`;
+    bulkMsg.textContent = T("ppBulkLoading").replace("{n}", String(files.length));
     bulkMsg.className = "msg";
     let done = 0;
     files.forEach((f) => {
@@ -610,8 +610,8 @@ export function initPassportBulk(): void {
           if (done === files.length) {
             renderThumbs();
             renderSheets();
-            bulkName.textContent = `✔ ${pb.items.length} photos loaded`;
-            bulkMsg.textContent = `${pb.items.length} photos ready — check names, then download.`;
+            bulkName.textContent = T("bkLoadedN").replace("{n}", String(pb.items.length));
+            bulkMsg.textContent = T("ppBulkReady").replace("{n}", String(pb.items.length));
             bulkMsg.className = "msg good";
           }
         });
@@ -675,9 +675,9 @@ export function initPassportBulk(): void {
       XLSX.utils.book_append_sheet(wb, ws, "Names");
       const buf = XLSX.write(wb, { type: "array", bookType: "xlsx" });
       downloadBlob(new Blob([buf]), "passport-name-template.xlsx");
-      setMsg("ppBulkMsg", "✔ Name template downloaded — fill in the names and upload.", "good");
+      setMsg("ppBulkMsg", T("ppTplDone"), "good");
     } catch {
-      setMsg("ppBulkMsg", "Could not generate Excel — check internet connection.", "warn");
+      setMsg("ppBulkMsg", T("ppTplFail"), "warn");
     }
   });
 
@@ -686,7 +686,7 @@ export function initPassportBulk(): void {
     const file = this.files?.[0];
     if (!file) return;
     const status = $("ppBulkXlStatus");
-    status.textContent = "Reading Excel…";
+    status.textContent = T("ppXlReading");
     status.className = "hint";
     try {
       if (!window.XLSX) {
@@ -713,13 +713,13 @@ export function initPassportBulk(): void {
       });
       renderThumbs();
       renderSheets();
-      status.textContent = `Names matched: ${matched} of ${pb.items.length} photos`;
+      status.textContent = T("ppXlMatched").replace("{m}", String(matched)).replace("{n}", String(pb.items.length));
       status.className = "hint good";
-      setMsg("ppBulkMsg", `✔ Excel processed — ${matched} of ${pb.items.length} photos renamed.`, "good");
+      setMsg("ppBulkMsg", T("ppBulkXlDone").replace("{m}", String(matched)).replace("{n}", String(pb.items.length)), "good");
     } catch {
-      status.textContent = "Could not read Excel file.";
+      status.textContent = T("ppXlFail");
       status.className = "hint warn";
-      setMsg("ppBulkMsg", "Invalid Excel file — please use the template format.", "warn");
+      setMsg("ppBulkMsg", T("ppBulkXlInvalid"), "warn");
     }
     this.value = "";
   });
@@ -739,15 +739,15 @@ export function initPassportBulk(): void {
     };
     const paperLabel = paperNames[pb.paper] || pb.paper;
     downloadBlob(blob, `passport-sheet-${paperLabel}-page${pb.currentPage + 1}-${pb.quality}dpi.jpg`);
-    setMsg("ppBulkMsg", "✔ Current page downloaded as JPG.", "good");
+    setMsg("ppBulkMsg", T("ppBulkPageJpgDone"), "good");
   });
 
   input("ppBulkPdf").addEventListener("click", async () => {
     if (pb.sheets.length === 0) return;
     const btn = input("ppBulkPdf");
     btn.disabled = true;
-    btn.textContent = "Making PDF…";
-    setMsg("ppBulkMsg", "Generating PDF…", "");
+    btn.textContent = T("pdfMaking");
+    setMsg("ppBulkMsg", T("ppBulkPdfGen"), "");
     try {
       if (!window.jspdf) {
         await loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
@@ -776,9 +776,9 @@ export function initPassportBulk(): void {
         doc.addImage(pb.sheets[i].toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, wmm, hmm);
       }
       doc.save(`passport-sheets-${paperLabel}.pdf`);
-      setMsg("ppBulkMsg", `✔ PDF downloaded — ${pb.sheets.length} page(s).`, "good");
+      setMsg("ppBulkMsg", T("ppBulkPdfDone").replace("{n}", String(pb.sheets.length)), "good");
     } catch {
-      setMsg("ppBulkMsg", "PDF generation failed — check internet connection.", "warn");
+      setMsg("ppBulkMsg", T("ppBulkPdfFail"), "warn");
     }
     btn.disabled = false;
     btn.textContent = T("ppBulkPdf");
@@ -1159,7 +1159,7 @@ export function initKb(): void {
     } else {
       kbB.files = imgs;
     }
-    $("kbBatchCount").textContent = kbB.files.length ? kbB.files.length + " photos" : "";
+    $("kbBatchCount").textContent = kbB.files.length ? T("bkPhotosN").replace("{n}", String(kbB.files.length)) : "";
   }
   const kbBFileInput = input("kbBatchFile") as HTMLInputElement;
   kbBFileInput.addEventListener("change", () => {
@@ -1306,6 +1306,10 @@ export function initSignature(): void {
     $("sgThVal").textContent = sgLevelLabel(v);
     scheduleSgRender();
   });
+  $("sgThVal").textContent = sgLevelLabel(parseInt(input("sgTh").value, 10) || 205);
+  onLangChange(() => {
+    $("sgThVal").textContent = sgLevelLabel(parseInt(input("sgTh").value, 10) || 205);
+  });
   wireDrop("sgDrop", "sgFile", (f) => {
     sg.file = f;
     loadImg(f)
@@ -1429,10 +1433,13 @@ export function initJoiner(): void {
   chipGroup("jnLayout", (v) => {
     jn.layout = v;
   });
-  input("jnTh").addEventListener("input", function (this: HTMLInputElement) {
-    const v = parseInt(this.value, 10);
+  function jnThLabel(): void {
+    const v = parseInt(input("jnTh").value, 10) || 205;
     $("jnThVal").textContent = `(${v < 160 ? T("sgLevelLight") : v < 215 ? T("sgLevelMedium") : T("sgLevelStrong")} · ${v})`;
-  });
+  }
+  input("jnTh").addEventListener("input", jnThLabel);
+  jnThLabel();
+  onLangChange(jnThLabel);
   function jnReady(): void {
     (input("jnGo") as HTMLButtonElement).disabled = !(jn.photo && jn.sign);
     if (!jn.photo) setMsg("jnMsg", T("jnNeedPhoto"), "warn");

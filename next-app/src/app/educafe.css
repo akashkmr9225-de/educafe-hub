@@ -403,3 +403,7 @@
   @media (max-width:760px){
     .auth-modal{max-width:95%;width:95%;border-radius:14px;padding:20px}
   }
+
+/* Language purity: registry titles render in both languages; show only the active one */
+html[lang="hi"] .en-only { display: none !important; }
+html[lang="en"] .hi-only { display: none !important; }

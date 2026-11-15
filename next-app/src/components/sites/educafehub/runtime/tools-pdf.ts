@@ -11,6 +11,7 @@ import {
   wireDrop,
   wireDropMulti,
 } from "./helpers";
+import { T } from "./state";
 
 interface ImageToPdfState {
   files: File[];
@@ -24,7 +25,9 @@ export function initImageToPdf(): void {
   });
   function pdfSetFiles(files: File[]): void {
     pdf.files = files;
-    $("pdfName").textContent = pdf.files.length ? `✔ ${pdf.files.length} photo select hui` : "";
+    $("pdfName").textContent = pdf.files.length
+    ? T("pdfSelPhotos").replace("{n}", String(pdf.files.length))
+    : "";
     (input("pdfGo") as HTMLButtonElement).disabled = !pdf.files.length;
     const box = $("pdfThumbs");
     box.innerHTML = "";
@@ -45,14 +48,14 @@ export function initImageToPdf(): void {
     if (!window.jspdf) {
       setMsg(
         "pdfMsg",
-        "PDF library load nahi hui — net connection check karke page refresh karo.",
+        T("libPdfMissing"),
         "warn",
       );
       return;
     }
     const btn = e.currentTarget as HTMLButtonElement;
     btn.disabled = true;
-    btn.textContent = "PDF ban raha hai…";
+    btn.textContent = T("pdfMaking");
     try {
       const JsPDF = window.jspdf.jsPDF;
       let doc: JsPdfDoc | null = null;
@@ -93,16 +96,16 @@ export function initImageToPdf(): void {
       const name =
         (input("pdfNameInput").value || "documents").replace(/[^\w\- ]+/g, "").trim() || "documents";
       doc?.save(`${name}.pdf`);
-      setMsg("pdfMsg", `✔ PDF download ho gaya (${pdf.files.length} page).`, "good");
+      setMsg("pdfMsg", T("pdfDone").replace("{n}", String(pdf.files.length)), "good");
     } catch {
       setMsg(
         "pdfMsg",
-        "PDF banane mein dikkat aayi — photos dobara select karke try karo.",
+        T("pdfFail"),
         "warn",
       );
     }
     btn.disabled = false;
-    btn.textContent = "PDF banao";
+    btn.textContent = T("pdfGo");
   });
 }
 
@@ -118,14 +121,14 @@ export function initPdfCompress(): void {
   });
   wireDrop("pcDrop", "pcFile", (f) => {
     if (!/pdf$/i.test(f.name) && f.type !== "application/pdf") {
-      setMsg("pcMsg", "Ye PDF file nahi lag rahi — .pdf select karo.", "warn");
+      setMsg("pcMsg", T("pcNotPdf"), "warn");
       return;
     }
     pc.file = f;
     $("pcName").textContent = `✔ ${f.name}`;
     setHTML(
       "pcStat",
-      `<span>Original size: ${fmtKB(f.size)}</span><span>Level: ${pc.level}</span>`,
+      `<span>${T("pcOrigSize").replace("{size}", fmtKB(f.size))}</span><span>${T("pcLevelLine").replace("{lvl}", T(pc.level === "high" ? "pcLvlNameHigh" : pc.level === "low" ? "pcLvlNameLow" : "pcLvlNameMed"))}</span>`,
     );
     (input("pcGo") as HTMLButtonElement).disabled = false;
     $("pcMsg").textContent = "";
@@ -136,7 +139,7 @@ export function initPdfCompress(): void {
     if (!window.pdfjsLib || !window.jspdf) {
       setMsg(
         "pcMsg",
-        "PDF library load nahi hui — net connection check karke page refresh karo.",
+        T("libPdfMissing"),
         "warn",
       );
       return;
@@ -158,7 +161,7 @@ export function initPdfCompress(): void {
       const JsPDF = window.jspdf.jsPDF;
       let out: JsPdfDoc | null = null;
       for (let p = 1; p <= pdfDoc.numPages; p++) {
-        btn.textContent = `Page ${p} / ${pdfDoc.numPages}…`;
+        btn.textContent = T("pdfPageOf").replace("{p}", String(p)).replace("{n}", String(pdfDoc.numPages));
         const page = await pdfDoc.getPage(p);
         const base = page.getViewport({ scale: 1 });
         const vp = page.getViewport({ scale: conf.dpi / 72 });
@@ -186,24 +189,24 @@ export function initPdfCompress(): void {
       const saved = Math.round((1 - blob.size / pc.file.size) * 100);
       setHTML(
         "pcStat",
-        `<span>Pehele: ${fmtKB(pc.file.size)}</span><span class='good'>Ab: ${fmtKB(blob.size)}</span><span>${pdfDoc.numPages} pages</span>${saved > 0 ? `<span class='good'>${saved}% chhota</span>` : "<span>Size lagbhag same raha</span>"}`,
+        `<span>${T("kbStatBefore")}: ${fmtKB(pc.file.size)}</span><span class='good'>${T("kbStatNow")}: ${fmtKB(blob.size)}</span><span>${T("pcPages").replace("{n}", String(pdfDoc.numPages))}</span>${saved > 0 ? `<span class='good'>${T("pcSmaller").replace("{p}", String(saved))}</span>` : `<span>${T("pcSameSize")}</span>`}`,
       );
       setMsg(
         "pcMsg",
         saved > 0
-          ? "✔ Compressed PDF taiyaar hai."
-          : "Ye PDF is level par aur chhoti nahi hui — “Sabse chhota” level try karo.",
+          ? T("pcDone")
+          : T("pcNotSmaller"),
         saved > 0 ? "good" : "warn",
       );
     } catch {
       setMsg(
         "pcMsg",
-        "Is PDF ko padhne mein dikkat aayi — file kharab ya password-protected ho sakti hai.",
+        T("pcReadFail"),
         "warn",
       );
     }
     btn.disabled = false;
-    btn.textContent = "Compress karo";
+    btn.textContent = T("pcGo");
   });
 }
 
@@ -256,7 +259,7 @@ export function initFileTools(): void {
   });
   input("fsGo").addEventListener("click", async () => {
     if (!fsFileObj || !window.pdfjsLib || !window.jspdf) {
-      setMsg("fsMsg", "PDF library load nahi hui — page refresh karo.");
+      setMsg("fsMsg", T("libPdfMissingShort"));
       return;
     }
     const ref: { out: JsPdfDoc | null } = { out: null };
@@ -264,22 +267,24 @@ export function initFileTools(): void {
     try {
       const out = await renderPdfPages(fsFileObj, (total) => parsePages(spec, total), ref);
       out.save("split.pdf");
-      setMsg("fsMsg", "✔ Split PDF download ho gayi.");
+      setMsg("fsMsg", T("fsDone"));
     } catch {
-      setMsg("fsMsg", "PDF padhne mein dikkat aayi.");
+      setMsg("fsMsg", T("fsFail"));
     }
   });
 
   let fmFilesArr: File[] = [];
   function fmSetFiles(files: File[]): void {
     fmFilesArr = files;
-    $("fmName").textContent = fmFilesArr.length ? `✔ ${fmFilesArr.length} PDF select hui` : "";
+    $("fmName").textContent = fmFilesArr.length
+    ? T("fmSelPdfs").replace("{n}", String(fmFilesArr.length))
+    : "";
     (input("fmGo") as HTMLButtonElement).disabled = fmFilesArr.length < 1;
   }
   wireDropMulti("fmDrop", "fmFiles", fmSetFiles);
   input("fmGo").addEventListener("click", async () => {
     if (!fmFilesArr.length || !window.pdfjsLib || !window.jspdf) {
-      setMsg("fmMsg", "PDF library load nahi hui — page refresh karo.");
+      setMsg("fmMsg", T("libPdfMissingShort"));
       return;
     }
     const ref: { out: JsPdfDoc | null } = { out: null };
@@ -288,9 +293,9 @@ export function initFileTools(): void {
         await renderPdfPages(fmFilesArr[i], null, ref);
       }
       ref.out?.save("merged.pdf");
-      setMsg("fmMsg", "✔ Merged PDF download ho gayi.");
+      setMsg("fmMsg", T("fmDone"));
     } catch {
-      setMsg("fmMsg", "Kisi PDF ko padhne mein dikkat aayi.");
+      setMsg("fmMsg", T("fmFail"));
     }
   });
 
@@ -387,7 +392,7 @@ export function initFileTools(): void {
     const lines = v ? v.split(/\n/).length : 0;
     setHTML(
       "ftStat",
-      `<span>Words: ${words}</span><span>Characters: ${v.length}</span><span>Lines: ${lines}</span>`,
+      `<span>${T("ftWords").replace("{n}", String(words))}</span><span>${T("ftChars").replace("{n}", String(v.length))}</span><span>${T("ftLines").replace("{n}", String(lines))}</span>`,
     );
   }
   ftTa.addEventListener("input", ftUpdate);
@@ -414,7 +419,7 @@ export function initFileTools(): void {
     });
     ftTa.value = out.join("\n");
     ftUpdate();
-    $("ftMsg").textContent = "✔ Duplicate lines hat gayi.";
+    $("ftMsg").textContent = T("ftDup");
   });
   $("ftCopy").addEventListener("click", () => {
     ftTa.select();
@@ -423,7 +428,7 @@ export function initFileTools(): void {
     } else {
       document.execCommand("copy");
     }
-    $("ftMsg").textContent = "✔ Text copy ho gaya.";
+    $("ftMsg").textContent = T("ftCopyDone");
   });
 }
 
@@ -448,7 +453,7 @@ export function initConverter(): void {
         $("fcMsg").textContent = "";
       })
       .catch(() => {
-        setMsg("fcMsg", "This file does not look like an image — try a JPG/PNG.", "warn");
+        setMsg("fcMsg", T("fileNotImage"), "warn");
       });
   });
   $("fcGo").addEventListener("click", () => {
@@ -471,13 +476,13 @@ export function initConverter(): void {
         $("fcPreview").classList.add("show");
         setHTML(
           "fcStat",
-          `<span>Before: ${fmtKB(fc.file ? fc.file.size : 0)}</span><span class='good'>Now: ${fmtKB(blob.size)}</span><span>${ext.toUpperCase()} · ${cv.width}×${cv.height} px</span>`,
+          `<span>${T("kbStatBefore")}: ${fmtKB(fc.file ? fc.file.size : 0)}</span><span class='good'>${T("kbStatNow")}: ${fmtKB(blob.size)}</span><span>${ext.toUpperCase()} · ${cv.width}×${cv.height} px</span>`,
         );
         const dl = $("fcDownload") as HTMLAnchorElement;
         dl.href = url;
         dl.style.display = "inline-flex";
         dl.setAttribute("download", `converted.${ext}`);
-        setMsg("fcMsg", "✔ Converted — download it from the button above.", "good");
+        setMsg("fcMsg", T("fcDone"), "good");
       },
       fc.fmt,
       0.92,
@@ -493,7 +498,7 @@ export function initTextToolCounter(): void {
     const v = ta.value;
     const words = v.trim() ? v.trim().split(/\s+/).length : 0;
     const lines = v ? v.split(/\n/).length : 0;
-    box.innerHTML = `<span>Words: ${words}</span><span>Characters: ${v.length}</span><span>Lines: ${lines}</span>`;
+    box.innerHTML = `<span>${T("ftWords").replace("{n}", String(words))}</span><span>${T("ftChars").replace("{n}", String(v.length))}</span><span>${T("ftLines").replace("{n}", String(lines))}</span>`;
   };
   ta.addEventListener("input", update);
 }

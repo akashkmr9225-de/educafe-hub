@@ -24,7 +24,7 @@ Owner: Akash. Coordinated by Sapna. Rule that keeps us conflict-free: **only Sap
 - [x] K2 Hindi review (~45 corrections) - delivered
 - [x] K4 Customer-eyes QA, tools 5-8 - delivered
 - [ ] K3 (later, optional) One short-video idea to promote EduCafe Hub on the Kahani AI channel
-- [ ] Repo organisation (issues, labels, Projects board, security settings) - PROPOSED by Kanak 15 Nov; waiting on Akash's decision about GitHub access (own account vs shared) and scope (organise-only vs code too)
+- [ ] Repo organisation (issues, labels, Projects board, security settings) - APPROVED by Akash 15 Nov: Kanak creates her OWN GitHub account; ORGANISE-ONLY, no code changes (code or workflow changes go in an issue for Sapna); Sapna sends the collaborator invite once Kanak replies with her username
 
 ## Agent Akash (akashkss9225@gmail.com) - research and checks lane (by email via Sapna)
 - [x] B1 Competitor scan (top 5 passport-photo sites, feature gaps) - delivered

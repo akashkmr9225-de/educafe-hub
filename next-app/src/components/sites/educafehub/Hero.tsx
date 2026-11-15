@@ -42,7 +42,6 @@ export function LanguageBar() {
 }
 
 export function Intro() {
-  const auth = useAuth();
   return (
     <div className="intro">
       <Wordmark />
@@ -51,14 +50,6 @@ export function Intro() {
         Passport photos, exact-KB photo & signature for forms, image to PDF, age & marks
         calculators — plus every government website you open daily, on one page. Sign in is optional and stays on this device; files are never uploaded anywhere.
       </p>
-      <div className="hero-cta">
-        <button type="button" className="hero-signin" onClick={auth?.openAuth} data-i18n="site.heroSignin">
-          🔐 Sign in (optional)
-        </button>
-        <a href="#tasks" data-i18n="navTasks">
-          ✓ My Tasks
-        </a>
-      </div>
       <div className="trustrow">
         <span className="trust">
           <svg

@@ -792,47 +792,108 @@ interface KbState {
   file: File | null;
   target: number;
   mode: string;
+  format: string;
+}
+
+function kbEncode(cv: HTMLCanvasElement, mime: string, q: number): Promise<Blob> {
+  return new Promise((res) => {
+    cv.toBlob((b) => res(b as Blob), mime, q);
+  });
+}
+
+async function kbFitToTargetKB(
+  cv: HTMLCanvasElement,
+  targetKB: number,
+  format: string,
+): Promise<{ blob: Blob; fittedByDims: boolean }> {
+  if (format === "png") {
+    const target = targetKB * 1024;
+    let cur = cv;
+    let best = await kbEncode(cur, "image/png", 1);
+    if (best.size <= target) return { blob: best, fittedByDims: false };
+    let fittedByDims = false;
+    let scale = 0.9;
+    while (scale >= 0.1) {
+      const c2 = document.createElement("canvas");
+      c2.width = Math.max(1, Math.round(cur.width * scale));
+      c2.height = Math.max(1, Math.round(cur.height * scale));
+      ctx2d(c2).drawImage(cur, 0, 0, c2.width, c2.height);
+      best = await kbEncode(c2, "image/png", 1);
+      cur = c2;
+      fittedByDims = true;
+      if (best.size <= target) break;
+      scale -= 0.1;
+    }
+    return { blob: best, fittedByDims };
+  }
+  const mime = format === "webp" ? "image/webp" : "image/jpeg";
+  const target = targetKB * 1024;
+  let best = await kbEncode(cv, mime, 0.92);
+  if (best.size <= target) return { blob: best, fittedByDims: false };
+  let lo = 0.08;
+  let hi = 0.92;
+  for (let i = 0; i < 9; i++) {
+    const mid = (lo + hi) / 2;
+    const b = await kbEncode(cv, mime, mid);
+    if (b.size <= target) {
+      best = b;
+      lo = mid;
+    } else {
+      hi = mid;
+    }
+  }
+  if (best.size <= target) return { blob: best, fittedByDims: false };
+  let scale = 0.85;
+  while (scale > 0.25) {
+    const c2 = document.createElement("canvas");
+    c2.width = Math.round(cv.width * scale);
+    c2.height = Math.round(cv.height * scale);
+    ctx2d(c2).drawImage(cv, 0, 0, c2.width, c2.height);
+    const b2 = await kbEncode(c2, mime, 0.85);
+    if (b2.size <= target) return { blob: b2, fittedByDims: true };
+    scale -= 0.12;
+  }
+  return { blob: best, fittedByDims: false };
 }
 
 export function initKb(): void {
-  const kb: KbState = { img: null, file: null, target: 50, mode: "under" };
-  chipGroup("kbPresets", (v) => {
-    kb.target = parseInt(v, 10);
-    input("kbCustom").value = "";
-  });
-  kb.mode =
-    chipGroup("kbMode", (v) => {
-      kb.mode = v;
-      $("kbMaxRow").style.display = v === "between" ? "flex" : "none";
-    }) || "under";
-  input("kbCustom").addEventListener("input", function (this: HTMLInputElement) {
-    const v = parseInt(this.value, 10);
-    if (v > 0) kb.target = v;
-  });
-  wireDrop("kbDrop", "kbFile", (f) => {
-    kb.file = f;
-    loadImg(f)
-      .then((r) => {
-        kb.img = r.img;
-        $("kbName").textContent = `✔ ${f.name} · abhi ${fmtKB(f.size)}`;
-        (input("kbGo") as HTMLButtonElement).disabled = false;
-        $("kbMsg").textContent = "";
-      })
-      .catch(() => {
-        setMsg("kbMsg", "Ye file image nahi lag rahi.", "warn");
-      });
-  });
+  const kb: KbState = { img: null, file: null, target: 50, mode: "under", format: "jpg" };
+  let kbTimer: ReturnType<typeof setTimeout> | null = null;
 
-  input("kbGo").addEventListener("click", async function (this: HTMLButtonElement, e: Event) {
+  function kbTargetKB(): number {
+    const unit = input("kbTargetUnit").value;
+    const n = parseFloat(input("kbTargetNum").value) || 50;
+    return unit === "mb" ? Math.round(n * 1024) : Math.max(1, Math.round(n));
+  }
+
+  function kbMaxKB(): number {
+    const unit = input("kbMaxUnit").value;
+    const n = parseFloat(input("kbMaxNum").value) || 100;
+    return unit === "mb" ? Math.round(n * 1024) : Math.max(1, Math.round(n));
+  }
+
+  function fmtTarget(target: number): string {
+    return target % 1024 === 0 && target >= 1024 && input("kbTargetUnit").value === "mb"
+      ? `${Math.round(target / 1024)} MB`
+      : `${target} KB`;
+  }
+
+  function scheduleKbRender(): void {
     if (!kb.img) return;
-    const btn = e.currentTarget as HTMLButtonElement;
-    btn.disabled = true;
-    btn.textContent = "Ban raha hai…";
-    const target = kb.target;
+    if (kbTimer) clearTimeout(kbTimer);
+    kbTimer = setTimeout(() => kbRender(), 180);
+  }
+
+  async function kbRender(): Promise<void> {
+    if (!kb.img) return;
+    const img = kb.img;
+    const target = kbTargetKB();
+    const format = (input("kbFormat").value || "jpg").toLowerCase();
+    kb.format = format;
     const w = parseInt(input("kbW").value, 10);
     const h = parseInt(input("kbH").value, 10);
-    let cw = w > 0 ? w : kb.img.naturalWidth;
-    let ch = h > 0 ? h : kb.img.naturalHeight;
+    let cw = w > 0 ? w : img.naturalWidth;
+    let ch = h > 0 ? h : img.naturalHeight;
     if (!(w > 0 && h > 0)) {
       const maxSide = 1600;
       const sc = Math.min(1, maxSide / Math.max(cw, ch));
@@ -845,29 +906,33 @@ export function initKb(): void {
     const ctx = ctx2d(cv);
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, cw, ch);
-    drawCover(ctx, kb.img, 0, 0, cw, ch, 1, 0.5);
-    let blob: Blob = await c2b(cv, 0.92);
+    drawCover(ctx, img, 0, 0, cw, ch, 1, 0.5);
+    let blob: Blob;
+    let fittedByDims = false;
     let ok = true;
-    let ruleTxt = `${target} KB`;
+    const ruleTxt = `${target} KB`;
+    const mime = format === "png" ? "image/png" : format === "webp" ? "image/webp" : "image/jpeg";
     if (kb.mode === "atleast") {
-      blob = await c2b(cv, 0.95);
-      if (blob.size < target * 1024) blob = await padJpeg(blob, target * 1024);
+      blob = await kbEncode(cv, mime, 0.95);
+      if (blob.size < target * 1024 && format !== "png") blob = await padJpeg(blob, target * 1024);
       ok = blob.size >= target * 1024;
-      ruleTxt = `≥ ${target} KB`;
     } else if (kb.mode === "between") {
-      let mx = parseInt(input("kbMax").value, 10) || Math.max(target + 50, 100);
+      let mx = kbMaxKB();
       if (mx <= target) {
         mx = target + 50;
-        input("kbMax").value = String(mx);
+        input("kbMaxNum").value = String(mx);
+        input("kbMaxUnit").value = "kb";
       }
-      blob = await toTargetKB(cv, mx);
-      if (blob.size < target * 1024) blob = await padJpeg(blob, target * 1024);
+      const r = await kbFitToTargetKB(cv, mx, format);
+      blob = r.blob;
+      fittedByDims = r.fittedByDims;
+      if (blob.size < target * 1024 && format !== "png") blob = await padJpeg(blob, target * 1024);
       ok = blob.size >= target * 1024 && blob.size <= mx * 1024;
-      ruleTxt = `${target}–${mx} KB`;
     } else {
-      blob = await toTargetKB(cv, target);
+      const r = await kbFitToTargetKB(cv, target, format);
+      blob = r.blob;
+      fittedByDims = r.fittedByDims;
       ok = blob.size <= target * 1024;
-      ruleTxt = `≤ ${target} KB`;
     }
     const url = URL.createObjectURL(blob);
     ($("kbImg") as HTMLImageElement).src = url;
@@ -879,6 +944,8 @@ export function initKb(): void {
     const dl = $("kbDownload") as HTMLAnchorElement;
     dl.href = url;
     dl.style.display = "inline-flex";
+    const ext = format === "png" ? "png" : format === "webp" ? "webp" : "jpg";
+    dl.download = `resized-photo.${ext}`;
     setMsg(
       "kbMsg",
       ok
@@ -886,8 +953,49 @@ export function initKb(): void {
         : "Photo is rule mein saaf nahi bachi — size thoda badha kar try karo.",
       ok ? "good" : "warn",
     );
-    btn.disabled = false;
-    btn.textContent = T("kbGo");
+  }
+
+  chipGroup("kbPresets", (v, chip) => {
+    const unit = chip?.getAttribute("data-unit") || "kb";
+    input("kbTargetNum").value = v;
+    input("kbTargetUnit").value = unit;
+    kb.target = unit === "mb" ? parseInt(v, 10) * 1024 : parseInt(v, 10);
+    scheduleKbRender();
+  });
+  kb.mode =
+    chipGroup("kbMode", (v) => {
+      kb.mode = v;
+      $("kbMaxRow").style.display = v === "between" ? "flex" : "none";
+      scheduleKbRender();
+    }) || "under";
+  input("kbTargetNum").addEventListener("input", () => {
+    kb.target = kbTargetKB();
+    scheduleKbRender();
+  });
+  input("kbTargetUnit").addEventListener("change", () => {
+    kb.target = kbTargetKB();
+    scheduleKbRender();
+  });
+  input("kbFormat").addEventListener("change", () => {
+    scheduleKbRender();
+  });
+  input("kbMaxNum").addEventListener("input", () => scheduleKbRender());
+  input("kbMaxUnit").addEventListener("change", () => scheduleKbRender());
+  input("kbW").addEventListener("input", () => scheduleKbRender());
+  input("kbH").addEventListener("input", () => scheduleKbRender());
+
+  wireDrop("kbDrop", "kbFile", (f) => {
+    kb.file = f;
+    loadImg(f)
+      .then((r) => {
+        kb.img = r.img;
+        $("kbName").textContent = `✔ ${f.name} · abhi ${fmtKB(f.size)}`;
+        $("kbMsg").textContent = "";
+        kbRender();
+      })
+      .catch(() => {
+        setMsg("kbMsg", "Ye file image nahi lag rahi.", "warn");
+      });
   });
 }
 

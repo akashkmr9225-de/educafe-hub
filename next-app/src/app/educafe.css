@@ -82,6 +82,10 @@
   .langbar-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .langbar a.langbtn{text-decoration:none;display:inline-flex;align-items:center}
   @media (max-width:767px){.langbar-right{justify-content:space-between;width:100%}}
+  .topbar-actions .langbtn{background:var(--surface);color:var(--ink);box-shadow:0 2px 8px rgba(16,42,34,.14)}
+  .topbar-actions .langbtn:hover{color:var(--accent)}
+  .topbar-actions button.langbtn{background:var(--accent);color:#fff;box-shadow:0 2px 10px rgba(15,118,110,.35)}
+  .topbar-actions button.langbtn:hover{color:#fff;filter:brightness(1.1)}
 
   /* ---------- hero intro ---------- */
   .intro{margin-top:14px;background:linear-gradient(128deg,var(--hero-a),var(--hero-b));border-radius:26px;padding:clamp(26px,4.5vw,44px);color:var(--hero-ink);position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}

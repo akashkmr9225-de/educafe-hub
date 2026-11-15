@@ -456,28 +456,51 @@ export function ExactKbTool() {
             <div className="fname" id="kbName" />
             <div className="field" style={{ marginTop: 16 }}>
               <label className="fl" data-i18n="kbTargetLabel">
-                Target size (KB)
+                Target size
               </label>
-              <div className="chips" id="kbPresets">
-                <button type="button" className="chip" data-v="20" aria-pressed="false">
+              <div className="num2" style={{ gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                <input type="number" id="kbTargetNum" min={1} max={20000} defaultValue={50} style={{ width: 90 }} />
+                <select id="kbTargetUnit" className="sel" style={{ width: "auto", minWidth: 80 }}>
+                  <option value="kb" data-i18n="kbUnitKB">KB</option>
+                  <option value="mb" data-i18n="kbUnitMB">MB</option>
+                </select>
+              </div>
+              <div className="chips" id="kbPresets" style={{ marginTop: 8 }}>
+                <button type="button" className="chip" data-v="20" data-unit="kb" aria-pressed="false">
                   20 KB
                 </button>
-                <button type="button" className="chip saf" data-v="50" aria-pressed="true">
+                <button type="button" className="chip saf" data-v="50" data-unit="kb" aria-pressed="true">
                   50 KB
                 </button>
-                <button type="button" className="chip" data-v="100" aria-pressed="false">
+                <button type="button" className="chip" data-v="100" data-unit="kb" aria-pressed="false">
                   100 KB
                 </button>
-                <button type="button" className="chip" data-v="200" aria-pressed="false">
+                <button type="button" className="chip" data-v="200" data-unit="kb" aria-pressed="false">
                   200 KB
+                </button>
+                <button type="button" className="chip" data-v="1" data-unit="mb" aria-pressed="false">
+                  1 MB
+                </button>
+                <button type="button" className="chip" data-v="2" data-unit="mb" aria-pressed="false">
+                  2 MB
+                </button>
+                <button type="button" className="chip" data-v="5" data-unit="mb" aria-pressed="false">
+                  5 MB
                 </button>
               </div>
             </div>
             <div className="field">
-              <label className="fl" htmlFor="kbCustom" data-i18n="kbCustomLabel">
-                Or type your own size (KB)
+              <label className="fl" data-i18n="kbFormatLabel">
+                Output format
               </label>
-              <input type="number" id="kbCustom" min={5} max={2000} placeholder="e.g. 40" />
+              <select id="kbFormat" className="sel" aria-label="Output format">
+                <option value="jpg" data-i18n="kbFmtJPG">JPG</option>
+                <option value="png" data-i18n="kbFmtPNG">PNG</option>
+                <option value="webp" data-i18n="kbFmtWebP">WebP</option>
+              </select>
+              <p className="hint" style={{ marginTop: 4 }} data-i18n="kbFormatHint">
+                JPG & WebP fit target by quality. PNG fits by reducing dimensions.
+              </p>
             </div>
             <div className="field">
               <label className="fl" data-i18n="kbModeLabel">
@@ -514,9 +537,15 @@ export function ExactKbTool() {
               </div>
               <div className="num2" id="kbMaxRow" style={{ display: "none", marginTop: 8 }}>
                 <label className="fl" htmlFor="kbMax" style={{ margin: 0 }} data-i18n="kbMaxLabel">
-                  Maximum size (KB)
+                  Maximum size
                 </label>
-                <input type="number" id="kbMax" min={10} max={4000} defaultValue={100} />
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                  <input type="number" id="kbMaxNum" min={1} max={20000} defaultValue={100} style={{ width: 90 }} />
+                  <select id="kbMaxUnit" className="sel" style={{ width: "auto", minWidth: 80 }}>
+                    <option value="kb" data-i18n="kbUnitKB">KB</option>
+                    <option value="mb" data-i18n="kbUnitMB">MB</option>
+                  </select>
+                </div>
               </div>
               <p className="hint" style={{ marginTop: 4 }} data-i18n="kbModeHint">
                 "At least" first raises quality, then adds harmless padding inside the JPG file —
@@ -533,25 +562,13 @@ export function ExactKbTool() {
                 <input type="number" id="kbH" min={10} placeholder="Height px" />
               </div>
             </div>
-            <div className="btnrow">
-              <button className="btn" id="kbGo" disabled data-i18n="kbGo">
-                Resize karo
-              </button>
-              <a
-                className="btn saf"
-                id="kbDownload"
-                style={{ display: "none" }}
-                download="resized-photo.jpg"
-              >
-                ⬇ Download
-              </a>
-            </div>
             <div className="msg" id="kbMsg" />
           </div>
           <div>
-            <div className="preview" id="kbPreview">
+            <div className="preview show" id="kbPreview">
               <img id="kbImg" alt="Resized photo preview" />
               <div className="stat" id="kbStat" />
+              <p className="hint" id="kbPngNote" style={{ display: "none", marginTop: 8 }} data-i18n="kbPngNote" />
             </div>
             <p className="hint" data-i18n="kbHint">
               How it works: the tool adjusts quality step by step to land as close as possible to

@@ -12,7 +12,7 @@ import { FileToolsSection } from "@/components/sites/educafehub/FileTools";
 import { QrTool } from "@/components/sites/educafehub/QrTool";
 import { BulkTool } from "@/components/sites/educafehub/Bulk";
 import { ExamPhotoTool, ReceiptTool, PrintCostTool } from "@/components/sites/educafehub/ExamReceipt";
-import { TasksSection, CapacitySection } from "@/components/sites/educafehub/Account";
+import { TasksSection } from "@/components/sites/educafehub/Account";
 import { LinksSection, OwnerNotesSection } from "@/components/sites/educafehub/Links";
 import { LegalSection, Footer } from "@/components/sites/educafehub/Legal";
 
@@ -46,7 +46,6 @@ export default function Home() {
         <ReceiptTool />
         <PrintCostTool />
         <TasksSection />
-        <CapacitySection />
         <LinksSection />
         <OwnerNotesSection />
         <LegalSection />

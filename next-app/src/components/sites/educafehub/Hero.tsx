@@ -1,8 +1,9 @@
 "use client";
 
 import { Wordmark } from "./Brand";
-import { useState, createContext, useContext } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import { AuthModal } from "./AuthModal";
+import { watchAuthState } from "./runtime/auth-helpers";
 
 const AuthContext = createContext<{ openAuth: () => void } | null>(null);
 
@@ -24,6 +25,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function LanguageBar() {
   const auth = useAuth();
+  const [who, setWho] = useState("");
+  useEffect(() => watchAuthState((s) => setWho(s.profile ? s.profile.name : "")), []);
   return (
     <div className="langbar" role="group" aria-label="Language / Bhasha">
       <span className="lbl" data-i18n="langLabel">
@@ -36,7 +39,7 @@ export function LanguageBar() {
         <button type="button" className="langbtn" id="langHi" aria-pressed="false">
           हिंदी
         </button>
-      </span><span className="grp topbar-actions"><button type="button" className="langbtn" onClick={auth?.openAuth} data-i18n="navSignin">👤 Sign in</button><a className="langbtn" href="#tasks" data-i18n="navTasks">✓ My Tasks</a></span></span>
+      </span><span className="grp topbar-actions">{who ? <button type="button" className="langbtn signedin" onClick={auth?.openAuth}>👤 {who} ✓</button> : <button type="button" className="langbtn" onClick={auth?.openAuth} data-i18n="navSignin">👤 Sign in</button>}<a className="langbtn" href="#tasks" data-i18n="navTasks">✓ My Tasks</a></span></span>
     </div>
   );
 }
@@ -117,7 +120,6 @@ const NAV: Array<{ href: string; key: string; label: string; hot?: boolean }> = 
   { href: "/tools/exam-form-photo/", key: "navExam", label: "📝 Exam Photo" },
   { href: "/tools/receipt-bill-maker/", key: "navReceipt", label: "🧾 Receipt / Bill" },
   { href: "/tools/print-cost-calculator/", key: "navCost", label: "🛮 Print Cost" },
-  { href: "#capacity", key: "navCapacity", label: "🛡️ Capacity & Status" },
   { href: "auth:", key: "navLoginLink", label: "🔐 Sign in" },
   { href: "#tasks", key: "navTasks", label: "✓ My Tasks" },
   { href: "#legal", key: "navLegal", label: "⚖️ Legal & Contact" },

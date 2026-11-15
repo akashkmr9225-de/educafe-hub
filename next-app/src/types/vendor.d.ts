@@ -3,7 +3,7 @@ export {};
 declare global {
   interface JsPdfDoc {
     internal: { pageSize: { getWidth(): number; getHeight(): number } };
-    addPage(format?: string | [number, number], orientation?: string): void;
+    addPage(format?: string | number[], orientation?: string): void;
     addImage(
       data: string,
       format: string,
@@ -14,12 +14,13 @@ declare global {
     ): void;
     save(name: string): void;
     output(type: "blob"): Blob;
+    output(type: string): string | Blob | ArrayBuffer | Uint8Array;
   }
 
   interface JsPdfNamespace {
     jsPDF: new (opts?: {
       unit?: string;
-      format?: string | [number, number];
+      format?: string | number[];
       orientation?: string;
     }) => JsPdfDoc;
   }
@@ -76,18 +77,26 @@ declare global {
     quality?: number;
   }) => Promise<Blob | Blob[]>;
 
+  interface XLSXWorksheet {
+    [key: string]: unknown;
+  }
+
   interface XlsxWorkbook {
     SheetNames: string[];
-    Sheets: Record<string, unknown>;
+    Sheets: Record<string, XLSXWorksheet>;
   }
 
   interface XlsxNamespace {
     read(data: ArrayBuffer, opts: { type: "array" }): XlsxWorkbook;
+    write(wb: XlsxWorkbook, opts: { type: "array"; bookType: string }): ArrayBuffer;
     utils: {
       sheet_to_json(
-        ws: unknown,
+        ws: XLSXWorksheet,
         opts: { header: 1; defval: string; raw: true },
       ): unknown[][];
+      book_new(): XlsxWorkbook;
+      aoa_to_sheet(data: unknown[][]): XLSXWorksheet;
+      book_append_sheet(wb: XlsxWorkbook, ws: XLSXWorksheet, name: string): void;
     };
   }
 

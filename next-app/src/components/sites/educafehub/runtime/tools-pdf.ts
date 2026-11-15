@@ -59,7 +59,7 @@ export function initImageToPdf(): void {
       for (let i = 0; i < pdf.files.length; i++) {
         const r = await loadImg(pdf.files[i]);
         const img = r.img;
-        const fmt: string | [number, number] =
+        const fmt: string | number[] =
           pdf.size === "fit"
             ? [img.naturalWidth / 3.78, img.naturalHeight / 3.78]
             : pdf.size === "4x6"
@@ -172,8 +172,8 @@ export function initPdfCompress(): void {
         const wmm = (base.width * 25.4) / 72;
         const hmm = (base.height * 25.4) / 72;
         const orient = wmm > hmm ? "landscape" : "portrait";
-        if (p === 1) out = new JsPDF({ unit: "mm", format: [wmm, hmm], orientation: orient });
-        else out?.addPage([wmm, hmm], orient);
+        if (p === 1) out = new JsPDF({ unit: "mm", format: [wmm, hmm] as number[], orientation: orient });
+        else out?.addPage([wmm, hmm] as number[], orient);
         out?.addImage(cv.toDataURL("image/jpeg", conf.q), "JPEG", 0, 0, wmm, hmm);
       }
       if (!out) throw new Error("PDF init failed");
@@ -239,9 +239,9 @@ async function renderPdfPages(
     const wmm = (base.width * 25.4) / 72;
     const hmm = (base.height * 25.4) / 72;
     const orient = wmm > hmm ? "landscape" : "portrait";
-    if (!docRef.out) docRef.out = new JsPDF({ unit: "mm", format: [wmm, hmm], orientation: orient });
-    else docRef.out.addPage([wmm, hmm], orient);
-    docRef.out.addImage(cv.toDataURL("image/jpeg", 0.8), "JPEG", 0, 0, wmm, hmm);
+    if (!docRef.out) docRef.out = new JsPDF({ unit: "mm", format: [wmm, hmm] as number[], orientation: orient });
+    else docRef.out.addPage([wmm, hmm] as number[], orient);
+    docRef.out!.addImage(cv.toDataURL("image/jpeg", 0.8), "JPEG", 0, 0, wmm, hmm);
   }
   if (!docRef.out) throw new Error("PDF init failed");
   return docRef.out;

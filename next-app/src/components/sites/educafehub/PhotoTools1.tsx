@@ -10,246 +10,415 @@ export function PassportTool() {
         45 mm). Cafe mein sabse zyada chalne wala tool.
       </p>
       <div className="card">
-        <div className="grid2">
-          <div>
-            <div
-              className="drop"
-              id="ppDrop"
-              tabIndex={0}
-              role="button"
-              aria-label="Upload photo for passport sheet"
-            >
-              <div className="big" data-i18n="ppDropBig">
-                📷 Drop a photo here or click to choose
-              </div>
-              <p data-i18n="ppDropSub">
-                JPG / PNG — a straight, front-facing student photo works best
-              </p>
-              <input type="file" id="ppFile" accept="image/*" />
-            </div>
-            <div className="fname" id="ppName" />
-            <div className="field" style={{ marginTop: 16 }}>
-              <label className="fl" data-i18n="ppPaperLabel">
-                Paper size
-              </label>
-              <div className="chips" id="ppPaper">
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="4x6"
-                  aria-pressed="true"
-                  data-i18n="ppPaper4x6"
-                >
-                  4 × 6 inch (photo paper)
-                </button>
-                <button type="button" className="chip" data-v="a4" aria-pressed="false">
-                  A4
-                </button>
-              </div>
-            </div>
-            <div className="field">
-              <label className="fl" data-i18n="ppCopiesLabel">
-                How many copies?
-              </label>
-              <div className="chips" id="ppCopies">
-                <button type="button" className="chip" data-v="4" aria-pressed="false">
-                  4
-                </button>
-                <button type="button" className="chip" data-v="6" aria-pressed="false">
-                  6
-                </button>
-                <button
-                  type="button"
-                  className="chip saf"
-                  data-v="8"
-                  aria-pressed="true"
-                >
-                  8
-                </button>
-                <button type="button" className="chip" data-v="12" aria-pressed="false">
-                  12
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="30"
-                  aria-pressed="false"
-                  data-i18n="ppCopies30"
-                >
-                  30 (A4 full)
-                </button>
-              </div>
-            </div>
-            <div className="field">
-              <label className="fl" data-i18n="ppPresetLabel">
-                Photo size
-              </label>
-              <div className="chips" id="ppPreset">
-                <button
-                  type="button"
-                  className="chip saf"
-                  data-v="35x45"
-                  aria-pressed="true"
-                  data-i18n="ppPresetPassport"
-                >
-                  Passport — 35 × 45 mm
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="51x51"
-                  aria-pressed="false"
-                  data-i18n="ppPresetPan"
-                >
-                  PAN / OCI — 51 × 51 mm
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="50.8x50.8"
-                  aria-pressed="false"
-                  data-i18n="ppPresetUs"
-                >
-                  US — 2 × 2 inch
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="custom"
-                  aria-pressed="false"
-                  data-i18n="ppPresetCustom"
-                >
-                  Custom
-                </button>
-              </div>
-              <div className="num2" id="ppCustomRow" style={{ display: "none", marginTop: 8 }}>
-                <input
-                  type="number"
-                  id="ppCW"
-                  min={10}
-                  max={100}
-                  defaultValue={35}
-                  aria-label="Custom width mm"
-                />
-                <span aria-hidden="true">×</span>
-                <input
-                  type="number"
-                  id="ppCH"
-                  min={10}
-                  max={120}
-                  defaultValue={45}
-                  aria-label="Custom height mm"
-                />
-                <span className="hint" style={{ margin: 0 }}>
-                  mm
-                </span>
-              </div>
-            </div>
-            <div className="field">
-              <label className="fl" data-i18n="ppModeLabel">
-                How the photo fills its box
-              </label>
-              <div className="chips" id="ppMode">
-                <button
-                  type="button"
-                  className="chip saf"
-                  data-v="fill"
-                  aria-pressed="true"
-                  data-i18n="ppModeFill"
-                >
-                  Fill (crop edges)
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="fit"
-                  aria-pressed="false"
-                  data-i18n="ppModeFit"
-                >
-                  Fit — no cropping
-                </button>
-              </div>
-            </div>
-            <div className="field">
-              <label className="fl" data-i18n="ppExtraLabel">
-                Guides, background &amp; name label
-              </label>
-              <div className="num2">
-                <button
-                  type="button"
-                  className="chip"
-                  id="ppGuides"
-                  aria-pressed="true"
-                  data-i18n="ppGuides"
-                >
-                  Cutting guides
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  id="ppLabels"
-                  aria-pressed="false"
-                  data-i18n="ppLabels"
-                >
-                  Name under photo
-                </button>
-                <input type="color" id="ppBg" defaultValue="#ffffff" aria-label="Background colour" />
-              </div>
-              <input
-                type="text"
-                className="nm"
-                id="ppLabelText"
-                placeholder="Name / ID to print"
-                data-i18n-ph="ppLabelPh"
-                style={{ marginTop: 8, maxWidth: 260 }}
-              />
-              <p className="hint" style={{ marginTop: 4 }} data-i18n="ppBgHint">
-                The colour fills the empty space in Fit mode and sits behind the name label.
-              </p>
-            </div>
-            <div className="field">
-              <label className="fl" data-i18n="ppCropLabel">
-                Crop the photo — adjust with the two sliders
-              </label>
-              <input type="range" id="ppZoom" min={100} max={260} defaultValue={100} />
-              <input
-                type="range"
-                id="ppY"
-                min={0}
-                max={100}
-                defaultValue={18}
-                style={{ marginTop: 6 }}
-              />
-              <p className="hint" style={{ marginTop: 2 }} data-i18n="ppCropHint">
-                First slider = zoom, second = move the photo up/down. Keep the head at the top and
-                the shoulders in the frame.
-              </p>
-            </div>
-            <div className="btnrow">
-              <button className="btn saf" id="ppDownload" disabled data-i18n="ppDownload">
-                ⬇ Sheet download karo (JPG, 300 DPI)
-              </button>
-            </div>
-            <div className="msg" id="ppMsg" />
+        <div className="field" style={{ marginBottom: 16 }}>
+          <label className="fl" data-i18n="ppModeSwitchLabel">Mode</label>
+          <div className="chips" id="ppModeSwitch">
+            <button type="button" className="chip saf" data-v="single" aria-pressed="true" data-i18n="ppModeSingle">Single photo</button>
+            <button type="button" className="chip" data-v="bulk" aria-pressed="false" data-i18n="ppModeBulk">Bulk — many students</button>
           </div>
-          <div>
-            <div className="preview show">
-              <div className="sheetwrap">
-                <canvas
-                  id="ppCanvas"
-                  width={1200}
-                  height={1800}
-                  style={{ maxHeight: 520, width: "auto", maxWidth: "100%" }}
+        </div>
+        <div id="ppSinglePanel">
+          <div className="grid2">
+            <div>
+              <div
+                className="drop"
+                id="ppDrop"
+                tabIndex={0}
+                role="button"
+                aria-label="Upload photo for passport sheet"
+              >
+                <div className="big" data-i18n="ppDropBig">
+                  📷 Drop a photo here or click to choose
+                </div>
+                <p data-i18n="ppDropSub">
+                  JPG / PNG — a straight, front-facing student photo works best
+                </p>
+                <input type="file" id="ppFile" accept="image/*" />
+              </div>
+              <div className="fname" id="ppName" />
+              <div className="field" style={{ marginTop: 16 }}>
+                <label className="fl" data-i18n="ppPaperLabel">
+                  Paper size
+                </label>
+                <select id="ppPaperSel" className="sel" aria-label="Paper size">
+                  <option value="4x6" data-i18n="ppPaper4x6">4 × 6 inch (photo paper)</option>
+                  <option value="5x7" data-i18n="ppPaper5x7">5 × 7 inch (photo paper)</option>
+                  <option value="a5" data-i18n="ppPaperA5">A5</option>
+                  <option value="a4" data-i18n="ppPaperA4">A4</option>
+                  <option value="a3" data-i18n="ppPaperA3">A3</option>
+                  <option value="letter" data-i18n="ppPaperLetter">Letter</option>
+                  <option value="legal" data-i18n="ppPaperLegal">Legal</option>
+                </select>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppCopiesLabel">
+                  How many copies?
+                </label>
+                <div className="num2" style={{ alignItems: "center", gap: 8 }}>
+                  <input type="number" id="ppCopiesInput" min="1" max="500" defaultValue={8} className="nm" style={{ width: 80 }} />
+                  <span className="hint" id="ppCopiesNote" data-i18n="ppCopiesNote">Max 8 fit on 4×6 inch paper</span>
+                </div>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppQualityLabel">
+                  Print quality
+                </label>
+                <select id="ppQuality" className="sel" aria-label="Print quality">
+                  <option value="300" data-i18n="ppQualityHigh">Highest — 300 DPI</option>
+                  <option value="200" data-i18n="ppQualityMed">Medium — 200 DPI</option>
+                  <option value="150" data-i18n="ppQualityLow">Low — 150 DPI</option>
+                </select>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppPresetLabel">
+                  Photo size
+                </label>
+                <div className="chips" id="ppPreset">
+                  <button
+                    type="button"
+                    className="chip saf"
+                    data-v="35x45"
+                    aria-pressed="true"
+                    data-i18n="ppPresetPassport"
+                  >
+                    Passport — 35 × 45 mm
+                  </button>
+                  <button
+                    type="button"
+                    className="chip"
+                    data-v="51x51"
+                    aria-pressed="false"
+                    data-i18n="ppPresetPan"
+                  >
+                    PAN / OCI — 51 × 51 mm
+                  </button>
+                  <button
+                    type="button"
+                    className="chip"
+                    data-v="50.8x50.8"
+                    aria-pressed="false"
+                    data-i18n="ppPresetUs"
+                  >
+                    US — 2 × 2 inch
+                  </button>
+                  <button
+                    type="button"
+                    className="chip"
+                    data-v="custom"
+                    aria-pressed="false"
+                    data-i18n="ppPresetCustom"
+                  >
+                    Custom
+                  </button>
+                </div>
+                <div className="num2" id="ppCustomRow" style={{ display: "none", marginTop: 8 }}>
+                  <input
+                    type="number"
+                    id="ppCW"
+                    min={10}
+                    max={100}
+                    defaultValue={35}
+                    aria-label="Custom width mm"
+                  />
+                  <span aria-hidden="true">×</span>
+                  <input
+                    type="number"
+                    id="ppCH"
+                    min={10}
+                    max={120}
+                    defaultValue={45}
+                    aria-label="Custom height mm"
+                  />
+                  <span className="hint" style={{ margin: 0 }}>
+                    mm
+                  </span>
+                </div>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppModeLabel">
+                  How the photo fills its box
+                </label>
+                <div className="chips" id="ppMode">
+                  <button
+                    type="button"
+                    className="chip saf"
+                    data-v="fill"
+                    aria-pressed="true"
+                    data-i18n="ppModeFill"
+                  >
+                    Fill (crop edges)
+                  </button>
+                  <button
+                    type="button"
+                    className="chip"
+                    data-v="fit"
+                    aria-pressed="false"
+                    data-i18n="ppModeFit"
+                  >
+                    Fit — no cropping
+                  </button>
+                </div>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppExtraLabel">
+                  Guides, background & name label
+                </label>
+                <div className="num2">
+                  <button
+                    type="button"
+                    className="chip"
+                    id="ppGuides"
+                    aria-pressed="true"
+                    data-i18n="ppGuides"
+                  >
+                    Cutting guides
+                  </button>
+                  <button
+                    type="button"
+                    className="chip"
+                    id="ppLabels"
+                    aria-pressed="false"
+                    data-i18n="ppLabels"
+                  >
+                    Name under photo
+                  </button>
+                  <input type="color" id="ppBg" defaultValue="#ffffff" aria-label="Background colour" />
+                </div>
+                <input
+                  type="text"
+                  className="nm"
+                  id="ppLabelText"
+                  placeholder="Name / ID to print"
+                  data-i18n-ph="ppLabelPh"
+                  style={{ marginTop: 8, maxWidth: 260 }}
                 />
+                <p className="hint" style={{ marginTop: 4 }} data-i18n="ppBgHint">
+                  The colour fills the empty space in Fit mode and sits behind the name label.
+                </p>
               </div>
-              <div className="stat" id="ppStat">
-                <span>Photo upload karte hi sheet yahan banegi</span>
+              <div className="field">
+                <label className="fl" data-i18n="ppCropLabel">
+                  Crop the photo — adjust with the two sliders
+                </label>
+                <input type="range" id="ppZoom" min={100} max={260} defaultValue={100} />
+                <input
+                  type="range"
+                  id="ppY"
+                  min={0}
+                  max={100}
+                  defaultValue={18}
+                  style={{ marginTop: 6 }}
+                />
+                <p className="hint" style={{ marginTop: 2 }} data-i18n="ppCropHint">
+                  First slider = zoom, second = move the photo up/down. Keep the head at the top and
+                  the shoulders in the frame.
+                </p>
               </div>
+              <div className="btnrow">
+                <button className="btn saf" id="ppDownload" disabled data-i18n="ppDownload">
+                  ⬇ Sheet download karo (JPG, 300 DPI)
+                </button>
+              </div>
+              <div className="msg" id="ppMsg" />
             </div>
-            <p className="hint" data-i18n="ppPrintHint">
-              When printing, choose “Actual size / 100%” in the printer settings — not “Fit to
-              page”, or the size will change. A light outline on each photo makes cutting easier.
-            </p>
+            <div>
+              <div className="preview show">
+                <div className="sheetwrap">
+                  <canvas
+                    id="ppCanvas"
+                    width={1200}
+                    height={1800}
+                    style={{ maxHeight: 520, width: "auto", maxWidth: "100%" }}
+                  />
+                </div>
+                <div className="stat" id="ppStat">
+                  <span>Photo upload karte hi sheet yahan banegi</span>
+                </div>
+              </div>
+              <p className="hint" data-i18n="ppPrintHint">
+                When printing, choose “Actual size / 100%” in the printer settings — not “Fit to
+                page”, or the size will change. A light outline on each photo makes cutting easier.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div id="ppBulkPanel" style={{ display: "none" }}>
+          <div className="grid2">
+            <div>
+              <div
+                className="drop"
+                id="ppBulkDrop"
+                tabIndex={0}
+                role="button"
+                aria-label="Upload multiple photos for bulk passport sheets"
+              >
+                <div className="big" data-i18n="ppBulkDropBig">
+                  👥 Drop many photos here or click to choose
+                </div>
+                <p data-i18n="ppBulkDropSub">
+                  JPG / PNG / HEIC — 100-1000 photos, file name becomes student name
+                </p>
+                <input type="file" id="ppBulkFiles" accept="image/*" multiple />
+              </div>
+              <div className="fname" id="ppBulkName" />
+              <div className="field" style={{ marginTop: 16 }}>
+                <label className="fl" data-i18n="ppPaperLabel">
+                  Paper size
+                </label>
+                <select id="ppBulkPaperSel" className="sel" aria-label="Paper size">
+                  <option value="4x6" data-i18n="ppPaper4x6">4 × 6 inch (photo paper)</option>
+                  <option value="5x7" data-i18n="ppPaper5x7">5 × 7 inch (photo paper)</option>
+                  <option value="a5" data-i18n="ppPaperA5">A5</option>
+                  <option value="a4" data-i18n="ppPaperA4">A4</option>
+                  <option value="a3" data-i18n="ppPaperA3">A3</option>
+                  <option value="letter" data-i18n="ppPaperLetter">Letter</option>
+                  <option value="legal" data-i18n="ppPaperLegal">Legal</option>
+                </select>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppQualityLabel">
+                  Print quality
+                </label>
+                <select id="ppBulkQuality" className="sel" aria-label="Print quality">
+                  <option value="300" data-i18n="ppQualityHigh">Highest — 300 DPI</option>
+                  <option value="200" data-i18n="ppQualityMed">Medium — 200 DPI</option>
+                  <option value="150" data-i18n="ppQualityLow">Low — 150 DPI</option>
+                </select>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppPresetLabel">
+                  Photo size
+                </label>
+                <div className="chips" id="ppBulkPreset">
+                  <button
+                    type="button"
+                    className="chip saf"
+                    data-v="35x45"
+                    aria-pressed="true"
+                    data-i18n="ppPresetPassport"
+                  >
+                    Passport — 35 × 45 mm
+                  </button>
+                  <button
+                    type="button"
+                    className="chip"
+                    data-v="51x51"
+                    aria-pressed="false"
+                    data-i18n="ppPresetPan"
+                  >
+                    PAN / OCI — 51 × 51 mm
+                  </button>
+                  <button
+                    type="button"
+                    className="chip"
+                    data-v="50.8x50.8"
+                    aria-pressed="false"
+                    data-i18n="ppPresetUs"
+                  >
+                    US — 2 × 2 inch
+                  </button>
+                  <button
+                    type="button"
+                    className="chip"
+                    data-v="custom"
+                    aria-pressed="false"
+                    data-i18n="ppPresetCustom"
+                  >
+                    Custom
+                  </button>
+                </div>
+                <div className="num2" id="ppBulkCustomRow" style={{ display: "none", marginTop: 8 }}>
+                  <input
+                    type="number"
+                    id="ppBulkCW"
+                    min={10}
+                    max={100}
+                    defaultValue={35}
+                    aria-label="Custom width mm"
+                  />
+                  <span aria-hidden="true">×</span>
+                  <input
+                    type="number"
+                    id="ppBulkCH"
+                    min={10}
+                    max={120}
+                    defaultValue={45}
+                    aria-label="Custom height mm"
+                  />
+                  <span className="hint" style={{ margin: 0 }}>
+                    mm
+                  </span>
+                </div>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppExtraLabel">
+                  Guides, background & name label
+                </label>
+                <div className="num2">
+                  <button
+                    type="button"
+                    className="chip"
+                    id="ppBulkGuides"
+                    aria-pressed="true"
+                    data-i18n="ppGuides"
+                  >
+                    Cutting guides
+                  </button>
+                  <button
+                    type="button"
+                    className="chip saf"
+                    id="ppBulkLabels"
+                    aria-pressed="true"
+                    data-i18n="ppLabels"
+                  >
+                    Name under photo
+                  </button>
+                  <input type="color" id="ppBulkBg" defaultValue="#ffffff" aria-label="Background colour" />
+                </div>
+              </div>
+              <div className="field">
+                <label className="fl" data-i18n="ppBulkExcelLabel">
+                  Excel name matching
+                </label>
+                <div className="btnrow" style={{ gap: 8, flexWrap: "wrap" }}>
+                  <button type="button" className="btn" id="ppBulkXlTemplate" data-i18n="ppBulkXlTemplate">📥 Download name template (Excel)</button>
+                  <button type="button" className="btn" id="ppBulkXlUpload" data-i18n="ppBulkXlUpload">📤 Upload filled Excel</button>
+                </div>
+                <input type="file" id="ppBulkXlFile" accept=".xlsx,.xls,.csv" style={{ display: "none" }} />
+                <p className="hint" id="ppBulkXlStatus" style={{ marginTop: 8 }} />
+              </div>
+              <div className="btnrow">
+                <button className="btn" id="ppBulkPdf" disabled data-i18n="ppBulkPdf">⬇ Download all pages (PDF)</button>
+                <button className="btn saf" id="ppBulkPageJpg" disabled data-i18n="ppBulkPageJpg">⬇ Current page (JPG)</button>
+              </div>
+              <div className="msg" id="ppBulkMsg" />
+            </div>
+            <div>
+              <div className="preview show">
+                <div className="sheetwrap">
+                  <canvas
+                    id="ppBulkCanvas"
+                    width={1200}
+                    height={1800}
+                    style={{ maxHeight: 520, width: "auto", maxWidth: "100%" }}
+                  />
+                </div>
+                <div className="stat" id="ppBulkStat" />
+                <div className="btnrow" id="ppBulkNav" style={{ display: "none", marginTop: 8, justifyContent: "center", gap: 8 }}>
+                  <button className="btn" id="ppBulkPrev" disabled data-i18n="ppBulkPrev">‹ Prev</button>
+                  <span className="hint" id="ppBulkPageInfo" style={{ alignSelf: "center" }} />
+                  <button className="btn" id="ppBulkNext" disabled data-i18n="ppBulkNext">Next ›</button>
+                </div>
+              </div>
+              <p className="hint" data-i18n="ppPrintHint">
+                When printing, choose “Actual size / 100%” in the printer settings — not “Fit to
+                page”, or the size will change. A light outline on each photo makes cutting easier.
+              </p>
+            </div>
+          </div>
+          <div className="field" style={{ marginTop: 16 }}>
+            <label className="fl" data-i18n="ppBulkNamesLabel">Names (click to edit)</label>
+            <div id="ppBulkThumbs" className="bthumbs" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8 }} />
           </div>
         </div>
       </div>
@@ -265,7 +434,7 @@ export function ExactKbTool() {
         <h2 data-i18n="t2Title">Photo Resize — Exact KB Mein</h2>
       </div>
       <p className="sec-sub" data-i18n="t2Desc">
-        Online form “photo 50 KB se kam” maangta hai aur photo reject ho jati hai — yahan target KB
+        Online form "photo 50 KB se kam" maangta hai aur photo reject ho jati hai — yahan target KB
         set karo, photo bilkul usi size ke andar bankar milegi.
       </p>
       <div className="card">
@@ -350,7 +519,7 @@ export function ExactKbTool() {
                 <input type="number" id="kbMax" min={10} max={4000} defaultValue={100} />
               </div>
               <p className="hint" style={{ marginTop: 4 }} data-i18n="kbModeHint">
-                “At least” first raises quality, then adds harmless padding inside the JPG file —
+                "At least" first raises quality, then adds harmless padding inside the JPG file —
                 the photo itself does not change.
               </p>
             </div>

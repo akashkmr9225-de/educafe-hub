@@ -955,7 +955,8 @@ export function initKb(): void {
     );
   }
 
-  chipGroup("kbPresets", (v, chip) => {
+  chipGroup("kbPresets", (v) => {
+    const chip = $("kbPresets").querySelector('[aria-pressed="true"]');
     const unit = chip?.getAttribute("data-unit") || "kb";
     input("kbTargetNum").value = v;
     input("kbTargetUnit").value = unit;

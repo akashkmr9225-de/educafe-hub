@@ -1,0 +1,100 @@
+import { Fragment } from "react";
+import linksData from "@/data/links.json";
+import type { LinkGroup } from "@/types/educafe";
+
+const groups = linksData as LinkGroup[];
+
+export function LinksSection() {
+  return (
+    <section id="links">
+      <div className="sec-head">
+        <span className="no">Daily</span>
+        <h2 data-i18n="linksTitle">Roz Ki Websites — Ek Click</h2>
+      </div>
+      <p className="sec-sub" data-i18n="linksDesc">
+        School office aur cyber cafe mein roz khulne wali official websites. Naam likh kar filter
+        karo.
+      </p>
+      <input
+        className="searchlinks"
+        type="text"
+        id="linkSearch"
+        placeholder="🔎 Website dhundo — jaise: aadhaar, result, train, pan…"
+        data-i18n-ph="linkSearchPh"
+        aria-label="Search links"
+      />
+      <div className="linkgrid" id="linkGrid">
+        {groups.map((group, index) => (
+          <Fragment key={group.c[0]}>
+            <div className="lcat" data-en={group.c[0]} data-hi={group.c[1]} data-cat="1">
+              {group.c[0]}
+            </div>
+            {group.items.map((item) => (
+              <a
+                key={item[4]}
+                className={index % 2 ? "site saf" : "site"}
+                href={item[4]}
+                target="_blank"
+                rel="noopener"
+                data-search={`${item[1]} ${item[2]} ${item[3]}`.toLowerCase()}
+              >
+                <span className="ic">{item[0]}</span>
+                <span>
+                  <b>{item[1]}</b>
+                  <small data-en={item[2]} data-hi={item[3]}>
+                    {item[2]}
+                  </small>
+                </span>
+              </a>
+            ))}
+          </Fragment>
+        ))}
+      </div>
+      <p className="hint" id="linkNone" style={{ display: "none" }} data-i18n="linkNone">
+        No site in the list matches that name.
+      </p>
+    </section>
+  );
+}
+
+export function OwnerNotesSection() {
+  return (
+    <section>
+      <div className="sec-head">
+        <h2 data-i18n="ownerTitle">Setting this up on the cafe / school computer</h2>
+      </div>
+      <div className="owner">
+        <div className="card">
+          <h3 data-i18n="own1T">🏠 Make it the homepage</h3>
+          <p data-i18n="own1D">
+            Set this page as the browser homepage / startup page — every tool and link is in front
+            of you the moment the shop opens. Chrome: Settings → On startup → Open a specific page.
+          </p>
+        </div>
+        <div className="card">
+          <h3 data-i18n="own2T">⚡ How much load?</h3>
+          <p data-i18n="own2D">
+            This page is one light file and no photo is uploaded to any server, so server load is
+            zero and hosting is free. It opens instantly on 3G / slow net and old Windows PCs; once
+            open, the tools even work without net (the links need net).
+          </p>
+        </div>
+        <div className="card">
+          <h3 data-i18n="own3T">🔒 Children’s photos stay safe</h3>
+          <p data-i18n="own3D">
+            All processing happens in the visitor’s own browser — a photo never goes to any server
+            outside this computer. For a school this is the biggest plus point, and you can tell
+            customers so with confidence.
+          </p>
+        </div>
+        <div className="card">
+          <h3 data-i18n="own4T">🖨️ Remember the print setting</h3>
+          <p data-i18n="own4D">
+            Always print the passport sheet at Actual size / 100%. Check the glossy side on 4×6
+            photo paper, and take one test print on plain paper first.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}

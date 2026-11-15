@@ -856,6 +856,71 @@ async function kbFitToTargetKB(
   return { blob: best, fittedByDims: false };
 }
 
+const KB_CRC_TABLE: number[] = (() => {
+  const table: number[] = [];
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    table.push(c >>> 0);
+  }
+  return table;
+})();
+
+function kbCrc32(data: Uint8Array): number {
+  let crc = 0xffffffff;
+  for (let i = 0; i < data.length; i++) crc = KB_CRC_TABLE[(crc ^ data[i]) & 0xff] ^ (crc >>> 8);
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+async function kbMakeZip(files: { name: string; blob: Blob }[]): Promise<Blob> {
+  const enc = new TextEncoder();
+  const parts: BlobPart[] = [];
+  const central: BlobPart[] = [];
+  let offset = 0;
+  let centralSize = 0;
+  for (const f of files) {
+    const data = new Uint8Array(await f.blob.arrayBuffer());
+    const nameBytes = enc.encode(f.name);
+    const crc = kbCrc32(data);
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true);
+    lh.setUint16(4, 20, true);
+    lh.setUint16(6, 0x0800, true);
+    lh.setUint16(8, 0, true);
+    lh.setUint16(10, 0, true);
+    lh.setUint16(12, 0x21, true);
+    lh.setUint32(14, crc, true);
+    lh.setUint32(18, data.length, true);
+    lh.setUint32(22, data.length, true);
+    lh.setUint16(26, nameBytes.length, true);
+    lh.setUint16(28, 0, true);
+    parts.push(lh.buffer, nameBytes, data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true);
+    ch.setUint16(4, 20, true);
+    ch.setUint16(6, 20, true);
+    ch.setUint16(8, 0x0800, true);
+    ch.setUint16(10, 0, true);
+    ch.setUint16(12, 0, true);
+    ch.setUint16(14, 0x21, true);
+    ch.setUint32(16, crc, true);
+    ch.setUint32(20, data.length, true);
+    ch.setUint32(24, data.length, true);
+    ch.setUint16(28, nameBytes.length, true);
+    ch.setUint32(42, offset, true);
+    central.push(ch.buffer, nameBytes);
+    centralSize += 46 + nameBytes.length;
+    offset += 30 + nameBytes.length + data.length;
+  }
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true);
+  end.setUint16(8, files.length, true);
+  end.setUint16(10, files.length, true);
+  end.setUint32(12, centralSize, true);
+  end.setUint32(16, offset, true);
+  return new Blob([...parts, ...central, end.buffer], { type: "application/zip" });
+}
+
 export function initKb(): void {
   const kb: KbState = { img: null, file: null, target: 50, mode: "under", format: "jpg" };
   let kbTimer: ReturnType<typeof setTimeout> | null = null;
@@ -876,6 +941,17 @@ export function initKb(): void {
     return target % 1024 === 0 && target >= 1024 && input("kbTargetUnit").value === "mb"
       ? `${Math.round(target / 1024)} MB`
       : `${target} KB`;
+  }
+
+  function syncKbChips(): void {
+    const num = input("kbTargetNum").value;
+    const unit = input("kbTargetUnit").value;
+    $("kbPresets")
+      .querySelectorAll<HTMLElement>(".chip")
+      .forEach((c) => {
+        const on = c.getAttribute("data-v") === num && (c.getAttribute("data-unit") || "kb") === unit;
+        c.setAttribute("aria-pressed", on ? "true" : "false");
+      });
   }
 
   function scheduleKbRender(): void {
@@ -910,7 +986,7 @@ export function initKb(): void {
     let blob: Blob;
     let fittedByDims = false;
     let ok = true;
-    const ruleTxt = `${target} KB`;
+    const ruleTxt = fmtTarget(target);
     const mime = format === "png" ? "image/png" : format === "webp" ? "image/webp" : "image/jpeg";
     if (kb.mode === "atleast") {
       blob = await kbEncode(cv, mime, 0.95);
@@ -939,13 +1015,15 @@ export function initKb(): void {
     $("kbPreview").classList.add("show");
     setHTML(
       "kbStat",
-      `<span>Pehele: ${fmtKB(kb.file ? kb.file.size : 0)}</span><span class='good'>Ab: ${fmtKB(blob.size)}</span><span>Rule: ${ruleTxt}</span><span>${cw}×${ch} px</span>`,
+      `<span>Pehle: ${fmtKB(kb.file ? kb.file.size : 0)}</span><span class='good'>Ab: ${fmtKB(blob.size)}</span><span>Rule: ${ruleTxt}</span><span>${cw}×${ch} px</span>`,
     );
     const dl = $("kbDownload") as HTMLAnchorElement;
-    dl.href = url;
-    dl.style.display = "inline-flex";
     const ext = format === "png" ? "png" : format === "webp" ? "webp" : "jpg";
-    dl.download = `resized-photo.${ext}`;
+    const base = kb.file ? kb.file.name.replace(/\.[^.]+$/, "") : "resized-photo";
+    dl.href = url;
+    dl.download = `${base}-resized.${ext}`;
+    dl.style.opacity = "1";
+    dl.style.pointerEvents = "auto";
     setMsg(
       "kbMsg",
       ok
@@ -971,14 +1049,23 @@ export function initKb(): void {
     }) || "under";
   input("kbTargetNum").addEventListener("input", () => {
     kb.target = kbTargetKB();
+    syncKbChips();
     scheduleKbRender();
   });
   input("kbTargetUnit").addEventListener("change", () => {
     kb.target = kbTargetKB();
+    syncKbChips();
     scheduleKbRender();
   });
   input("kbFormat").addEventListener("change", () => {
     scheduleKbRender();
+  });
+  $("kbGo").addEventListener("click", () => {
+    if (!kb.img) {
+      setMsg("kbMsg", T("kbNeedPhoto"), "warn");
+      return;
+    }
+    kbRender();
   });
   input("kbMaxNum").addEventListener("input", () => scheduleKbRender());
   input("kbMaxUnit").addEventListener("change", () => scheduleKbRender());
@@ -997,6 +1084,180 @@ export function initKb(): void {
       .catch(() => {
         setMsg("kbMsg", "Ye file image nahi lag rahi.", "warn");
       });
+  });
+
+  // ---- Tool 2 bulk mode ----
+  interface KbBItem {
+    name: string;
+    blob: Blob;
+    size: number;
+  }
+  const kbB: { files: File[]; results: KbBItem[] } = { files: [], results: [] };
+  let kbBMode = "under";
+
+  chipGroup("kbModeSwitch", (v) => {
+    $("kbSinglePanel").style.display = v === "bulk" ? "none" : "";
+    $("kbBulkPanel").style.display = v === "bulk" ? "" : "none";
+  });
+
+  function kbBTargetKB(): number {
+    const unit = input("kbBTargetUnit").value;
+    const n2 = parseFloat(input("kbBTargetNum").value) || 50;
+    return unit === "mb" ? Math.round(n2 * 1024) : Math.max(1, Math.round(n2));
+  }
+  function kbBMaxKB(): number {
+    const unit = input("kbBMaxUnit").value;
+    const n2 = parseFloat(input("kbBMaxNum").value) || 100;
+    return unit === "mb" ? Math.round(n2 * 1024) : Math.max(1, Math.round(n2));
+  }
+  function syncKbBChips(): void {
+    const num = input("kbBTargetNum").value;
+    const unit = input("kbBTargetUnit").value;
+    $("kbBPresets")
+      .querySelectorAll<HTMLElement>(".chip")
+      .forEach((c) => {
+        const on = c.getAttribute("data-v") === num && (c.getAttribute("data-unit") || "kb") === unit;
+        c.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+  }
+  chipGroup("kbBPresets", (v) => {
+    const chip = $("kbBPresets").querySelector('[aria-pressed="true"]');
+    input("kbBTargetNum").value = v;
+    input("kbBTargetUnit").value = chip?.getAttribute("data-unit") || "kb";
+  });
+  chipGroup("kbBMode", (v) => {
+    kbBMode = v;
+    $("kbBMaxRow").style.display = v === "between" ? "flex" : "none";
+  });
+  input("kbBTargetNum").addEventListener("input", syncKbBChips);
+  input("kbBTargetUnit").addEventListener("change", syncKbBChips);
+
+  function kbBSetFiles(list: File[]): void {
+    const imgs = list.filter((f) => f.type.startsWith("image/") || /\.hei[cf]$/i.test(f.name));
+    if (imgs.length > 200) {
+      kbB.files = imgs.slice(0, 200);
+      setMsg("kbBatchMsg", T("kbBatchTooMany"), "warn");
+    } else {
+      kbB.files = imgs;
+    }
+    $("kbBatchCount").textContent = kbB.files.length ? kbB.files.length + " photos" : "";
+  }
+  const kbBFileInput = input("kbBatchFile") as HTMLInputElement;
+  kbBFileInput.addEventListener("change", () => {
+    if (kbBFileInput.files) kbBSetFiles(Array.from(kbBFileInput.files));
+  });
+  const kbBDrop = $("kbBatchDrop");
+  kbBDrop.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).id === "kbBatchFile") return;
+    kbBFileInput.click();
+  });
+  kbBDrop.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    kbBDrop.classList.add("over");
+  });
+  kbBDrop.addEventListener("dragleave", () => kbBDrop.classList.remove("over"));
+  kbBDrop.addEventListener("drop", (e) => {
+    e.preventDefault();
+    kbBDrop.classList.remove("over");
+    const files = (e as DragEvent).dataTransfer?.files;
+    if (files && files.length) kbBSetFiles(Array.from(files));
+  });
+
+  async function kbProcessOne(f: File): Promise<KbBItem> {
+    const r = await loadImg(f);
+    const img = r.img;
+    const target = kbBTargetKB();
+    const format = (input("kbBFormat").value || "jpg").toLowerCase();
+    const w = parseInt(input("kbBW").value, 10);
+    const h = parseInt(input("kbBH").value, 10);
+    let cw = w > 0 ? w : img.naturalWidth;
+    let ch = h > 0 ? h : img.naturalHeight;
+    if (!(w > 0 && h > 0)) {
+      const sc = Math.min(1, 1600 / Math.max(cw, ch));
+      cw = Math.round(cw * sc);
+      ch = Math.round(ch * sc);
+    }
+    const cv = document.createElement("canvas");
+    cv.width = cw;
+    cv.height = ch;
+    const ctx = ctx2d(cv);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, cw, ch);
+    drawCover(ctx, img, 0, 0, cw, ch, 1, 0.5);
+    const mime = format === "png" ? "image/png" : format === "webp" ? "image/webp" : "image/jpeg";
+    let blob: Blob;
+    if (kbBMode === "atleast") {
+      blob = await kbEncode(cv, mime, 0.95);
+      if (blob.size < target * 1024 && format !== "png") blob = await padJpeg(blob, target * 1024);
+    } else if (kbBMode === "between") {
+      let mx = kbBMaxKB();
+      if (mx <= target) mx = target + 50;
+      const rr = await kbFitToTargetKB(cv, mx, format);
+      blob = rr.blob;
+      if (blob.size < target * 1024 && format !== "png") blob = await padJpeg(blob, target * 1024);
+    } else {
+      const rr = await kbFitToTargetKB(cv, target, format);
+      blob = rr.blob;
+    }
+    const ext = format === "png" ? "png" : format === "webp" ? "webp" : "jpg";
+    const base = f.name.replace(/\.[^.]+$/, "");
+    return { name: `${base}-resized.${ext}`, blob, size: f.size };
+  }
+
+  function kbBEsc(t: string): string {
+    return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  $("kbBatchGo").addEventListener("click", async () => {
+    if (!kbB.files.length) {
+      setMsg("kbBatchMsg", T("kbBatchEmpty"), "warn");
+      return;
+    }
+    const btn = $("kbBatchGo") as HTMLButtonElement;
+    btn.disabled = true;
+    kbB.results = [];
+    setHTML("kbBatchResults", "");
+    ($("kbBatchZip") as HTMLAnchorElement).style.display = "none";
+    const used = new Set<string>();
+    let okCount = 0;
+    for (let i = 0; i < kbB.files.length; i++) {
+      const f = kbB.files[i];
+      setHTML(
+        "kbBatchProgress",
+        T("kbProgress").replace("{current}", String(i + 1)).replace("{total}", String(kbB.files.length)),
+      );
+      try {
+        const item = await kbProcessOne(f);
+        let nm = item.name;
+        let k = 2;
+        while (used.has(nm)) {
+          nm = item.name.replace(/(\.[^.]+)$/, ` (${k})$1`);
+          k++;
+        }
+        used.add(nm);
+        item.name = nm;
+        kbB.results.push(item);
+        okCount++;
+        const url = URL.createObjectURL(item.blob);
+        const row = `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #e5e7eb"><span>${kbBEsc(item.name)} \u2014 ${fmtKB(item.size)} \u2192 ${fmtKB(item.blob.size)}</span><a href="${url}" download="${kbBEsc(item.name)}">\u2B07</a></div>`;
+        $("kbBatchResults").insertAdjacentHTML("beforeend", row);
+      } catch {
+        const row = `<div style="padding:6px 0;border-bottom:1px solid #e5e7eb"><span>${kbBEsc(f.name)} \u2014 ${kbBEsc(T("kbFailed").replace("{reason}", "resize failed"))}</span></div>`;
+        $("kbBatchResults").insertAdjacentHTML("beforeend", row);
+      }
+    }
+    setHTML(
+      "kbBatchProgress",
+      T("kbBatchDone").replace("{ok}", String(okCount)).replace("{total}", String(kbB.files.length)),
+    );
+    if (kbB.results.length) {
+      const zip = await kbMakeZip(kbB.results.map((r2) => ({ name: r2.name, blob: r2.blob })));
+      const za = $("kbBatchZip") as HTMLAnchorElement;
+      za.href = URL.createObjectURL(zip);
+      za.download = "resized-photos.zip";
+      za.style.display = "inline-flex";
+    }
+    btn.disabled = false;
   });
 }
 

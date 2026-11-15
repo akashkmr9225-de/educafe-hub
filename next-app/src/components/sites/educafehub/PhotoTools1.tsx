@@ -438,6 +438,20 @@ export function ExactKbTool() {
         set karo, photo bilkul usi size ke andar bankar milegi.
       </p>
       <div className="card">
+        <div className="field">
+          <label className="fl" data-i18n="ppModeSwitchLabel">
+            Mode
+          </label>
+          <div className="chips" id="kbModeSwitch">
+            <button type="button" className="chip saf" data-v="single" aria-pressed="true" data-i18n="kbModeSingle">
+              Single photo
+            </button>
+            <button type="button" className="chip" data-v="bulk" aria-pressed="false" data-i18n="kbModeBulk">
+              Many photos
+            </button>
+          </div>
+        </div>
+        <div id="kbSinglePanel">
         <div className="grid2">
           <div>
             <div
@@ -569,6 +583,21 @@ export function ExactKbTool() {
               <img id="kbImg" alt="Resized photo preview" />
               <div className="stat" id="kbStat" />
               <p className="hint" id="kbPngNote" style={{ display: "none", marginTop: 8 }} data-i18n="kbPngNote" />
+              <div className="btnrow" style={{ marginTop: 10 }}>
+                <button type="button" className="btn primary" id="kbGo" data-i18n="kbGoBtn">
+                  Resize photo
+                </button>
+                <a
+                  className="btn"
+                  id="kbDownload"
+                  href="#"
+                  download
+                  style={{ opacity: 0.5, pointerEvents: "none" }}
+                  data-i18n="kbDownloadBtn"
+                >
+                  ⬇ Download photo
+                </a>
+              </div>
             </div>
             <p className="hint" data-i18n="kbHint">
               How it works: the tool adjusts quality step by step to land as close as possible to
@@ -577,6 +606,108 @@ export function ExactKbTool() {
             </p>
           </div>
         </div>
+          </div>
+        <div id="kbBulkPanel" style={{ display: "none" }}>
+          <h3 data-i18n="kbBatchTitle">Bulk Resize — many photos at once</h3>
+          <div className="drop" id="kbBatchDrop" tabIndex={0} role="button" aria-label="Drop many photos">
+            <div className="big" data-i18n="kbBatchDrop">
+              👥 Drop many photos here
+            </div>
+            <input type="file" id="kbBatchFile" accept="image/*" multiple />
+          </div>
+          <div className="fname" id="kbBatchCount" />
+          <div className="field" style={{ marginTop: 16 }}>
+            <label className="fl" data-i18n="kbTargetSetting">
+              Same target setting for all
+            </label>
+            <div className="num2" style={{ gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+              <input type="number" id="kbBTargetNum" min={1} max={20000} defaultValue={50} style={{ width: 90 }} />
+              <select id="kbBTargetUnit" className="sel" style={{ width: "auto", minWidth: 80 }}>
+                <option value="kb" data-i18n="kbUnitKB">KB</option>
+                <option value="mb" data-i18n="kbUnitMB">MB</option>
+              </select>
+            </div>
+            <div className="chips" id="kbBPresets" style={{ marginTop: 8 }}>
+              <button type="button" className="chip" data-v="20" data-unit="kb" aria-pressed="false">20 KB</button>
+              <button type="button" className="chip saf" data-v="50" data-unit="kb" aria-pressed="true">50 KB</button>
+              <button type="button" className="chip" data-v="100" data-unit="kb" aria-pressed="false">100 KB</button>
+              <button type="button" className="chip" data-v="200" data-unit="kb" aria-pressed="false">200 KB</button>
+              <button type="button" className="chip" data-v="1" data-unit="mb" aria-pressed="false">1 MB</button>
+              <button type="button" className="chip" data-v="2" data-unit="mb" aria-pressed="false">2 MB</button>
+              <button type="button" className="chip" data-v="5" data-unit="mb" aria-pressed="false">5 MB</button>
+            </div>
+          </div>
+          <div className="field">
+            <label className="fl" data-i18n="kbFormatLabel">
+              Output format
+            </label>
+            <select id="kbBFormat" className="sel" aria-label="Output format">
+              <option value="jpg" data-i18n="kbFmtJPG">JPG</option>
+              <option value="png" data-i18n="kbFmtPNG">PNG</option>
+              <option value="webp" data-i18n="kbFmtWebP">WebP</option>
+            </select>
+          </div>
+          <div className="field">
+            <label className="fl" data-i18n="kbModeLabel">
+              Size rule
+            </label>
+            <div className="chips" id="kbBMode">
+              <button type="button" className="chip saf" data-v="under" aria-pressed="true" data-i18n="kbModeUnder">
+                Under the size
+              </button>
+              <button type="button" className="chip" data-v="atleast" aria-pressed="false" data-i18n="kbModeAtLeast">
+                At least the size
+              </button>
+              <button type="button" className="chip" data-v="between" aria-pressed="false" data-i18n="kbModeBetween">
+                Between two sizes
+              </button>
+            </div>
+            <div className="num2" id="kbBMaxRow" style={{ display: "none", marginTop: 8 }}>
+              <label className="fl" htmlFor="kbBMaxNum" style={{ margin: 0 }} data-i18n="kbMaxLabel">
+                Maximum size
+              </label>
+              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                <input type="number" id="kbBMaxNum" min={1} max={20000} defaultValue={100} style={{ width: 90 }} />
+                <select id="kbBMaxUnit" className="sel" style={{ width: "auto", minWidth: 80 }}>
+                  <option value="kb" data-i18n="kbUnitKB">KB</option>
+                  <option value="mb" data-i18n="kbUnitMB">MB</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="field">
+            <label className="fl" htmlFor="kbBW" data-i18n="kbDimLabel">
+              Pixel size the form wants (optional)
+            </label>
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              <input type="number" id="kbBW" min={10} placeholder="Width px" />
+              <span aria-hidden="true">×</span>
+              <input type="number" id="kbBH" min={10} placeholder="Height px" />
+            </div>
+          </div>
+          <div className="btnrow" style={{ marginTop: 10 }}>
+            <button type="button" className="btn primary" id="kbBatchGo" data-i18n="kbBatchGo">
+              Resize all photos
+            </button>
+            <a
+              className="btn"
+              id="kbBatchZip"
+              href="#"
+              download
+              style={{ display: "none" }}
+              data-i18n="kbDownloadAll"
+            >
+              ⬇ Download all as ZIP
+            </a>
+          </div>
+          <div className="msg" id="kbBatchMsg" />
+          <div className="stat" id="kbBatchProgress" />
+          <h4 data-i18n="kbResultGrid" style={{ marginTop: 14 }}>
+            Results
+          </h4>
+          <div id="kbBatchResults" />
+        </div>
+        
       </div>
     </section>
   );

@@ -142,15 +142,13 @@ export function LegalSection() {
             <span className="lbl2" data-i18n="contactEmailL">
               Email
             </span>
-            <a className="addr" href="mailto:educafehub@gmail.com">
-              educafehub@gmail.com
+            <a className="addr" href="mailto:akashkmr9225@gmail.com">
+              akashkmr9225@gmail.com
             </a>
-            <span className="ph" data-i18n="contactPhEmail">
-              Placeholder — replace with your real email before going live
-            </span>
+            
           </div>
           <div className="btnrow" style={{ marginTop: 2 }}>
-            <a className="btn ghost small" href="mailto:educafehub@gmail.com" data-i18n="contactMailBtn">
+            <a className="btn ghost small" href="mailto:akashkmr9225@gmail.com" data-i18n="contactMailBtn">
               Write email
             </a>
             <button type="button" className="btn ghost small" id="ctCopy" data-i18n="contactCopyBtn">
@@ -162,15 +160,13 @@ export function LegalSection() {
             <span className="lbl2" data-i18n="contactWaL">
               WhatsApp
             </span>
-            <span className="addr">+91 90000 00000</span>
-            <span className="ph" data-i18n="contactPhWa">
-              Placeholder — replace with your real number before going live
-            </span>
+            <span className="addr">+91 87874 79225</span>
+            
           </div>
           <div className="btnrow" style={{ marginTop: 2 }}>
             <a
               className="btn ghost small"
-              href="https://wa.me/919000000000"
+              href="https://wa.me/918787479225"
               target="_blank"
               rel="noopener"
               data-i18n="contactWaBtn"
@@ -256,13 +252,13 @@ export function Footer() {
           <h3 data-i18n="footContactT">Contact</h3>
           <ul>
             <li>
-              <a href="mailto:educafehub@gmail.com">educafehub@gmail.com</a>
+              <a href="mailto:akashkmr9225@gmail.com">akashkmr9225@gmail.com</a>
             </li>
             <li>
-              <a href="tel:+919000000000">+91 90000 00000</a>
+              <a href="tel:+918787479225">+91 87874 79225</a>
             </li>
             <li>
-              <a href="https://wa.me/919000000000" target="_blank" rel="noopener" data-i18n="cafeWaB">
+              <a href="https://wa.me/918787479225" target="_blank" rel="noopener" data-i18n="cafeWaB">
                 WhatsApp us
               </a>
             </li>

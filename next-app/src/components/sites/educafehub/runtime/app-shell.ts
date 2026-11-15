@@ -202,7 +202,7 @@ export function initAppShell(): void {
     });
   }
 
-  const ADDR = "educafehub@gmail.com";
+  const ADDR = "akashkmr9225@gmail.com";
   $("ctCopy")?.addEventListener("click", () => {
     const done = (ok: boolean) => {
       const msg = document.getElementById("ctCopyMsg");

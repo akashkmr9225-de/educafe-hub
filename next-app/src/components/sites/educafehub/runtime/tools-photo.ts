@@ -53,7 +53,7 @@ export function initPassport(): void {
     hmm: 45,
     mode: "fill",
     guides: true,
-    labels: false,
+    labels: true,
     quality: 300,
   };
 
@@ -118,11 +118,18 @@ export function initPassport(): void {
     this.setAttribute("aria-pressed", pp.guides ? "true" : "false");
     renderPP();
   });
+  function syncLabelInput(): void {
+    const li = input("ppLabelText") as HTMLInputElement;
+    li.disabled = !pp.labels;
+    li.style.opacity = pp.labels ? "1" : "0.5";
+  }
   $("ppLabels").addEventListener("click", function (this: HTMLElement) {
     pp.labels = this.getAttribute("aria-pressed") !== "true";
     this.setAttribute("aria-pressed", pp.labels ? "true" : "false");
+    syncLabelInput();
     renderPP();
   });
+  syncLabelInput();
   input("ppBg").addEventListener("input", renderPP);
   input("ppLabelText").addEventListener("input", renderPP);
   input("ppZoom").addEventListener("input", renderPP);
@@ -138,7 +145,8 @@ export function initPassport(): void {
         renderPP();
       })
       .catch(() => {
-        setMsg("ppMsg", T("fileNotImage"), "warn");
+        const isHeic = /hei[cf]/i.test(f.type) || /\.hei[cf]$/i.test(f.name);
+        setMsg("ppMsg", T(isHeic ? "ppHeicFail" : "fileNotImage"), "warn");
       });
   });
 
@@ -271,7 +279,7 @@ export function initPassport(): void {
   input("ppDownload").addEventListener("click", async () => {
     if (!pp.img) return;
     const blob = await c2b(canvas("ppCanvas"), 0.95);
-    downloadBlob(blob, `passport-sheet-${pp.paper}-${pp.copies}copies-${pp.quality}dpi.jpg`);
+    downloadBlob(blob, `passport-sheet-${pp.paper}-${pp.copies}copies-${pp.quality}dpi-${Date.now().toString(36)}.jpg`);
     setMsg(
       "ppMsg",
       T("ppSheetDone"),
@@ -401,13 +409,33 @@ export function initPassportBulk(): void {
       ni.style.padding = "2px 6px";
       ni.style.border = "1px solid #ccc";
       ni.style.borderRadius = "4px";
+      let nameTimer: ReturnType<typeof setTimeout> | undefined;
       ni.addEventListener("input", () => {
         it.name = ni.value;
-        renderSheets();
+        if (nameTimer) clearTimeout(nameTimer);
+        nameTimer = setTimeout(() => renderSheets(), 300);
       });
       d.appendChild(ni);
+      const rb = document.createElement("button");
+      rb.type = "button";
+      rb.className = "btn ghost small";
+      rb.style.fontSize = "12px";
+      rb.style.padding = "2px 8px";
+      rb.textContent = "✕ " + T("ppThumbRemove");
+      rb.addEventListener("click", () => {
+        const ix = pb.items.indexOf(it);
+        if (ix >= 0) {
+          URL.revokeObjectURL(it.objectUrl);
+          pb.items.splice(ix, 1);
+        }
+        renderThumbs();
+        renderSheets();
+        $("ppBulkName").textContent = pb.items.length ? T("bkLoadedN").replace("{n}", String(pb.items.length)) : "";
+      });
+      d.appendChild(rb);
       box.appendChild(d);
     });
+    (input("ppBulkClear") as HTMLButtonElement).disabled = pb.items.length === 0;
   }
 
   function renderSheets(): void {
@@ -619,14 +647,30 @@ export function initPassportBulk(): void {
   const bulkMsg = $("ppBulkMsg");
 
   function addFiles(fileList: FileList | null): void {
-    const files = Array.from(fileList || []).filter(
-      (f) => /image|hei[cf]/i.test(f.type) || /\.(jpe?g|png|webp|hei[cf])$/i.test(f.name),
-    );
-    if (!files.length) return;
+    const all = Array.from(fileList || []);
+    const isPhoto = (f: File) => /image|hei[cf]/i.test(f.type) || /\.(jpe?g|png|webp|hei[cf])$/i.test(f.name);
+    const skipped = all.filter((f) => !isPhoto(f)).length;
+    let files = all.filter(isPhoto);
+    if (!files.length) {
+      if (all.length) setMsg("ppBulkMsg", T("ppBulkNoPhotos"), "warn");
+      return;
+    }
+    let capped = false;
+    const room = 200 - pb.items.length;
+    if (files.length > room) {
+      files = files.slice(0, Math.max(0, room));
+      capped = true;
+    }
+    if (!files.length) {
+      setMsg("ppBulkMsg", T("ppBulkCap"), "warn");
+      return;
+    }
     bulkMsg.textContent = T("ppBulkLoading").replace("{n}", String(files.length));
     bulkMsg.className = "msg";
     let done = 0;
+    let heicFailed = 0;
     files.forEach((f) => {
+      const isHeic = /hei[cf]/i.test(f.type) || /\.hei[cf]$/i.test(f.name);
       loadImg(f)
         .then((r) => {
           const base = f.name.replace(/\.[^.]+$/, "").trim() || f.name;
@@ -640,19 +684,41 @@ export function initPassportBulk(): void {
             objectUrl: url,
           });
         })
-        .catch(() => undefined)
+        .catch(() => {
+          if (isHeic) heicFailed++;
+        })
         .then(() => {
           done++;
           if (done === files.length) {
             renderThumbs();
             renderSheets();
             bulkName.textContent = T("bkLoadedN").replace("{n}", String(pb.items.length));
-            bulkMsg.textContent = T("ppBulkReady").replace("{n}", String(pb.items.length));
-            bulkMsg.className = "msg good";
+            if (heicFailed > 0) {
+              setMsg("ppBulkMsg", T("ppHeicFail"), "warn");
+            } else if (capped) {
+              setMsg("ppBulkMsg", T("ppBulkCap"), "warn");
+            } else if (skipped > 0) {
+              setMsg(
+                "ppBulkMsg",
+                T("ppBulkReady").replace("{n}", String(pb.items.length)) + " " + T("ppBulkSkipped").replace("{n}", String(skipped)),
+                "warn",
+              );
+            } else {
+              bulkMsg.textContent = T("ppBulkReady").replace("{n}", String(pb.items.length));
+              bulkMsg.className = "msg good";
+            }
           }
         });
     });
   }
+  $("ppBulkClear").addEventListener("click", () => {
+    pb.items.forEach((it) => URL.revokeObjectURL(it.objectUrl));
+    pb.items = [];
+    renderThumbs();
+    renderSheets();
+    bulkName.textContent = "";
+    setMsg("ppBulkMsg", "", "");
+  });
 
   bulkDrop.addEventListener("click", () => bulkFiles.click());
   bulkDrop.addEventListener("keydown", (e) => {
@@ -704,14 +770,8 @@ export function initPassportBulk(): void {
       }
       const XLSX = window.XLSX as XlsxNamespace;
       const wb = XLSX.utils.book_new();
-      const data = [
-        ["Serial No", "Name"],
-        ["1", ""],
-        ["2", ""],
-        ["3", ""],
-        ["4", ""],
-        ["5", ""],
-      ];
+      const data: string[][] = [["Photo file name", "Name"]];
+      for (let i = 0; i < 20; i++) data.push(["", ""]);
       const ws = XLSX.utils.aoa_to_sheet(data);
       XLSX.utils.book_append_sheet(wb, ws, "Names");
       const buf = XLSX.write(wb, { type: "array", bookType: "xlsx" });
@@ -739,24 +799,40 @@ export function initPassportBulk(): void {
       const ws = wb.Sheets[wb.SheetNames[0]];
       const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "", raw: true }) as string[][];
       pb.xlMap.clear();
+      const entries: { file: string; name: string; used: boolean }[] = [];
       rows.slice(1).forEach((r) => {
-        const serial = (r[0] || "").trim();
-        const name = (r[1] || "").trim();
-        if (serial && name) pb.xlMap.set(serial, name);
+        const file = String(r[0] ?? "").trim();
+        const name = String(r[1] ?? "").trim();
+        if (name) {
+          entries.push({ file, name, used: false });
+          if (file) pb.xlMap.set(file.toLowerCase(), name);
+        }
       });
       let matched = 0;
       pb.items.forEach((it) => {
-        const serial = it.origName;
-        if (pb.xlMap.has(serial)) {
-          it.name = pb.xlMap.get(serial)!;
+        const hit = pb.xlMap.get(it.origName.toLowerCase());
+        if (hit) {
+          it.name = hit;
+          matched++;
+          const e = entries.find((x) => !x.used && x.file.toLowerCase() === it.origName.toLowerCase());
+          if (e) e.used = true;
+        }
+      });
+      pb.items.forEach((it, ix) => {
+        if (pb.xlMap.has(it.origName.toLowerCase())) return;
+        const e = entries[ix] && !entries[ix].used ? entries[ix] : entries.find((x) => !x.used);
+        if (e) {
+          it.name = e.name;
+          e.used = true;
           matched++;
         }
       });
       renderThumbs();
       renderSheets();
+      const okMatch = matched > 0;
       status.textContent = T("ppXlMatched").replace("{m}", String(matched)).replace("{n}", String(pb.items.length));
-      status.className = "hint good";
-      setMsg("ppBulkMsg", T("ppBulkXlDone").replace("{m}", String(matched)).replace("{n}", String(pb.items.length)), "good");
+      status.className = okMatch ? "hint good" : "hint warn";
+      setMsg("ppBulkMsg", T("ppBulkXlDone").replace("{m}", String(matched)).replace("{n}", String(pb.items.length)), okMatch ? "good" : "warn");
     } catch {
       status.textContent = T("ppXlFail");
       status.className = "hint warn";
@@ -779,7 +855,7 @@ export function initPassportBulk(): void {
       legal: "legal",
     };
     const paperLabel = paperNames[pb.paper] || pb.paper;
-    downloadBlob(blob, `passport-sheet-${paperLabel}-page${pb.currentPage + 1}-${pb.quality}dpi.jpg`);
+    downloadBlob(blob, `passport-sheet-${paperLabel}-page${pb.currentPage + 1}-${pb.quality}dpi-${Date.now().toString(36)}.jpg`);
     setMsg("ppBulkMsg", T("ppBulkPageJpgDone"), "good");
   });
 
@@ -816,7 +892,7 @@ export function initPassportBulk(): void {
         doc.addPage([wmm, hmm], land ? "landscape" : "portrait");
         doc.addImage(pb.sheets[i].toDataURL("image/jpeg", 0.92), "JPEG", 0, 0, wmm, hmm);
       }
-      doc.save(`passport-sheets-${paperLabel}.pdf`);
+      doc.save(`passport-sheets-${paperLabel}-${Date.now().toString(36)}.pdf`);
       setMsg("ppBulkMsg", T("ppBulkPdfDone").replace("{n}", String(pb.sheets.length)), "good");
     } catch {
       setMsg("ppBulkMsg", T("ppBulkPdfFail"), "warn");

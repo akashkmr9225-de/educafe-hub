@@ -53,7 +53,7 @@
     "ppModeSingle": "Single photo",
     "ppModeBulk": "Bulk — many students",
     "ppBulkDropBig": "👥 Drop many photos here or click to choose",
-    "ppBulkDropSub": "JPG / PNG / HEIC — 100-1000 photos, file name becomes student name",
+    "ppBulkDropSub": "JPG / PNG / HEIC — up to 200 photos, file name becomes student name",
     "ppBulkExcelLabel": "Excel name matching",
     "ppBulkXlTemplate": "📥 Download name template (Excel)",
     "ppBulkXlUpload": "📤 Upload filled Excel",
@@ -760,7 +760,7 @@
     "ppXlMatched": "Names matched: {m} of {n} photos",
     "ppBulkXlDone": "✔ Excel processed — {m} of {n} photos renamed.",
     "ppBulkXlInvalid": "Invalid Excel file — please use the template format.",
-    "ppTplDone": "✔ Name template downloaded — fill in the names and upload.",
+    "ppTplDone": "✔ Template downloaded — first column = photo file name, second column = student name. Fill it and upload.",
     "ppTplFail": "Could not generate Excel — check internet connection.",
     "ppBulkPageJpgDone": "✔ Current page downloaded as JPG.",
     "ppBulkPdfDone": "✔ PDF downloaded — {n} page(s).",
@@ -786,7 +786,13 @@
     "ppGenerateBtn": "🖨️ Generate sheet",
     "ppGenNeedPhoto": "Upload a photo first",
     "ppGenNeedPhotos": "Add photos first",
-    "ppGenDone": "Sheet ready — see the preview, then download"
+    "ppGenDone": "Sheet ready — see the preview, then download",
+    "ppBulkSkipped": "{n} files skipped (not photos)",
+    "ppBulkNoPhotos": "No photo files in that selection — choose JPG, PNG or HEIC photos",
+    "ppHeicFail": "HEIC photos could not be read on this connection — try JPG/PNG photos, or a faster connection, then add them again",
+    "ppBulkCap": "Limit is 200 photos at a time — extra photos were not added",
+    "ppBulkClear": "Clear all",
+    "ppThumbRemove": "Remove"
   },
   "hi": {
     "navCapacity": "🛡️ क्षमता और स्थिति",
@@ -842,7 +848,7 @@
     "ppModeSingle": "एक फ़ोटो",
     "ppModeBulk": "बल्क — कई छात्र",
     "ppBulkDropBig": "👥 कई फ़ोटो यहाँ डालें या क्लिक करके चुनें",
-    "ppBulkDropSub": "JPG / PNG / HEIC — 100-1000 फ़ोटो, फ़ाइल नाम छात्र का नाम बनेगा",
+    "ppBulkDropSub": "JPG / PNG / HEIC — 200 फ़ोटो तक, फ़ाइल नाम छात्र का नाम बनेगा",
     "ppBulkExcelLabel": "एक्सेल से नाम मिलान",
     "ppBulkXlTemplate": "📥 नाम टेम्पलेट डाउनलोड करें (एक्सेल)",
     "ppBulkXlUpload": "📤 भरा हुआ एक्सेल अपलोड करें",
@@ -1549,7 +1555,7 @@
     "ppXlMatched": "नाम मिले: {n} फ़ोटो में से {m}",
     "ppBulkXlDone": "✔ Excel हो गई — {n} में से {m} फ़ोटो के नाम बदले।",
     "ppBulkXlInvalid": "Excel फ़ाइल ठीक नहीं है — टेम्पलेट वाला ढंग इस्तेमाल करें।",
-    "ppTplDone": "✔ नामों का टेम्पलेट डाउनलोड हो गया — नाम भरकर डालें।",
+    "ppTplDone": "✔ टेम्पलेट डाउनलोड हो गया — पहला कॉलम = फ़ोटो फ़ाइल का नाम, दूसरा कॉलम = छात्र का नाम। भरकर डालें।",
     "ppTplFail": "Excel बन नहीं पाई — इंटरनेट कनेक्शन देखें।",
     "ppBulkPageJpgDone": "✔ यह पेज JPG में डाउनलोड हो गया।",
     "ppBulkPdfDone": "✔ PDF डाउनलोड हो गई — {n} पेज।",
@@ -1575,6 +1581,12 @@
     "ppGenerateBtn": "🖨️ शीट बनाएँ",
     "ppGenNeedPhoto": "पहले फ़ोटो अपलोड करें",
     "ppGenNeedPhotos": "पहले फ़ोटो जोड़ें",
-    "ppGenDone": "शीट तैयार है — प्रीव्यू देखें, फिर डाउनलोड करें"
+    "ppGenDone": "शीट तैयार है — प्रीव्यू देखें, फिर डाउनलोड करें",
+    "ppBulkSkipped": "{n} फ़ाइलें छोड़ी गईं (फ़ोटो नहीं हैं)",
+    "ppBulkNoPhotos": "इस चयन में कोई फ़ोटो फ़ाइल नहीं है — JPG, PNG या HEIC फ़ोटो चुनें",
+    "ppHeicFail": "HEIC फ़ोटो इस कनेक्शन पर पढ़ी नहीं जा सकीं — JPG/PNG फ़ोटो आज़माएँ, या तेज़ कनेक्शन पर फिर से जोड़ें",
+    "ppBulkCap": "एक बार में सीमा 200 फ़ोटो है — अतिरिक्त फ़ोटो नहीं जोड़े गए",
+    "ppBulkClear": "सभी हटाएँ",
+    "ppThumbRemove": "हटाएँ"
   }
 }

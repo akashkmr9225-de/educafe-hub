@@ -189,7 +189,7 @@ export function PassportTool() {
                     type="button"
                     className="chip"
                     id="ppLabels"
-                    aria-pressed="false"
+                    aria-pressed="true"
                     data-i18n="ppLabels"
                   >
                     Name under photo
@@ -267,7 +267,7 @@ export function PassportTool() {
                   👥 Drop many photos here or click to choose
                 </div>
                 <p data-i18n="ppBulkDropSub">
-                  JPG / PNG / HEIC — 100-1000 photos, file name becomes student name
+                  JPG / PNG / HEIC — up to 200 photos, file name becomes student name
                 </p>
                 <input type="file" id="ppBulkFiles" accept="image/*" multiple />
               </div>
@@ -449,6 +449,9 @@ export function PassportTool() {
           </div>
           <div className="field" style={{ marginTop: 16 }}>
             <label className="fl" data-i18n="ppBulkNamesLabel">Names (click to edit)</label>
+            <div className="btnrow" style={{ marginBottom: 8 }}>
+              <button type="button" className="btn ghost small" id="ppBulkClear" disabled data-i18n="ppBulkClear">Clear all</button>
+            </div>
             <div id="ppBulkThumbs" className="bthumbs" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8 }} />
           </div>
         </div>

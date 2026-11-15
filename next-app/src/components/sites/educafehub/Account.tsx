@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { watchAuthState, type Profile } from "./runtime/auth-helpers";
+
 export function LoginSection() {
   return (
     <section id="login">
@@ -8,7 +13,7 @@ export function LoginSection() {
       <p className="sec-sub" data-i18n="authDesc">
         One small profile, saved only in this browser on this device. No password, and nothing is
         sent to any server. Every tool stays free and open to everyone — signed in or not. The
-        School / Cyber Cafe pick is only a label on your profile; it changes nothing on the site.
+        Pick School and you also get My Tasks — a work list on this device, made for staff who use the tools every day. Cyber Cafe visitors, who come for one job, do not see it.
       </p>
       <div className="card">
         <form id="authForm" noValidate>
@@ -69,6 +74,9 @@ export function LoginSection() {
 }
 
 export function TasksSection() {
+  const [profile, setProfile] = useState<Profile | null>(null);
+  useEffect(() => watchAuthState((s) => setProfile(s.profile)), []);
+  if (!profile || profile.kind !== "school") return null;
   return (
     <section id="tasks">
       <div className="sec-head">

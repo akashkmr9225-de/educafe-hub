@@ -1096,7 +1096,7 @@ export function initKb(): void {
     loadImg(f)
       .then((r) => {
         kb.img = r.img;
-        $("kbName").textContent = `✔ ${f.name} · abhi ${fmtKB(f.size)}`;
+        $("kbName").textContent = T("kbFileLine").replace("{name}", f.name).replace("{size}", fmtKB(f.size));
         $("kbMsg").textContent = "";
         kbRender();
       })

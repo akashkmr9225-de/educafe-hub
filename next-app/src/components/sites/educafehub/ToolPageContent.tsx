@@ -122,7 +122,7 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
               Step 1 / पहला कदम
             </strong>
             <p style={{ margin: 0, fontSize: 14, color: "var(--ink2)" }}>
-              Select or drop your file into the tool box above. / अपनी फ़ाइल चुनें या ऊपर दिए गए टूल बॉक्स में डालें।
+              Select or drop your file into the tool box above. / अपनी फ़ाइल ऊपर वाले बॉक्स में चुनें या खींचकर डालें।
             </p>
           </div>
           <div style={{ background: "var(--surface2)", padding: 14, borderRadius: 8 }}>
@@ -130,7 +130,7 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
               Step 2 / दूसरा कदम
             </strong>
             <p style={{ margin: 0, fontSize: 14, color: "var(--ink2)" }}>
-              Adjust settings like size, quality, or dimensions as needed. / आवश्यकतानुसार आकार, गुणवत्ता, या आयाम जैसे सेटिंग्स समायोजित करें।
+              Adjust settings like size, quality, or dimensions as needed. / ज़रूरत के हिसाब से साइज़, क्वालिटी या लंबाई-चौड़ाई बदलें।
             </p>
           </div>
           <div style={{ background: "var(--surface2)", padding: 14, borderRadius: 8 }}>
@@ -138,7 +138,7 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
               Step 3 / तीसरा कदम
             </strong>
             <p style={{ margin: 0, fontSize: 14, color: "var(--ink2)" }}>
-              Download your processed file instantly — completely free! / अपनी संसाधित फ़ाइल तुरंत डाउनलोड करें — बिल्कुल मुफ़्त!
+              Download your processed file instantly — completely free! / अपनी बनी हुई फ़ाइल तुरंत डाउनलोड करें — बिल्कुल मुफ़्त!
             </p>
           </div>
         </div>

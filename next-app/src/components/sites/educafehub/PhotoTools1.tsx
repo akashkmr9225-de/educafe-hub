@@ -572,9 +572,9 @@ export function ExactKbTool() {
                 Pixel size the form wants (optional) — e.g. 200 × 230
               </label>
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <input type="number" id="kbW" min={10} placeholder="Width px" />
+                <input type="number" id="kbW" min={10} placeholder="Width px" data-i18n-ph="kbWPh" />
                 <span aria-hidden="true">×</span>
-                <input type="number" id="kbH" min={10} placeholder="Height px" />
+                <input type="number" id="kbH" min={10} placeholder="Height px" data-i18n-ph="kbHPh" />
               </div>
             </div>
             <p className="hint" id="kbDimNote" style={{ marginTop: 4 }} />
@@ -682,9 +682,9 @@ export function ExactKbTool() {
               Pixel size the form wants (optional)
             </label>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <input type="number" id="kbBW" min={10} placeholder="Width px" />
+              <input type="number" id="kbBW" min={10} placeholder="Width px" data-i18n-ph="kbWPh" />
               <span aria-hidden="true">×</span>
-              <input type="number" id="kbBH" min={10} placeholder="Height px" />
+              <input type="number" id="kbBH" min={10} placeholder="Height px" data-i18n-ph="kbHPh" />
             </div>
           </div>
           <div className="btnrow" style={{ marginTop: 10 }}>

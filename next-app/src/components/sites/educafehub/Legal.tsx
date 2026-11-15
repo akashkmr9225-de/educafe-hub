@@ -212,8 +212,8 @@ export function Footer() {
           <h3 data-i18n="footLinksT">Quick links</h3>
           <ul>
             <li>
-              <a href="#passport" data-i18n="navPassport">
-                📸 Passport Photo
+              <a href="/tools/passport-photo/" data-i18n="navPassport">
+                Passport Photo
               </a>
             </li>
             <li>

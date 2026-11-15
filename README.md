@@ -13,9 +13,16 @@ Free in-browser tools for schools and cyber cafes.
 - **School and Cyber Cafe sections**
 - Everything runs **inside the browser** â€” files are processed on the device itself, not uploaded to a server
 
+
+## For the team
+
+- **Work board:** https://github.com/users/kanak-educafe/projects/1 — mirrors [TASKS.md](TASKS.md) (Sapna: code & deploy, Kanak: QA & content, Agent Akash: research).
+- **How we work:** Sapna is the single code writer. Kanak runs customer-eyes QA and organises the repo. If a code change is wanted, open an issue instead of editing code.
+- **Security:** see [SECURITY.md](SECURITY.md) for how to report a vulnerability.
+
 ## Live site
 
-https://muse.ai/s/daily-tools-hub-hb6ox0xelbgrxj/U43G97PaZeayVCTW7dh2_T1WAqKiW9rlxs_rHBY_h-s
+https://educafehub.pages.dev
 
 ## Run it locally
 

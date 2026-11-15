@@ -65,7 +65,7 @@
     "ppCopies30": "30 (A4 full)",
     "ppCropLabel": "Crop the photo — adjust with the two sliders",
     "ppCropHint": "First slider = zoom, second = move the photo up/down. Keep the head at the top and the shoulders in the frame.",
-    "ppDownload": "⬇ Download sheet (JPG, 300 DPI)",
+    "ppDownload": "⬇ Download sheet (JPG)",
     "ppPrintHint": "When printing, choose “Actual size / 100%” in the printer settings — not “Fit to page”, or the size will change. A light outline on each photo makes cutting easier.",
     "t2Title": "Photo Resize — in Exact KB",
     "t2Desc": "Online forms ask for “photo under 50 KB” and reject everything else — set the target KB here and get a photo that fits exactly.",
@@ -780,7 +780,13 @@
     "ppTypeMatte": "Matte paper",
     "ppTypeSatin": "Satin paper",
     "ppTypePlain": "Plain paper",
-    "ppFolderBtn": "📁 Choose a whole folder"
+    "ppFolderBtn": "📁 Choose a whole folder",
+    "gridTitle": "All tools",
+    "gridSub": "Tap a tool to open it — each tool opens on its own page, with nothing else around it.",
+    "ppGenerateBtn": "🖨️ Generate sheet",
+    "ppGenNeedPhoto": "Upload a photo first",
+    "ppGenNeedPhotos": "Add photos first",
+    "ppGenDone": "Sheet ready — see the preview, then download"
   },
   "hi": {
     "navCapacity": "🛡️ क्षमता और स्थिति",
@@ -848,7 +854,7 @@
     "ppCopies30": "30 (पूरा A4)",
     "ppCropLabel": "फ़ोटो काटें — नीचे के दो स्लाइडर से ठीक करें",
     "ppCropHint": "पहला स्लाइडर = ज़ूम, दूसरा = फ़ोटो ऊपर/नीचे। सिर ऊपर और कंधे फ़्रेम में रखें।",
-    "ppDownload": "⬇ शीट डाउनलोड करें (JPG, 300 DPI)",
+    "ppDownload": "⬇ शीट डाउनलोड करें (JPG)",
     "ppPrintHint": "प्रिंट करते समय प्रिंटर सेटिंग में “Actual size / 100%” चुनें — “Fit to page” नहीं, वरना आकार बदल जाएगा। हर फ़ोटो पर हल्की किनारी है ताकि काटना आसान हो।",
     "t2Title": "फ़ोटो रिसाइज़ — ठीक KB में",
     "t2Desc": "ऑनलाइन फ़ॉर्म कहता है “फ़ोटो 50 KB से कम” और सब रिजेक्ट हो जाता है — यहाँ लक्ष्य KB सेट करें और बिल्कुल उसी सीमा के अंदर की फ़ोटो पाएँ।",
@@ -1563,6 +1569,12 @@
     "ppTypeMatte": "मैट काग़ज़",
     "ppTypeSatin": "साटन काग़ज़",
     "ppTypePlain": "सादा काग़ज़",
-    "ppFolderBtn": "📁 पूरा फ़ोल्डर चुनें"
+    "ppFolderBtn": "📁 पूरा फ़ोल्डर चुनें",
+    "gridTitle": "सभी टूल",
+    "gridSub": "कोई टूल खोलने के लिए उसे छुएँ — हर टूल अपने अलग पेज पर खुलेगा, आसपास कुछ और नहीं।",
+    "ppGenerateBtn": "🖨️ शीट बनाएँ",
+    "ppGenNeedPhoto": "पहले फ़ोटो अपलोड करें",
+    "ppGenNeedPhotos": "पहले फ़ोटो जोड़ें",
+    "ppGenDone": "शीट तैयार है — प्रीव्यू देखें, फिर डाउनलोड करें"
   }
 }

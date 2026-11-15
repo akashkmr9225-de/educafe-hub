@@ -407,3 +407,12 @@
 /* Language purity: registry titles render in both languages; show only the active one */
 html[lang="hi"] .en-only { display: none !important; }
 html[lang="en"] .hi-only { display: none !important; }
+
+  /* ---------- homepage tool boxes (small-box grid) ---------- */
+  .toolgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px;margin:6px 0 8px}
+  .toolbox{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:20px 10px 16px;border:1.5px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);text-decoration:none;text-align:center;transition:border-color .18s var(--ease),transform .15s var(--ease),box-shadow .18s var(--ease)}
+  .toolbox:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 20px rgba(15,118,110,.13)}
+  .toolbox .tb-no{position:absolute;top:8px;left:10px;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--ink2);text-transform:uppercase}
+  .toolbox .tb-ic{font-size:30px;line-height:1.1}
+  .toolbox .tb-name{font-weight:700;font-size:15.5px;line-height:1.3}
+  @media (max-width:560px){.toolgrid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:9px}.toolbox{padding:16px 6px 13px}.toolbox .tb-ic{font-size:25px}.toolbox .tb-name{font-size:13.5px}}

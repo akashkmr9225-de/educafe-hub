@@ -78,6 +78,15 @@ export function initPassport(): void {
     renderPP();
   });
   input("ppPaperType").addEventListener("change", () => renderPP());
+  $("ppGenerate").addEventListener("click", () => {
+    if (!pp.img) {
+      setMsg("ppMsg", T("ppGenNeedPhoto"), "warn");
+      return;
+    }
+    renderPP();
+    $("ppCanvas").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    setMsg("ppMsg", T("ppGenDone"), "good");
+  });
   chipGroup("ppPreset", (v) => {
     if (v === "custom") {
       $("ppCustomRow").style.display = "flex";
@@ -539,6 +548,16 @@ export function initPassportBulk(): void {
   input("ppBulkPaperType").addEventListener("change", () => {
     input("ppPaperType").value = input("ppBulkPaperType").value;
     renderSheets();
+  });
+  $("ppBulkGenerate").addEventListener("click", () => {
+    if (!pb.items.length) {
+      setMsg("ppBulkMsg", T("ppGenNeedPhotos"), "warn");
+      return;
+    }
+    syncSharedControls();
+    renderSheets();
+    $("ppBulkCanvas").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    setMsg("ppBulkMsg", T("ppGenDone"), "good");
   });
 
   chipGroup("ppBulkPreset", (v) => {

@@ -1,17 +1,6 @@
 import { EduCafeRuntime } from "@/components/sites/educafehub/EduCafeRuntime";
-import { LanguageBar, Intro, ToolNav, AuthProvider } from "@/components/sites/educafehub/Hero";
-import { PassportTool, ExactKbTool } from "@/components/sites/educafehub/PhotoTools1";
-import { SignatureTool, JoinerTool } from "@/components/sites/educafehub/PhotoTools2";
-import {
-  ImageToPdfTool,
-  PdfCompressTool,
-  ImageCompressorTool,
-} from "@/components/sites/educafehub/PdfTools";
-import { AgeTool, MarksTool } from "@/components/sites/educafehub/Calculators";
-import { FileToolsSection } from "@/components/sites/educafehub/FileTools";
-import { QrTool } from "@/components/sites/educafehub/QrTool";
-import { BulkTool } from "@/components/sites/educafehub/Bulk";
-import { ExamPhotoTool, ReceiptTool, PrintCostTool } from "@/components/sites/educafehub/ExamReceipt";
+import { LanguageBar, Intro, AuthProvider } from "@/components/sites/educafehub/Hero";
+import { ToolGrid } from "@/components/sites/educafehub/ToolGrid";
 import { TasksSection } from "@/components/sites/educafehub/Account";
 import { LinksSection, OwnerNotesSection } from "@/components/sites/educafehub/Links";
 import { LegalSection, Footer } from "@/components/sites/educafehub/Legal";
@@ -29,22 +18,7 @@ export default function Home() {
         </noscript>
         <LanguageBar />
         <Intro />
-        <ToolNav />
-        <PassportTool />
-        <ExactKbTool />
-        <SignatureTool />
-        <JoinerTool />
-        <ImageToPdfTool />
-        <PdfCompressTool />
-        <ImageCompressorTool />
-        <AgeTool />
-        <MarksTool />
-        <FileToolsSection />
-        <QrTool />
-        <BulkTool />
-        <ExamPhotoTool />
-        <ReceiptTool />
-        <PrintCostTool />
+        <ToolGrid />
         <TasksSection />
         <LinksSection />
         <OwnerNotesSection />

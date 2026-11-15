@@ -227,7 +227,8 @@ export function PassportTool() {
                 </p>
               </div>
               <div className="btnrow">
-                <button className="btn saf" id="ppDownload" disabled data-i18n="ppDownload">⬇ Download sheet (JPG, 300 DPI)</button>
+                <button className="btn" id="ppGenerate" data-i18n="ppGenerateBtn">🖨️ Generate sheet</button>
+                <button className="btn saf" id="ppDownload" disabled data-i18n="ppDownload">⬇ Download sheet (JPG)</button>
               </div>
               <div className="msg" id="ppMsg" />
             </div>
@@ -417,6 +418,7 @@ export function PassportTool() {
                 <p className="hint" id="ppBulkXlStatus" style={{ marginTop: 8 }} />
               </div>
               <div className="btnrow">
+                <button className="btn" id="ppBulkGenerate" data-i18n="ppGenerateBtn">🖨️ Generate sheet</button>
                 <button className="btn" id="ppBulkPdf" disabled data-i18n="ppBulkPdf">⬇ Download all pages (PDF)</button>
                 <button className="btn saf" id="ppBulkPageJpg" disabled data-i18n="ppBulkPageJpg">⬇ Current page (JPG)</button>
               </div>

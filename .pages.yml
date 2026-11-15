@@ -196,7 +196,8 @@ content:
                 type: string
           - name: items
             label: Items
-            type: list
+            type: object
+            list: true
             fields:
               - name: q
                 label: Q

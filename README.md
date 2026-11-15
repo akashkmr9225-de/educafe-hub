@@ -1,14 +1,17 @@
 # EduCafe Hub
 
+**Live site: https://educafehub.pages.dev/** - free in-browser tools for schools and cyber cafes (passport photos, exact-KB resize, PDF tools, calculators and more).
+
+
 Free in-browser tools for schools and cyber cafes.
 
 ## What's inside
 
-- **16 free tools** — passport photo sheet maker, exact-KB photo resize, signature maker, photo + signature joiner, image to PDF, PDF compressor, image compressor, age calculator, marks / CGPA calculator, QR code maker, bulk student photos, exam-form photo, receipt / bill maker, print cost calculator, and more
-- **Daily Links** — quick access to 31 official government and education websites
+- **16 free tools** â€” passport photo sheet maker, exact-KB photo resize, signature maker, photo + signature joiner, image to PDF, PDF compressor, image compressor, age calculator, marks / CGPA calculator, QR code maker, bulk student photos, exam-form photo, receipt / bill maker, print cost calculator, and more
+- **Daily Links** â€” quick access to 31 official government and education websites
 - **English / Hindi** toggle
 - **School and Cyber Cafe sections**
-- Everything runs **inside the browser** — files are processed on the device itself, not uploaded to a server
+- Everything runs **inside the browser** â€” files are processed on the device itself, not uploaded to a server
 
 ## Live site
 

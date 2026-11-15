@@ -108,11 +108,8 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
           textAlign: "center",
         }}
       >
-        <p style={{ fontWeight: 600, color: "var(--good-ink)", margin: 0, fontSize: 15.5 }}>
+        <p style={{ fontWeight: 600, color: "var(--good-ink)", margin: 0, fontSize: 15.5 }} data-i18n="privacyStrip">
           🔒 Your file never leaves your device — everything is processed in your browser.
-        </p>
-        <p style={{ color: "var(--good-ink)", margin: "4px 0 0 0", fontSize: 14.5 }}>
-          Aapki file aapke device se bahar nahi jaati — saara kaam browser mein hota hai.
         </p>
       </div>
 

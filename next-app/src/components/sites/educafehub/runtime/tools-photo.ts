@@ -937,6 +937,20 @@ export function initKb(): void {
     return unit === "mb" ? Math.round(n * 1024) : Math.max(1, Math.round(n));
   }
 
+  function kbFixBetween(): number {
+    let mx = kbMaxKB();
+    const t = kbTargetKB();
+    if (mx <= t) {
+      mx = t + 50;
+      input("kbMaxNum").value = String(mx);
+      input("kbMaxUnit").value = "kb";
+      $("kbBetweenNote").textContent = T("kbMaxFixed").replace("{max}", `${mx} KB`);
+    } else {
+      $("kbBetweenNote").textContent = "";
+    }
+    return mx;
+  }
+
   function fmtTarget(target: number): string {
     return target % 1024 === 0 && target >= 1024 && input("kbTargetUnit").value === "mb"
       ? `${Math.round(target / 1024)} MB`
@@ -976,6 +990,8 @@ export function initKb(): void {
       cw = Math.round(cw * sc);
       ch = Math.round(ch * sc);
     }
+    $("kbDimNote").textContent =
+      (w > 0) !== (h > 0) ? T("kbDimOneMsg") : w > 0 && h > 0 ? T("kbDimCropMsg") : "";
     const cv = document.createElement("canvas");
     cv.width = cw;
     cv.height = ch;
@@ -993,12 +1009,7 @@ export function initKb(): void {
       if (blob.size < target * 1024 && format !== "png") blob = await padJpeg(blob, target * 1024);
       ok = blob.size >= target * 1024;
     } else if (kb.mode === "between") {
-      let mx = kbMaxKB();
-      if (mx <= target) {
-        mx = target + 50;
-        input("kbMaxNum").value = String(mx);
-        input("kbMaxUnit").value = "kb";
-      }
+      const mx = kbFixBetween();
       const r = await kbFitToTargetKB(cv, mx, format);
       blob = r.blob;
       fittedByDims = r.fittedByDims;
@@ -1015,20 +1026,20 @@ export function initKb(): void {
     $("kbPreview").classList.add("show");
     setHTML(
       "kbStat",
-      `<span>Pehle: ${fmtKB(kb.file ? kb.file.size : 0)}</span><span class='good'>Ab: ${fmtKB(blob.size)}</span><span>Rule: ${ruleTxt}</span><span>${cw}×${ch} px</span>`,
+      `<span>${T("kbStatBefore")}: ${fmtKB(kb.file ? kb.file.size : 0)}</span><span class='good'>${T("kbStatNow")}: ${fmtKB(blob.size)}</span><span>${T("kbStatRule")}: ${ruleTxt}</span><span>${cw}×${ch} px</span>`,
     );
     const dl = $("kbDownload") as HTMLAnchorElement;
     const ext = format === "png" ? "png" : format === "webp" ? "webp" : "jpg";
     const base = kb.file ? kb.file.name.replace(/\.[^.]+$/, "") : "resized-photo";
     dl.href = url;
     dl.download = `${base}-resized.${ext}`;
-    dl.style.opacity = "1";
-    dl.style.pointerEvents = "auto";
+    dl.style.opacity = ok ? "1" : "0.5";
+    dl.style.pointerEvents = ok ? "auto" : "none";
     setMsg(
       "kbMsg",
       ok
-        ? `✔ Ho gaya — photo ${fmtKB(blob.size)} ki hai, rule (${ruleTxt}) ke andar.`
-        : "Photo is rule mein saaf nahi bachi — size thoda badha kar try karo.",
+        ? T("kbOkMsg").replace("{size}", fmtKB(blob.size)).replace("{rule}", ruleTxt)
+        : T("kbFailMsg"),
       ok ? "good" : "warn",
     );
   }
@@ -1045,11 +1056,16 @@ export function initKb(): void {
     chipGroup("kbMode", (v) => {
       kb.mode = v;
       $("kbMaxRow").style.display = v === "between" ? "flex" : "none";
+      $("kbModeHint").textContent =
+        v === "atleast" ? T("kbHintAtLeast") : v === "between" ? T("kbBetweenHint") : T("kbHintUnder");
+      if (v === "between") kbFixBetween();
+      else $("kbBetweenNote").textContent = "";
       scheduleKbRender();
     }) || "under";
   input("kbTargetNum").addEventListener("input", () => {
     kb.target = kbTargetKB();
     syncKbChips();
+    if (kb.mode === "between") kbFixBetween();
     scheduleKbRender();
   });
   input("kbTargetUnit").addEventListener("change", () => {
@@ -1067,7 +1083,10 @@ export function initKb(): void {
     }
     kbRender();
   });
-  input("kbMaxNum").addEventListener("input", () => scheduleKbRender());
+  input("kbMaxNum").addEventListener("input", () => {
+    if (kb.mode === "between") kbFixBetween();
+    scheduleKbRender();
+  });
   input("kbMaxUnit").addEventListener("change", () => scheduleKbRender());
   input("kbW").addEventListener("input", () => scheduleKbRender());
   input("kbH").addEventListener("input", () => scheduleKbRender());
@@ -1082,7 +1101,7 @@ export function initKb(): void {
         kbRender();
       })
       .catch(() => {
-        setMsg("kbMsg", "Ye file image nahi lag rahi.", "warn");
+        setMsg("kbMsg", T("fileNotImage"), "warn");
       });
   });
 
@@ -1271,22 +1290,40 @@ export function initSignature(): void {
   const sg: SignatureState = { img: null, file: null, size: "300x120" };
   chipGroup("sgSize", (v) => {
     sg.size = v;
+    scheduleSgRender();
   });
+  function sgLevelLabel(v: number): string {
+    return `(${v < 160 ? T("sgLevelLight") : v < 215 ? T("sgLevelMedium") : T("sgLevelStrong")} · ${v})`;
+  }
+  let sgTimer: ReturnType<typeof setTimeout> | null = null;
+  function scheduleSgRender(): void {
+    if (!sg.img) return;
+    if (sgTimer) clearTimeout(sgTimer);
+    sgTimer = setTimeout(() => sgRender(), 200);
+  }
   input("sgTh").addEventListener("input", function (this: HTMLInputElement) {
     const v = parseInt(this.value, 10);
-    $("sgThVal").textContent = v < 160 ? "(light)" : v < 215 ? "(medium)" : "(strong)";
+    $("sgThVal").textContent = sgLevelLabel(v);
+    scheduleSgRender();
   });
   wireDrop("sgDrop", "sgFile", (f) => {
     sg.file = f;
-    loadImg(f).then((r) => {
-      sg.img = r.img;
-      $("sgName").textContent = `✔ ${f.name}`;
-      (input("sgGo") as HTMLButtonElement).disabled = false;
-    });
+    loadImg(f)
+      .then((r) => {
+        sg.img = r.img;
+        $("sgName").textContent = `✔ ${f.name}`;
+        (input("sgGo") as HTMLButtonElement).disabled = false;
+        sgRender();
+      })
+      .catch(() => {
+        setMsg("sgMsg", T("fileNotImage"), "warn");
+      });
   });
 
-  input("sgGo").addEventListener("click", async () => {
+  async function sgRender(): Promise<void> {
     if (!sg.img) return;
+    const btn = input("sgGo") as HTMLButtonElement;
+    btn.disabled = true;
     const th = parseInt(input("sgTh").value, 10);
     const cleaned = cleanSignatureLocal(sg.img, th);
     let out = cleaned;
@@ -1312,12 +1349,14 @@ export function initSignature(): void {
     setHTML("sgStat", `<span class='good'>${fmtKB(blob.size)}</span><span>${out.width}×${out.height} px</span>`);
     const dl = $("sgDownload") as HTMLAnchorElement;
     dl.href = url;
+    dl.download = `${sg.file ? sg.file.name.replace(/\.[^.]+$/, "") : "signature"}-signature.jpg`;
     dl.style.display = "inline-flex";
-    setMsg(
-      "sgMsg",
-      "✔ Signature taiyaar hai. Agar syahi zyada halki ho gayi ho to slider left karke dobara banao.",
-      "good",
-    );
+    setMsg("sgMsg", T("sgDoneMsg"), "good");
+    btn.disabled = false;
+  }
+
+  input("sgGo").addEventListener("click", () => {
+    sgRender();
   });
 }
 
@@ -1374,34 +1413,67 @@ function cleanSignatureLocal(img: HTMLImageElement, threshold: number): HTMLCanv
 }
 
 export function initJoiner(): void {
-  const jn: { photo: HTMLImageElement | null; sign: HTMLImageElement | null; layout: string } = {
+  const jn: {
+    photo: HTMLImageElement | null;
+    sign: HTMLImageElement | null;
+    layout: string;
+    photoFile: File | null;
+    signFile: File | null;
+  } = {
     photo: null,
     sign: null,
     layout: "v",
+    photoFile: null,
+    signFile: null,
   };
   chipGroup("jnLayout", (v) => {
     jn.layout = v;
   });
+  input("jnTh").addEventListener("input", function (this: HTMLInputElement) {
+    const v = parseInt(this.value, 10);
+    $("jnThVal").textContent = `(${v < 160 ? T("sgLevelLight") : v < 215 ? T("sgLevelMedium") : T("sgLevelStrong")} · ${v})`;
+  });
   function jnReady(): void {
     (input("jnGo") as HTMLButtonElement).disabled = !(jn.photo && jn.sign);
+    if (!jn.photo) setMsg("jnMsg", T("jnNeedPhoto"), "warn");
+    else if (!jn.sign) setMsg("jnMsg", T("jnNeedSign"), "warn");
+    else if (
+      jn.photoFile &&
+      jn.signFile &&
+      jn.photoFile.name === jn.signFile.name &&
+      jn.photoFile.size === jn.signFile.size
+    )
+      setMsg("jnMsg", T("jnSameFile"), "warn");
+    else setMsg("jnMsg", T("jnReadyMsg"), "good");
   }
+  jnReady();
   wireDrop("jnPhotoDrop", "jnPhotoFile", (f) => {
-    loadImg(f).then((r) => {
-      jn.photo = r.img;
-      $("jnPhotoName").textContent = `✔ ${f.name}`;
-      jnReady();
-    });
+    jn.photoFile = f;
+    loadImg(f)
+      .then((r) => {
+        jn.photo = r.img;
+        $("jnPhotoName").textContent = `✔ ${f.name}`;
+        jnReady();
+      })
+      .catch(() => {
+        setMsg("jnMsg", T("fileNotImage"), "warn");
+      });
   });
   wireDrop("jnSignDrop", "jnSignFile", (f) => {
-    loadImg(f).then((r) => {
-      jn.sign = r.img;
-      $("jnSignName").textContent = `✔ ${f.name}`;
-      jnReady();
-    });
+    jn.signFile = f;
+    loadImg(f)
+      .then((r) => {
+        jn.sign = r.img;
+        $("jnSignName").textContent = `✔ ${f.name}`;
+        jnReady();
+      })
+      .catch(() => {
+        setMsg("jnMsg", T("fileNotImage"), "warn");
+      });
   });
   input("jnGo").addEventListener("click", async () => {
     if (!jn.photo || !jn.sign) return;
-    const signC = cleanSignatureLocal(jn.sign, 205);
+    const signC = cleanSignatureLocal(jn.sign, parseInt(input("jnTh").value, 10) || 205);
     const out = document.createElement("canvas");
     let ctx: CanvasRenderingContext2D;
     if (jn.layout === "v") {
@@ -1443,8 +1515,17 @@ export function initJoiner(): void {
     setHTML("jnStat", `<span class='good'>${fmtKB(blob.size)}</span><span>${out.width}×${out.height} px</span>`);
     const dl = $("jnDownload") as HTMLAnchorElement;
     dl.href = url;
+    dl.download = `${jn.photoFile ? jn.photoFile.name.replace(/\.[^.]+$/, "") : "photo"}-with-signature.jpg`;
     dl.style.display = "inline-flex";
-    setMsg("jnMsg", "✔ Combined image taiyaar hai.", "good");
+    if (kbLim > 0 && blob.size > kbLim * 1024) {
+      setMsg(
+        "jnMsg",
+        T("jnOverLimit").replace("{size}", fmtKB(blob.size)).replace("{limit}", `${kbLim} KB`),
+        "warn",
+      );
+    } else {
+      setMsg("jnMsg", T("jnDoneMsg"), "good");
+    }
   });
 }
 

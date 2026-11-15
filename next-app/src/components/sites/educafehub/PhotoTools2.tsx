@@ -12,6 +12,10 @@ export function SignatureTool() {
       <div className="card">
         <div className="grid2">
           <div>
+            <p className="hint" data-i18n="sgTip" style={{ marginBottom: 10 }}>
+              Tip: keep only the signature in the photo, not the paper edges — the crop tightens
+              automatically. The output is JPG, so every form portal accepts it.
+            </p>
             <div
               className="drop"
               id="sgDrop"
@@ -31,7 +35,7 @@ export function SignatureTool() {
             <div className="field" style={{ marginTop: 16 }}>
               <label className="fl">
                 <span data-i18n="sgCleanLabel">How clean should the background be?</span>{" "}
-                <span id="sgThVal">(medium)</span>
+                <span id="sgThVal">(medium · 205)</span>
               </label>
               <input type="range" id="sgTh" min={120} max={245} defaultValue={205} />
               <p className="hint" style={{ marginTop: 2 }} data-i18n="sgCleanHint">
@@ -66,13 +70,18 @@ export function SignatureTool() {
                 </button>
               </div>
             </div>
+            <p className="hint" data-i18n="sgSizeHint" style={{ marginTop: 6 }}>
+              Which size? Most exam forms take 300 × 120; some take 400 × 160. Original keeps your
+              photo's own size, only cleaned.
+            </p>
             <div className="btnrow">
               <button className="btn" id="sgGo" disabled data-i18n="sgGo">
-                Signature banao
+                Make signature
               </button>
               <a
                 className="btn saf"
                 id="sgDownload"
+                data-i18n="dlDownload"
                 style={{ display: "none" }}
                 download="signature.jpg"
               >
@@ -86,10 +95,6 @@ export function SignatureTool() {
               <img id="sgImg" alt="Cleaned signature preview" />
               <div className="stat" id="sgStat" />
             </div>
-            <p className="hint" data-i18n="sgTip">
-              Tip: keep only the signature in the photo, not the paper edges — the crop tightens
-              automatically. The output is JPG, so every form portal accepts it.
-            </p>
           </div>
         </div>
       </div>
@@ -152,10 +157,23 @@ export function JoinerTool() {
                 >
                   Photo on top, signature below (common)
                 </button>
-                <button type="button" className="chip" data-v="h" aria-pressed="false">
+                <button type="button" className="chip" data-v="h" aria-pressed="false" data-i18n="jnLayoutSide">
                   Side-by-side
                 </button>
               </div>
+            </div>
+            <p className="hint" data-i18n="jnSizeNote">
+              Final image size — vertical: 700 × 1260 px; side-by-side: 1160 × 700 px.
+            </p>
+            <div className="field">
+              <label className="fl">
+                <span data-i18n="jnCleanLabel">Signature cleaning</span>{" "}
+                <span id="jnThVal">(medium · 205)</span>
+              </label>
+              <input type="range" id="jnTh" min={120} max={245} defaultValue={205} />
+              <p className="hint" style={{ marginTop: 2 }} data-i18n="sgCleanHint">
+                Slider right = whiter background. If light ink disappears, move the slider left.
+              </p>
             </div>
             <div className="field">
               <label className="fl" htmlFor="jnKb" data-i18n="jnKbLabel">
@@ -165,11 +183,12 @@ export function JoinerTool() {
             </div>
             <div className="btnrow">
               <button className="btn" id="jnGo" disabled data-i18n="jnGo">
-                Join karo
+                Join now
               </button>
               <a
                 className="btn saf"
                 id="jnDownload"
+                data-i18n="dlDownload"
                 style={{ display: "none" }}
                 download="photo-with-signature.jpg"
               >

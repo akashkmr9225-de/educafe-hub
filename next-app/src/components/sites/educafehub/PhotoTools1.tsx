@@ -561,7 +561,8 @@ export function ExactKbTool() {
                   </select>
                 </div>
               </div>
-              <p className="hint" style={{ marginTop: 4 }} data-i18n="kbModeHint">
+              <p className="hint" id="kbBetweenNote" style={{ marginTop: 4 }} />
+              <p className="hint" style={{ marginTop: 4 }} id="kbModeHint" data-i18n="kbModeHint">
                 "At least" first raises quality, then adds harmless padding inside the JPG file —
                 the photo itself does not change.
               </p>
@@ -576,6 +577,7 @@ export function ExactKbTool() {
                 <input type="number" id="kbH" min={10} placeholder="Height px" />
               </div>
             </div>
+            <p className="hint" id="kbDimNote" style={{ marginTop: 4 }} />
             <div className="msg" id="kbMsg" />
           </div>
           <div>

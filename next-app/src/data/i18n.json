@@ -401,6 +401,7 @@
     "authHello": "Signed in as",
     "authEdit": "Edit profile",
     "authOut": "Sign out",
+    "authClose": "Close",
     "authNeed": "Please add your name and a mobile number or email.",
     "authSaved": "Profile saved on this device ✔",
     "authOutMsg": "Signed out — profile removed from this device.",

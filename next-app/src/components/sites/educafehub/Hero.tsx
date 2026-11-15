@@ -1,4 +1,26 @@
+"use client";
+
 import { Wordmark } from "./Brand";
+import { useState, createContext, useContext } from "react";
+import { AuthModal } from "./AuthModal";
+
+const AuthContext = createContext<{ openAuth: () => void } | null>(null);
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [showAuth, setShowAuth] = useState(false);
+  const openAuth = () => setShowAuth(true);
+  const closeAuth = () => setShowAuth(false);
+  return (
+    <AuthContext.Provider value={{ openAuth }}>
+      {children}
+      <AuthModal open={showAuth} onClose={closeAuth} />
+    </AuthContext.Provider>
+  );
+}
 
 export function LanguageBar() {
   return (
@@ -19,6 +41,7 @@ export function LanguageBar() {
 }
 
 export function Intro() {
+  const auth = useAuth();
   return (
     <div className="intro">
       <Wordmark />
@@ -28,9 +51,9 @@ export function Intro() {
         calculators — plus every government website you open daily, on one page. Sign in is optional and stays on this device; files are never uploaded anywhere.
       </p>
       <div className="hero-cta">
-        <a href="#login" data-i18n="site.heroSignin">
+        <button type="button" className="hero-signin" onClick={auth?.openAuth} data-i18n="site.heroSignin">
           🔐 Sign in (optional)
-        </a>
+        </button>
         <a href="#tasks" data-i18n="navTasks">
           ✓ My Tasks
         </a>
@@ -101,30 +124,42 @@ const NAV: Array<{ href: string; key: string; label: string; hot?: boolean }> = 
   { href: "/tools/bulk-student-photos/", key: "navBulk", label: "👥 Bulk Photos" },
   { href: "/tools/exam-form-photo/", key: "navExam", label: "📝 Exam Photo" },
   { href: "/tools/receipt-bill-maker/", key: "navReceipt", label: "🧾 Receipt / Bill" },
-  { href: "/tools/print-cost-calculator/", key: "navCost", label: "🧮 Print Cost" },
+  { href: "/tools/print-cost-calculator/", key: "navCost", label: "🛮 Print Cost" },
   { href: "#capacity", key: "navCapacity", label: "🛡️ Capacity & Status" },
-  { href: "#login", key: "navLogin", label: "🔐 Sign in" },
+  { href: "auth:", key: "navLoginLink", label: "🔐 Sign in" },
   { href: "#tasks", key: "navTasks", label: "✓ My Tasks" },
   { href: "#legal", key: "navLegal", label: "⚖️ Legal & Contact" },
 ];
 
 export function ToolNav() {
+  const auth = useAuth();
   return (
     <nav className="toolnav" aria-label="Tools">
       <div className="row">
-        {NAV.map((item) => (
-          <a
-            key={item.href}
-            className={item.hot ? "hot" : undefined}
-            href={item.href}
-            data-i18n={item.key}
-          >
-            {item.label}
-          </a>
-        ))}
+        {NAV.map((item) => {
+          const isAuthLink = item.key === "navLoginLink";
+          return isAuthLink ? (
+            <button
+              key={item.href}
+              type="button"
+              className="hot"
+              onClick={auth?.openAuth}
+              data-i18n={item.key}
+            >
+              {item.label}
+            </button>
+          ) : (
+            <a
+              key={item.href}
+              className={item.hot ? "hot" : undefined}
+              href={item.href}
+              data-i18n={item.key}
+            >
+              {item.label}
+            </a>
+          );
+        })}
       </div>
     </nav>
   );
 }
-
-

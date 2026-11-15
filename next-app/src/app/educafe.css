@@ -320,14 +320,14 @@
 
 
   /* ---------- EduCafe Hub: wordmark, sign-in, tasks, toast, new tools ---------- */
-  .wordmark{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--font-bricolage),"Bricolage Grotesque",sans-serif;font-weight:800;font-size:19px;letter-spacing:-.01em;margin-bottom:12px}
-  .wordmark .wm-logo{width:42px;height:42px;border-radius:11px;box-shadow:0 6px 16px rgba(0,0,0,.3);flex:none}
+  .wordmark{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--font-bricolage),"Bricolage Grotesque",sans-serif;font-weight:800;font-size:25px;letter-spacing:-.01em;margin-bottom:14px}
+  .wordmark .wm-logo{width:54px;height:54px;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.3);flex:none}
   .wordmark .wm-cafe{color:var(--hero-hl)}
   .foot-brand{display:flex;align-items:center;gap:10px;margin-bottom:8px}
   .foot-brand img{width:36px;height:36px;border-radius:9px;flex:none}
   .foot-brand h3{margin:0}
-  .wordmark .wm-dom{font-family:var(--font-public-sans),"Public Sans",sans-serif;font-weight:600;font-size:13.5px;color:var(--hero-sub);border:1px solid var(--hero-line);border-radius:999px;padding:3px 11px}
-  .wordmark .wm-tag{font-family:var(--font-public-sans),"Public Sans",sans-serif;font-weight:600;font-size:13.5px;color:var(--hero-hl)}
+  .wordmark .wm-dom{font-family:var(--font-public-sans),"Public Sans",sans-serif;font-weight:600;font-size:15.5px;color:var(--hero-sub);border:1px solid var(--hero-line);border-radius:999px;padding:5px 14px}
+  .wordmark .wm-tag{font-family:var(--font-public-sans),"Public Sans",sans-serif;font-weight:600;font-size:15.5px;color:var(--hero-hl)}
   .hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
   .hero-cta a{display:inline-flex;align-items:center;gap:7px;min-height:42px;padding:8px 18px;border-radius:999px;background:var(--hero-chip);border:1px solid var(--hero-line);color:var(--hero-ink);text-decoration:none;font-weight:700;font-size:14.5px;transition:transform .15s var(--ease),background .18s var(--ease)}
   .hero-cta a:hover{transform:translateY(-2px);background:rgba(255,255,255,.22)}
@@ -366,4 +366,32 @@
     .card{box-shadow:none;break-inside:avoid}
     section{margin-top:24px}
     a.site{box-shadow:none}
+  }
+
+  /* ---------- sign-in modal ---------- */
+  .auth-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;
+    align-items:center;justify-content:center;z-index:100;opacity:0;visibility:hidden;
+    transition:opacity .2s var(--ease),visibility .2s
+  }
+  .auth-backdrop.show{opacity:1;visibility:visible}
+  .auth-modal{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow-lg);padding:24px;max-width:420px;width:90%;position:relative;
+    animation:modalIn .25s var(--ease) both
+  }
+  @keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+  .auth-close{
+    position:absolute;top:10px;right:14px;background:none;border:0;color:var(--ink2);
+    font-size:28px;line-height:1;cursor:pointer;border-radius:4px;padding:0;width:28px;height:28px;
+    display:flex;align-items:center;justify-content:center;transition:color .15s var(--ease)
+  }
+  .auth-close:hover{color:var(--accent)}
+  .auth-modal h2{font-size:22px;font-weight:800;margin:0 0 8px}
+  .auth-modal .sec-sub{color:var(--ink2);margin:0 0 18px;font-size:15px}
+  .auth-profile{text-align:center}
+  .auth-profile h3{margin:4px 0;font-size:20px}
+  .auth-profile .auth-meta{color:var(--ink2);margin:8px 0;font-size:14px}
+  @media (max-width:760px){
+    .auth-modal{max-width:95%;width:95%;border-radius:14px;padding:20px}
   }

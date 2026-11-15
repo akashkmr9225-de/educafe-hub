@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { Tool, getToolsByCategory } from "@/data/tool-registry";
 import { EduCafeRuntime } from "@/components/sites/educafehub/EduCafeRuntime";
-import { LanguageBar } from "@/components/sites/educafehub/Hero";
+import { LanguageBar, AuthProvider } from "@/components/sites/educafehub/Hero";
 import { LegalSection, Footer } from "@/components/sites/educafehub/Legal";
 
 import { PassportTool, ExactKbTool } from "@/components/sites/educafehub/PhotoTools1";
@@ -82,7 +82,7 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
         </div>
       </noscript>
 
-      <LanguageBar />
+      <AuthProvider><LanguageBar /></AuthProvider>
 
       <div style={{ margin: "20px 0 10px 0" }}>
         <Link href="/" style={{ fontSize: 14, textDecoration: "none", color: "var(--brand)" }}>

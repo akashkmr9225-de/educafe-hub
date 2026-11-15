@@ -79,6 +79,9 @@
   .langbtn:hover{color:var(--ink)}
   .langbtn:active{transform:scale(.96)}
   .langbtn[aria-pressed="true"]{background:var(--surface);color:var(--accent);box-shadow:0 2px 8px rgba(16,42,34,.18)}
+  .langbar-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .langbar a.langbtn{text-decoration:none;display:inline-flex;align-items:center}
+  @media (max-width:767px){.langbar-right{justify-content:space-between;width:100%}}
 
   /* ---------- hero intro ---------- */
   .intro{margin-top:14px;background:linear-gradient(128deg,var(--hero-a),var(--hero-b));border-radius:26px;padding:clamp(26px,4.5vw,44px);color:var(--hero-ink);position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}

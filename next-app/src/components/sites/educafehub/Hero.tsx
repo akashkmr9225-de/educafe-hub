@@ -23,19 +23,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function LanguageBar() {
+  const auth = useAuth();
   return (
     <div className="langbar" role="group" aria-label="Language / Bhasha">
       <span className="lbl" data-i18n="langLabel">
         🌐 Bhasha / Language
       </span>
-      <span className="grp">
+      <span className="langbar-right"><span className="grp">
         <button type="button" className="langbtn" id="langEn" aria-pressed="true">
           English
         </button>
         <button type="button" className="langbtn" id="langHi" aria-pressed="false">
           हिंदी
         </button>
-      </span>
+      </span><span className="grp topbar-actions"><button type="button" className="langbtn" onClick={auth?.openAuth} data-i18n="navSignin">👤 Sign in</button><a className="langbtn" href="#tasks" data-i18n="navTasks">✓ My Tasks</a></span></span>
     </div>
   );
 }

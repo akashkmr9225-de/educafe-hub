@@ -32,6 +32,7 @@ export function PassportTool() {
                 <p data-i18n="ppDropSub">
                   JPG / PNG — a straight, front-facing student photo works best
                 </p>
+                <img id="ppDropImg" className="dropimg" alt="" />
                 <input type="file" id="ppFile" accept="image/*" />
               </div>
               <div className="fname" id="ppName" />

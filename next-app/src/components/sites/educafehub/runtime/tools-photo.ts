@@ -209,6 +209,8 @@ export function initPassport(): void {
         pp.img = r.img;
         pp.file = f;
         pp.bgRemoved = false;
+        ($("ppDropImg") as HTMLImageElement).src = r.url;
+        $("ppDrop").classList.add("hasimg");
         $("ppName").textContent = `✔ ${f.name}`;
         (input("ppDownload") as HTMLButtonElement).disabled = false;
         syncDocButtons();

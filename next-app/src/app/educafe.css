@@ -173,6 +173,10 @@
   .drop p{margin:6px 0 0;color:var(--ink2);font-size:14px}
   .drop .big{font-weight:700;font-size:18px;color:var(--ink)}
   .drop input{display:none}
+  .drop .dropimg{display:none}
+  .drop.hasimg{padding:12px}
+  .drop.hasimg .dropimg{display:block;width:100%;max-height:240px;object-fit:contain;border-radius:10px}
+  .drop.hasimg .big,.drop.hasimg p{display:none}
   .fname{font-size:14.5px;color:var(--accent);font-weight:600;margin-top:8px;word-break:break-all}
   .preview{display:none;margin-top:14px}
   .preview.show{display:block;animation:rise .35s var(--ease)}

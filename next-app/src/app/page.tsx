@@ -2,7 +2,6 @@ import { EduCafeRuntime } from "@/components/sites/educafehub/EduCafeRuntime";
 import { LanguageBar, Intro, AuthProvider } from "@/components/sites/educafehub/Hero";
 import { ToolGrid } from "@/components/sites/educafehub/ToolGrid";
 import { LinksSection } from "@/components/sites/educafehub/Links";
-import { FaqSection } from "@/components/sites/educafehub/Faq";
 import { Footer } from "@/components/sites/educafehub/Legal";
 
 export default function Home() {
@@ -10,9 +9,9 @@ export default function Home() {
     <AuthProvider>
       <div className="wrap" id="top">
         <noscript>
-          <div style={{ background: "var(--surface2)", color: "var(--warn)", border: "1px solid var(--warn)", borderRadius: 4, padding: "14px 18px", marginTop: 16, fontWeight: 600 }}>
+          <div style={{ background: "var(--saffron-bg)", color: "var(--warn)", border: "1px solid var(--warn)", borderRadius: 12, padding: "14px 18px", marginTop: 16, fontWeight: 600 }}>
             JavaScript is off in this browser, so the tools cannot run. Please enable JavaScript and
-            reload. / JavaScript बंद है, इसलिए टूल नहीं चलेंगे। कृपया JavaScript चालू करके पेज दोबारा
+            reload. / JavaScript बंद है, इसलिए टूल नहीं चलेंगे — कृपया JavaScript चालू करके पेज दोबारा
             खोलें।
           </div>
         </noscript>
@@ -20,7 +19,6 @@ export default function Home() {
         <Intro />
         <ToolGrid />
         <LinksSection />
-        <FaqSection />
         <Footer />
         <div className="toast" id="toast" role="status" aria-live="polite">
           <span className="tick">✓</span>

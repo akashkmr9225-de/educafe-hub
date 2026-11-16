@@ -1,3 +1,5 @@
+import { emitDownload } from "./state";
+
 export function $(id: string): HTMLElement {
   const el = document.getElementById(id);
   if (!el) throw new Error(`Missing element #${id}`);
@@ -129,6 +131,7 @@ export function downloadBlob(blob: Blob, name: string): void {
     URL.revokeObjectURL(a.href);
     a.remove();
   }, 800);
+  emitDownload(name);
 }
 
 export function wireDrop(
@@ -217,8 +220,9 @@ export function chipGroup(id: string, cb: (value: string) => void): string | nul
   return cur ? cur.getAttribute("data-v") : null;
 }
 
-export function selGroup(id: string, cb: (value: string) => void): string {
-  const el = $(id) as unknown as HTMLSelectElement;
+export function selGroup(id: string, cb: (value: string) => void): string | null {
+  const el = $(id) as unknown as HTMLSelectElement | null;
+  if (!el) return null;
   el.addEventListener("change", () => cb(el.value));
   return el.value;
 }
@@ -251,6 +255,58 @@ export async function toTargetKB(cv: HTMLCanvasElement, targetKB: number): Promi
     scale -= 0.12;
   }
   return best;
+}
+
+export function cleanSignature(img: HTMLImageElement, threshold: number): HTMLCanvasElement {
+  const maxSide = 1200;
+  const sc = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+  const cv = document.createElement("canvas");
+  cv.width = Math.round(img.naturalWidth * sc);
+  cv.height = Math.round(img.naturalHeight * sc);
+  const ctx = ctx2d(cv);
+  ctx.drawImage(img, 0, 0, cv.width, cv.height);
+  const d = ctx.getImageData(0, 0, cv.width, cv.height);
+  const px = d.data;
+  let minX = cv.width;
+  let minY = cv.height;
+  let maxX = -1;
+  let maxY = -1;
+  for (let y = 0; y < cv.height; y++) {
+    for (let x = 0; x < cv.width; x++) {
+      const i = (y * cv.width + x) * 4;
+      const lum = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+      if (lum >= threshold) {
+        px[i] = 255;
+        px[i + 1] = 255;
+        px[i + 2] = 255;
+      } else {
+        const f = Math.max(0, lum - 30) / (threshold - 30);
+        const v = Math.round(235 * f);
+        px[i] = Math.min(px[i], v);
+        px[i + 1] = Math.min(px[i + 1], v);
+        px[i + 2] = Math.min(px[i + 2], v + 8);
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+  ctx.putImageData(d, 0, 0);
+  if (maxX < 0) return cv;
+  const pad = 8;
+  minX = Math.max(0, minX - pad);
+  minY = Math.max(0, minY - pad);
+  maxX = Math.min(cv.width - 1, maxX + pad);
+  maxY = Math.min(cv.height - 1, maxY + pad);
+  const out = document.createElement("canvas");
+  out.width = maxX - minX + 1;
+  out.height = maxY - minY + 1;
+  const octx = ctx2d(out);
+  octx.fillStyle = "#fff";
+  octx.fillRect(0, 0, out.width, out.height);
+  octx.drawImage(cv, minX, minY, out.width, out.height, 0, 0, out.width, out.height);
+  return out;
 }
 
 export function parsePages(spec: string, total: number): number[] {
@@ -310,6 +366,9 @@ export function ensureCoreLibs(): Promise<unknown[]> {
     window.QRCode
       ? Promise.resolve()
       : loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"),
+    window.JSZip
+      ? Promise.resolve()
+      : loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"),
     window.heic2any
       ? Promise.resolve()
       : loadScriptOnce("https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"),
@@ -324,106 +383,4 @@ export function setMsg(id: string, text: string, cls = ""): void {
 
 export function setHTML(id: string, html: string): void {
   $(id).innerHTML = html;
-}
-
-// Shared store-only ZIP writer (no library download): every tool builds
-// ZIP files this one way.
-const CRC_TABLE: number[] = (() => {
-  const table: number[] = [];
-  for (let n = 0; n < 256; n++) {
-    let c = n;
-    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
-    table.push(c >>> 0);
-  }
-  return table;
-})();
-
-function crc32(data: Uint8Array): number {
-  let crc = 0xffffffff;
-  for (let i = 0; i < data.length; i++) crc = CRC_TABLE[(crc ^ data[i]) & 0xff] ^ (crc >>> 8);
-  return (crc ^ 0xffffffff) >>> 0;
-}
-
-export async function makeZip(files: { name: string; blob: Blob }[]): Promise<Blob> {
-  const enc = new TextEncoder();
-  const parts: BlobPart[] = [];
-  const central: BlobPart[] = [];
-  let offset = 0;
-  let centralSize = 0;
-  for (const f of files) {
-    const data = new Uint8Array(await f.blob.arrayBuffer());
-    const nameBytes = enc.encode(f.name);
-    const crc = crc32(data);
-    const lh = new DataView(new ArrayBuffer(30));
-    lh.setUint32(0, 0x04034b50, true);
-    lh.setUint16(4, 20, true);
-    lh.setUint16(6, 0x0800, true);
-    lh.setUint16(8, 0, true);
-    lh.setUint16(10, 0, true);
-    lh.setUint16(12, 0x21, true);
-    lh.setUint32(14, crc, true);
-    lh.setUint32(18, data.length, true);
-    lh.setUint32(22, data.length, true);
-    lh.setUint16(26, nameBytes.length, true);
-    lh.setUint16(28, 0, true);
-    parts.push(lh.buffer, nameBytes, data);
-    const ch = new DataView(new ArrayBuffer(46));
-    ch.setUint32(0, 0x02014b50, true);
-    ch.setUint16(4, 20, true);
-    ch.setUint16(6, 20, true);
-    ch.setUint16(8, 0x0800, true);
-    ch.setUint16(10, 0, true);
-    ch.setUint16(12, 0, true);
-    ch.setUint16(14, 0x21, true);
-    ch.setUint32(16, crc, true);
-    ch.setUint32(20, data.length, true);
-    ch.setUint32(24, data.length, true);
-    ch.setUint16(28, nameBytes.length, true);
-    ch.setUint32(42, offset, true);
-    central.push(ch.buffer, nameBytes);
-    centralSize += 46 + nameBytes.length;
-    offset += 30 + nameBytes.length + data.length;
-  }
-  const end = new DataView(new ArrayBuffer(22));
-  end.setUint32(0, 0x06054b50, true);
-  end.setUint16(8, files.length, true);
-  end.setUint16(10, files.length, true);
-  end.setUint32(12, centralSize, true);
-  end.setUint32(16, offset, true);
-  return new Blob([...parts, ...central, end.buffer], { type: "application/zip" });
-}
-
-// Shared @imgly background-removal loader and configs: one copy for all tools.
-export const AI_BG_CONFIGS: { device: string; publicPath: string }[] = [
-  { device: "gpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
-  { device: "cpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
-  { device: "cpu", publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.7.0/dist/" },
-  { device: "cpu", publicPath: "https://unpkg.com/@imgly/background-removal-data@1.7.0/dist/" },
-];
-
-type ImglyFn = (file: Blob, cfg: Record<string, unknown>) => Promise<Blob>;
-const dynImport = new Function("u", "return import(u)") as (u: string) => Promise<Record<string, unknown>>;
-let imglyFn: ImglyFn | null = null;
-
-export async function loadImgly(): Promise<ImglyFn> {
-  if (imglyFn) return imglyFn;
-  const urls = [
-    "https://esm.sh/@imgly/background-removal@1.7.0?bundle",
-    "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm",
-    "https://esm.run/@imgly/background-removal@1.7.0",
-    "https://unpkg.com/@imgly/background-removal@1.7.0/dist/index.mjs",
-  ];
-  for (const u of urls) {
-    try {
-      const mod = await dynImport(u);
-      const fn = (mod.removeBackground || mod.default) as ImglyFn;
-      if (typeof fn === "function") {
-        imglyFn = fn;
-        return fn;
-      }
-    } catch {
-      continue;
-    }
-  }
-  throw new Error("engine missing");
 }

@@ -1,6 +1,5 @@
 import {
   $,
-  AI_BG_CONFIGS,
   c2b,
   chipGroup, selGroup,
   ctx2d,
@@ -9,9 +8,7 @@ import {
   drawCover,
   input,
   loadImg,
-  loadImgly,
   loadScriptOnce,
-  makeZip,
   padJpeg,
   setMsg,
   toTargetKB,
@@ -80,7 +77,14 @@ const BK_RULES: Record<string, { auto: number; gap: number; review: number }> = 
   loose: { auto: 0.7, gap: 0.07, review: 0.5 },
 };
 
+const BK_AI_CONFIGS: { device: string; publicPath: string }[] = [
+  { device: "gpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
+  { device: "cpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
+  { device: "cpu", publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.7.0/dist/" },
+  { device: "cpu", publicPath: "https://unpkg.com/@imgly/background-removal-data@1.7.0/dist/" },
+];
 
+const dynImport = new Function("u", "return import(u)") as (u: string) => Promise<ImglyModule>;
 
 export function initBulk(): void {
   const bk: BkState = {
@@ -563,19 +567,19 @@ export function initBulk(): void {
     doc.save("student-photo-sheets.pdf");
   });
   $("bkZip").addEventListener("click", async () => {
-    if (!bk.sheets.length) return;
-    const files: { name: string; blob: Blob }[] = [];
+    if (!bk.sheets.length || !window.JSZip) return;
+    const zip = new window.JSZip();
     for (let i = 0; i < bk.sheets.length; i++) {
-      files.push({ name: `sheet-${i + 1}.jpg`, blob: await c2b(bk.sheets[i], 0.92) });
+      zip.file(`sheet-${i + 1}.jpg`, await c2b(bk.sheets[i], 0.92));
     }
-    downloadBlob(await makeZip(files), "student-photo-sheets.zip");
+    downloadBlob(await zip.generateAsync({ type: "blob" }), "student-photo-sheets.zip");
   });
   $("bkIndBtn").addEventListener("click", async function (this: HTMLButtonElement, e: Event) {
-    if (!bk.items.length) return;
+    if (!bk.items.length || !window.JSZip) return;
     const btn = e.currentTarget as HTMLButtonElement;
     btn.disabled = true;
     btn.textContent = TT("bkMakingZip");
-    const files: { name: string; blob: Blob }[] = [];
+    const zip = new window.JSZip();
     const used: Record<string, number> = {};
     for (let i = 0; i < bk.items.length; i++) {
       const it = bk.items[i];
@@ -583,9 +587,9 @@ export function initBulk(): void {
       let nm = bkSafeName(it);
       if (used[nm]) nm = `${nm}-${it.id}`;
       used[nm] = 1;
-      files.push({ name: `${nm}.${r.ext}`, blob: r.blob });
+      zip.file(`${nm}.${r.ext}`, r.blob);
     }
-    downloadBlob(await makeZip(files), "student-photos.zip");
+    downloadBlob(await zip.generateAsync({ type: "blob" }), "student-photos.zip");
     btn.disabled = false;
     btn.textContent = TT("bkIndBtn");
     const msg = $("bkMsg");
@@ -1085,6 +1089,31 @@ export function initBulk(): void {
     setMsg("bkXlMsg", TT("bkXlUndone"), "good");
   });
 
+  let bkImglyFn: ((file: Blob, cfg: Record<string, unknown>) => Promise<Blob>) | null = null;
+
+  async function bkLoadImgly(): Promise<(file: Blob, cfg: Record<string, unknown>) => Promise<Blob>> {
+    if (bkImglyFn) return bkImglyFn;
+    const urls = [
+      "https://esm.sh/@imgly/background-removal@1.7.0?bundle",
+      "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm",
+      "https://esm.run/@imgly/background-removal@1.7.0",
+      "https://unpkg.com/@imgly/background-removal@1.7.0/dist/index.mjs",
+    ];
+    for (const u of urls) {
+      try {
+        const mod = await dynImport(u);
+        const fn = mod.removeBackground || mod.default;
+        if (typeof fn === "function") {
+          bkImglyFn = fn;
+          return fn;
+        }
+      } catch {
+        continue;
+      }
+    }
+    throw new Error("engine missing");
+  }
+
   $("bkAiCrop").addEventListener("click", function (this: HTMLElement) {
     bk.aiCrop = this.getAttribute("aria-pressed") !== "true";
     this.setAttribute("aria-pressed", bk.aiCrop ? "true" : "false");
@@ -1176,7 +1205,7 @@ export function initBulk(): void {
     msg.className = "msg";
     let fn: (file: Blob, cfg: Record<string, unknown>) => Promise<Blob>;
     try {
-      fn = await loadImgly();
+      fn = await bkLoadImgly();
     } catch {
       setMsg(
         "bkAiMsg",
@@ -1193,10 +1222,10 @@ export function initBulk(): void {
       const it = bk.items[i];
       msg.textContent = TT("bkAiProcessing").replace("{i}", String(i + 1)).replace("{n}", String(bk.items.length)).replace("{name}", it.name);
       let outBlob: Blob | null = null;
-      for (let c = 0; c < AI_BG_CONFIGS.length && !outBlob; c++) {
+      for (let c = 0; c < BK_AI_CONFIGS.length && !outBlob; c++) {
         try {
           const cfg: Record<string, unknown> = {};
-          const base = AI_BG_CONFIGS[c];
+          const base = BK_AI_CONFIGS[c];
           cfg.device = base.device;
           cfg.publicPath = base.publicPath;
           cfg.model = model;
@@ -1231,7 +1260,8 @@ export function initBulk(): void {
   });
 
   $("bkAiZip").addEventListener("click", async () => {
-    const files: { name: string; blob: Blob }[] = [];
+    if (!window.JSZip) return;
+    const zip = new window.JSZip();
     const used: Record<string, number> = {};
     for (let i = 0; i < bk.items.length; i++) {
       const it = bk.items[i];
@@ -1242,9 +1272,9 @@ export function initBulk(): void {
       let nm = bkSafeName(it);
       if (used[nm]) nm = `${nm}-${it.id}`;
       used[nm] = 1;
-      files.push({ name: `${nm}.png`, blob });
+      zip.file(`${nm}.png`, blob);
     }
-    downloadBlob(await makeZip(files), "ai-portraits.zip");
+    downloadBlob(await zip.generateAsync({ type: "blob" }), "ai-portraits.zip");
   });
 
   bkLayoutInfo();

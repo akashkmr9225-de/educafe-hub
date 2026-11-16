@@ -37,6 +37,10 @@ export function clearAuthState(): void {
   listeners.forEach((l) => l({ profile: null }));
 }
 
+export function getAuthProfile(): Profile | null {
+  return getAuthState().profile;
+}
+
 export function watchAuthState(fn: (state: AuthState) => void): () => void {
   listeners.push(fn);
   fn(getAuthState());

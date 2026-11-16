@@ -562,3 +562,16 @@ export function initConverter(): void {
     );
   });
 }
+
+export function initTextToolCounter(): void {
+  const ta = input("ftText");
+  const box = $("ftStat");
+  if (!box) return;
+  const update = () => {
+    const v = ta.value;
+    const words = v.trim() ? v.trim().split(/\s+/).length : 0;
+    const lines = v ? v.split(/\n/).length : 0;
+    box.innerHTML = `<span>${T("ftWords").replace("{n}", String(words))}</span><span>${T("ftChars").replace("{n}", String(v.length))}</span><span>${T("ftLines").replace("{n}", String(lines))}</span>`;
+  };
+  ta.addEventListener("input", update);
+}

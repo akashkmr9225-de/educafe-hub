@@ -35,7 +35,7 @@ const LOGOS: Record<string, string> = {
 
 export function LinksSection() {
   return (
-    <section id="links">
+    <section id="links" className="rv">
       <div className="sec-head">
         <span className="no">Daily</span>
         <h2 data-i18n="sections.dailyLinks">Daily Websites — One Click</h2>

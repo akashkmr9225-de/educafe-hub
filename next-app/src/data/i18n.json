@@ -470,7 +470,7 @@
   "exDesc": "Pick the exam, add the photo — you get a JPG of the exact pixel size and KB range that form asks for, with the name and date printed below when needed.",
   "exPresetL": "Choose the exam",
   "exP1": "SSC CGL / CHSL — 200×230 px · 20–50 KB",
-  "exP2": "UPSC — 350×350 px · 20–300 KB",
+  "exP2": "UPSC — 20–200 KB",
   "exP3": "Bank (IBPS / SBI) — 200×230 px · 20–50 KB",
   "exP4": "Bihar SSC / BPSC — 250×350 px · 20–50 KB",
   "exDropT": "Drop the photo here or tap to choose",
@@ -890,7 +890,7 @@
   "nfHome": "Go to the home page",
   "nfTools": "See all 16 tools",
   "ppDocJee": "JEE Main — 413×531 px, 10–200 KB",
-  "ppDocUpsc": "UPSC — 413×531 px, 20–300 KB",
+  "ppDocUpsc": "UPSC — 413×531 px, 20–200 KB",
   "ppDocPan": "PAN Card — 276×197 px, up to 20 KB",
   "ppDocVisa": "Indian Visa — 600×600 px, 10–300 KB, square photo"
  },
@@ -1365,7 +1365,7 @@
   "exDesc": "परीक्षा चुनें, फ़ोटो डालें — आपको उसी pixel size और KB range की JPG मिलेगी जो फ़ॉर्म माँगता है, ज़रूरत हो तो नीचे नाम और तारीख़ छपी हुई।",
   "exPresetL": "परीक्षा चुनें",
   "exP1": "SSC CGL / CHSL — 200×230 px · 20–50 KB",
-  "exP2": "UPSC — 350×350 px · 20–300 KB",
+  "exP2": "UPSC — 20–200 KB",
   "exP3": "Bank (IBPS / SBI) — 200×230 px · 20–50 KB",
   "exP4": "Bihar SSC / BPSC — 250×350 px · 20–50 KB",
   "exDropT": "फ़ोटो यहाँ डालें या चुनने के लिए tap करें",
@@ -1785,7 +1785,7 @@
   "nfHome": "होम पेज पर जाएँ",
   "nfTools": "सभी 16 टूल देखें",
   "ppDocJee": "JEE मेन — 413×531 px, 10–200 KB",
-  "ppDocUpsc": "UPSC — 413×531 px, 20–300 KB",
+  "ppDocUpsc": "UPSC — 413×531 px, 20–200 KB",
   "ppDocPan": "पैन कार्ड — 276×197 px, 20 KB तक",
   "ppDocVisa": "भारतीय वीज़ा — 600×600 px, 10–300 KB, चौकोर फ़ोटो"
  }

@@ -16,8 +16,7 @@ export function ExamPhotoTool() {
               <label className="fl" data-i18n="exPresetL">
                 Choose the exam
               </label>
-              <select id="exPreset" className="sel" defaultValue="ssc">
-                <option value="ssc" data-i18n="exP1">SSC CGL / CHSL — 200×230 px · 20–50 KB</option>
+              <select id="exPreset" className="sel" defaultValue="upsc">
                 <option value="upsc" data-i18n="exP2">UPSC — 350×350 px · 20–300 KB</option>
                 <option value="bank" data-i18n="exP3">Bank (IBPS / SBI) — 200×230 px · 20–50 KB</option>
                 <option value="bpsc" data-i18n="exP4">Bihar SSC / BPSC — 250×350 px · 20–50 KB</option>

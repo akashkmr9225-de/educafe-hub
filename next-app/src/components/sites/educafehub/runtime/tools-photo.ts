@@ -320,7 +320,7 @@ export function initPassport(): void {
     dl: { w: 420, h: 525, minKB: 10, maxKB: 20, bg: "#f2f2f2", file: "dl" },
     neet: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "neet" },
     jee: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "jee-main" },
-    upsc: { w: 413, h: 531, minKB: 20, maxKB: 300, bg: "#ffffff", file: "upsc" },
+    upsc: { w: 413, h: 531, minKB: 20, maxKB: 200, bg: "#ffffff", file: "upsc" },
     pan: { w: 276, h: 197, minKB: 0, maxKB: 20, bg: "#ffffff", file: "pan-card" },
     visa: { w: 600, h: 600, minKB: 10, maxKB: 300, bg: "#ffffff", file: "indian-visa" },
   };
@@ -1910,14 +1910,13 @@ export function initCompressor(): void {
 }
 
 const EX: Record<string, { w: number; h: number; min: number; max: number }> = {
-  ssc: { w: 200, h: 230, min: 20, max: 50 },
-  upsc: { w: 350, h: 350, min: 20, max: 300 },
+  upsc: { w: 413, h: 531, min: 20, max: 200 },
   bank: { w: 200, h: 230, min: 20, max: 50 },
   bpsc: { w: 250, h: 350, min: 20, max: 50 },
 };
 
 export function initExamPhoto(): void {
-  let exPreset = "ssc";
+  let exPreset = "upsc";
   let exImg: HTMLImageElement | null = null;
   selGroup("exPreset", (v) => {
     exPreset = v;

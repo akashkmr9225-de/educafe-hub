@@ -2,7 +2,7 @@ export function SignatureTool() {
   return (
     <section id="signature">
       <div className="sec-head">
-        <span className="no">Tool 3</span>
+        <span className="no">Tool 5</span>
         <h2 data-i18n="t3Title">Signature Maker</h2>
       </div>
       <p className="sec-sub" data-i18n="t3Desc">Upload a photo of a signature on white paper — the background is cleaned, extra area is cropped, and you download it in form size.</p>
@@ -85,7 +85,7 @@ export function JoinerTool() {
   return (
     <section id="joiner">
       <div className="sec-head">
-        <span className="no">Tool 4</span>
+        <span className="no">Tool 6</span>
         <h2 data-i18n="t4Title">Photo + Signature Joiner</h2>
       </div>
       <p className="sec-sub" data-i18n="t4Desc">Some forms want photo on top and signature below in a single image. Upload both — one combined image is ready.</p>

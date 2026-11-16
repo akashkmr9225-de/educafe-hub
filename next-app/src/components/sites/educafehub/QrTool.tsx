@@ -2,7 +2,7 @@ export function QrTool() {
   return (
     <section id="qr">
       <div className="sec-head">
-        <span className="no">Tool 10</span>
+        <span className="no">Tool 12</span>
         <h2 data-i18n="qrTitle">QR Code Maker — UPI, Wi-Fi, Link</h2>
       </div>
       <p className="sec-sub" data-i18n="qrDesc">A payment QR for the shop counter, a Wi-Fi QR, or a QR for any link — make it, print it, put it on the counter. No sign-up, and the QR is made right here in the browser.</p>

@@ -2,7 +2,7 @@ export function ExamPhotoTool() {
   return (
     <section id="exam">
       <div className="sec-head">
-        <span className="no">Tool 12</span>
+        <span className="no">Tool 3</span>
         <h2 data-i18n="exTitle">Exam-Form Photo — exact size + KB</h2>
       </div>
       <p className="sec-sub" data-i18n="exDesc">

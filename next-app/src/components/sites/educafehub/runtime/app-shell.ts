@@ -234,8 +234,6 @@ export function initAppShell(): void {
       const id = hashTab[window.location.hash.replace("#", "")];
       if (id) document.getElementById(id)?.click();
     };
-    applyHash();
-    window.addEventListener("hashchange", applyHash);
     tabs.forEach((t, i) => {
       t.addEventListener("click", () => select(t, false));
       t.addEventListener("keydown", (e) => {
@@ -250,6 +248,8 @@ export function initAppShell(): void {
         }
       });
     });
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
   }
 
   const ADDR = "akashkmr9225@gmail.com";

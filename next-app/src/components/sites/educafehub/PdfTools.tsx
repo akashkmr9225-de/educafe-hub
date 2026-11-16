@@ -2,7 +2,7 @@ export function ImageToPdfTool() {
   return (
     <section id="pdf">
       <div className="sec-head">
-        <span className="no">Tool 5</span>
+        <span className="no">Tool 7</span>
         <h2 data-i18n="t5Title">Image → PDF</h2>
       </div>
       <p className="sec-sub" data-i18n="t5Desc">Marksheets, Aadhaar, certificates — select as many photos as you like and get one clean PDF, in the order you selected them.</p>
@@ -64,7 +64,7 @@ export function PdfCompressTool() {
   return (
     <section id="pdfcompress">
       <div className="sec-head">
-        <span className="no">Tool 6</span>
+        <span className="no">Tool 8</span>
         <h2 data-i18n="t6Title">PDF Compress</h2>
       </div>
       <p className="sec-sub" data-i18n="t6Desc">Shrink a large PDF — works best on scanned documents and photo PDFs. Pick a quality level for portal limits like 200 KB / 500 KB.</p>
@@ -128,7 +128,7 @@ export function ImageCompressorTool() {
   return (
     <section id="compress">
       <div className="sec-head">
-        <span className="no">Tool 7</span>
+        <span className="no">Tool 9</span>
         <h2 data-i18n="t7Title">Image Compressor</h2>
       </div>
       <p className="sec-sub" data-i18n="t7Desc">For WhatsApp or email — lower the quality a little and the size drops a lot. Move the slider and watch the size live.</p>

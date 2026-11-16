@@ -4,7 +4,7 @@ export function BulkTool() {
   return (
     <section id="bulk">
       <div className="sec-head">
-        <span className="no">Tool 11</span>
+        <span className="no">Tool 4</span>
         <h2 data-i18n="bkTitle">Bulk Student Photos — a whole class at once</h2>
       </div>
       <p className="sec-sub" data-i18n="bkDesc">Add a whole class's photos together — a folder works too, and so do iPhone HEIC photos. Each photo can print with its name (and a date) underneath, as A4 sheets or as one separate file per student — the Photo FIX way, right here in the browser.</p>

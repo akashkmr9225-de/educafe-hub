@@ -2,7 +2,7 @@ export function AgeTool() {
   return (
     <section id="age">
       <div className="sec-head">
-        <span className="no">Tool 8</span>
+        <span className="no">Tool 15</span>
         <h2 data-i18n="t8Title">Age Calculator — for Admission</h2>
       </div>
       <p className="sec-sub" data-i18n="t8Desc">Enter the date of birth — get today's age plus the age on admission cut-off dates (31 March / 31 December).</p>
@@ -66,7 +66,7 @@ export function MarksTool() {
   return (
     <section id="marks">
       <div className="sec-head">
-        <span className="no">Tool 9</span>
+        <span className="no">Tool 16</span>
         <h2 data-i18n="t9Title">Marks & Percentage Calculator</h2>
       </div>
       <p className="sec-sub" data-i18n="t9Desc">Enter marks for every subject — total, percentage, division and grade are automatic. A CGPA ↔ percentage converter is below.</p>

@@ -452,3 +452,9 @@ html[lang="en"] .hi-only { display: none !important; }
 .row2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
 .row3>.field,.row2>.field{margin-bottom:0}
 @media (max-width:767px){.row3,.row2{grid-template-columns:1fr}}
+
+/* Row alignment fix (Sir, 2026-11-16): labels reserve two lines so the controls
+   start level across the row; chips in a row cell sit side-by-side, sharing it */
+.row3 .fl,.row2 .fl{min-height:2.75em}
+.row3 .chips,.row2 .chips{flex-wrap:nowrap}
+.row3 .chips .chip,.row2 .chips .chip{flex:1 1 0;min-width:0;text-align:center;padding-left:6px;padding-right:6px}

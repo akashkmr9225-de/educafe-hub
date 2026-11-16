@@ -52,7 +52,7 @@ export function ToolGrid() {
       </p>
       <div className="toolgrid">
         {TOOLS.map((t, i) => (
-          <a key={t.slug} className="toolbox rv" href={`/tools/${t.slug}/`}>
+          <a key={t.slug} className="toolbox" href={`/tools/${t.slug}/`}>
             <span className="tb-no">Tool {i + 1}</span>
             <span className="tb-ic" aria-hidden="true" style={{ "--tc": COLORS[t.slug] || "#0F766E" } as React.CSSProperties}>
               {ICONS[t.slug] || "🧰"}

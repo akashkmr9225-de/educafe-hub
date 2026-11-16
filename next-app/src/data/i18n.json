@@ -924,7 +924,16 @@
   "fpWait": "Your form photo will appear here",
   "how_online-form-photo_1": "Upload the photo — JPG, PNG or HEIC, straight from the phone gallery.",
   "how_online-form-photo_2": "Pick the form (Passport Seva, IBPS, NEET, PAN, Visa…) — the pixel size, KB range and background set themselves; add the name + date strip if the form prints one.",
-  "how_online-form-photo_3": "Press Download digital photo — exact pixels, inside the KB range, ready to upload to the form."
+  "how_online-form-photo_3": "Press Download digital photo — exact pixels, inside the KB range, ready to upload to the form.",
+  "heroCta": "See all 17 tools",
+  "taglineText": "Every photo, signature and PDF job for your school or shop, finished on this one page. Nothing is uploaded, nothing is charged, and your file is ready in seconds.",
+  "how1T": "1. Pick your tool",
+  "how1D": "17 free tools for the jobs a school office and cyber cafe do every day.",
+  "how2T": "2. Add your photo or file",
+  "how2D": "Everything runs on this device. Your file is never uploaded to any server.",
+  "how3T": "3. Download and print",
+  "how3D": "The finished file is ready in seconds, sized exactly as the form asks.",
+  "finalCtaT": "Start with the job in front of you. It is free, and it takes seconds."
  },
  "hi": {
   "navCapacity": "🛡️ क्षमता और स्थिति",
@@ -1851,6 +1860,15 @@
   "fpWait": "आपकी फ़ॉर्म फ़ोटो यहाँ दिखाई देगी",
   "how_online-form-photo_1": "फ़ोटो अपलोड करें — JPG, PNG या HEIC, सीधे फ़ोन गैलरी से।",
   "how_online-form-photo_2": "फ़ॉर्म चुनें (Passport Seva, IBPS, NEET, PAN, Visa…) — पिक्सेल साइज़, KB रेंज और बैकग्राउंड अपने आप सेट हो जाते हैं; फ़ॉर्म में छपती हो तो नाम + तारीख़ पट्टी जोड़ें।",
-  "how_online-form-photo_3": "डिजिटल फ़ोटो डाउनलोड करें दबाएँ — ठीक पिक्सेल, KB रेंज के अंदर, फ़ॉर्म पर अपलोड के लिए तैयार।"
+  "how_online-form-photo_3": "डिजिटल फ़ोटो डाउनलोड करें दबाएँ — ठीक पिक्सेल, KB रेंज के अंदर, फ़ॉर्म पर अपलोड के लिए तैयार।",
+  "heroCta": "सभी 17 टूल देखें",
+  "taglineText": "आपके स्कूल या दुकान का हर फ़ोटो, हस्ताक्षर और PDF का काम, इस एक ही पेज पर पूरा। कुछ भी अपलोड नहीं होता, कोई शुल्क नहीं लगता, और आपकी फ़ाइल कुछ ही सेकंड में तैयार हो जाती है।",
+  "how1T": "1. अपना टूल चुनें",
+  "how1D": "17 मुफ़्त टूल, उन कामों के लिए जो स्कूल ऑफ़िस और साइबर कैफ़े में रोज़ होते हैं।",
+  "how2T": "2. अपनी फ़ोटो या फ़ाइल जोड़ें",
+  "how2D": "सब कुछ इसी डिवाइस पर होता है। आपकी फ़ाइल कभी किसी सर्वर पर अपलोड नहीं होती।",
+  "how3T": "3. डाउनलोड करें और प्रिंट करें",
+  "how3D": "तैयार फ़ाइल कुछ ही सेकंड में मिल जाती है, बिल्कुल उसी साइज़ में जो फ़ॉर्म माँगता है।",
+  "finalCtaT": "सामने वाले काम से शुरू करें। यह मुफ़्त है, और कुछ ही सेकंड लगते हैं।"
  }
 }

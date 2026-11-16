@@ -466,3 +466,18 @@ html[lang="en"] .hi-only { display: none !important; }
 .rv{opacity:0;transform:translateY(32px)}
 .rv.in{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+
+/* Landing sections (Sir's approved brief, 2026-11-16): hero button, tagline
+   word reveal, homepage FAQ, final call to action */
+.herobtn{margin-top:18px}
+.tagsec{margin-top:26px}
+.tagline{font-size:clamp(26px,4.6vw,40px);font-weight:700;line-height:1.35;max-width:680px;margin:0;text-wrap:balance}
+.tagline .w{transition:color .45s cubic-bezier(.22,1,.36,1)}
+.tagline.armed .w{color:color-mix(in srgb,var(--ink) 28%,transparent)}
+.tagline.armed.in .w{color:var(--ink)}
+.faqhome{display:grid;gap:10px;margin-top:14px}
+.faqitem{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px 18px}
+.faqitem summary{font-weight:700;font-size:16.5px;cursor:pointer}
+.faqitem p{margin:10px 0 2px;color:var(--ink2)}
+.finalcta{text-align:center}
+.finalcta-t{font-size:clamp(21px,3.4vw,28px);font-weight:700;max-width:680px;margin:0 auto 18px;text-wrap:balance}

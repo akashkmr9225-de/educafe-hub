@@ -1,35 +1,11 @@
-import { chipGroup, setMsg } from "./helpers";
-import {
-  T,
-  getLang,
-  i18nCounts,
-  onDownload,
-  onLangChange,
-  pulse,
-  setLang,
-  showToast,
-  store,
-} from "./state";
+import { T, getLang, onLangChange, setLang, store } from "./state";
 import { pcCalc } from "./tools-calc";
 
-const PK = "educafehub_profile";
-const TK = "educafehub_tasks";
 const LK = "educafehub_lang";
 
-interface Profile {
-  name: string;
-  contact: string;
-  kind: string;
-}
-
-interface TaskItem {
-  t: string;
-  ts: number;
-}
-
 // Null-safe element helpers: pages render different sections (the homepage has
-// Tasks + Links, tool pages do not), so every lookup here must tolerate a
-// missing element instead of throwing and killing the whole shell.
+// Links, tool pages do not), so every lookup here must tolerate a missing
+// element instead of throwing and killing the whole shell.
 function el(id: string): HTMLElement | null {
   return document.getElementById(id);
 }
@@ -42,142 +18,7 @@ function on(id: string, ev: string, fn: (e: Event) => void): void {
   el(id)?.addEventListener(ev, fn);
 }
 
-function getTasks(): TaskItem[] {
-  return store.get<TaskItem[]>(TK) || [];
-}
-
-function addTask(text: string): void {
-  const list = getTasks();
-  list.unshift({ t: text, ts: Date.now() });
-  if (list.length > 100) list.length = 100;
-  store.set(TK, list);
-  renderTasks();
-}
-
-function renderTasks(): void {
-  const ul = el("taskList");
-  if (!ul) return;
-  const list = getTasks();
-  ul.innerHTML = "";
-  const empty = el("taskEmpty");
-  if (empty) empty.style.display = list.length ? "none" : "";
-  list.forEach((it) => {
-    const li = document.createElement("li");
-    const a = document.createElement("span");
-    a.className = "tt";
-    a.textContent = it.t;
-    const b = document.createElement("span");
-    b.className = "td";
-    try {
-      b.textContent = new Date(it.ts).toLocaleString(getLang() === "hi" ? "hi-IN" : "en-IN", {
-        day: "numeric",
-        month: "short",
-        hour: "numeric",
-        minute: "2-digit",
-      });
-    } catch {
-      b.textContent = "";
-    }
-    li.appendChild(a);
-    li.appendChild(b);
-    ul.appendChild(li);
-  });
-}
-
-function renderAuth(): void {
-  const form = el("authForm") as HTMLFormElement | null;
-  const box = el("authProfile");
-  if (!form || !box) return;
-  const p = store.get<Profile>(PK);
-  if (p) {
-    form.hidden = true;
-    box.hidden = false;
-    const who = el("authWho");
-    if (who) who.textContent = p.name;
-    const meta = el("authMeta");
-    if (meta)
-      meta.textContent = `${p.contact} · ${p.kind === "cafe" ? T("authKindCafe") : T("authKindSchool")}`;
-    const rc = inp("rcShop");
-    if (rc && !rc.value) rc.value = p.name;
-    const qn = document.getElementById("qrUpiName") as HTMLInputElement | null;
-    if (qn && !qn.value) qn.value = p.name;
-  } else {
-    form.hidden = false;
-    box.hidden = true;
-  }
-}
-
 export function initAppShell(): void {
-  let authKindVal = "school";
-  if (el("authKind")) {
-    authKindVal =
-      chipGroup("authKind", (v) => {
-        authKindVal = v;
-      }) || "school";
-  }
-
-  on("taskAdd", "click", () => {
-    const note = inp("taskNote");
-    const v = (note?.value || "").trim();
-    if (!v) return;
-    if (note) note.value = "";
-    addTask(`📝 ${v}`);
-    pulse(el("taskAdd"));
-  });
-  inp("taskNote")?.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      el("taskAdd")?.click();
-    }
-  });
-  on("taskClear", "click", () => {
-    store.set(TK, []);
-    renderTasks();
-  });
-
-  onDownload((name) => {
-    addTask(`⬇ ${name}`);
-    showToast(T("tasksLogged"));
-  });
-
-  el("authForm")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = (inp("authName")?.value || "").trim();
-    const contact = (inp("authContact")?.value || "").trim();
-    if (!name || !contact) {
-      if (el("authMsg")) setMsg("authMsg", T("authNeed"), "warn");
-      return;
-    }
-    const msg = el("authMsg");
-    if (msg) msg.textContent = "";
-    store.set(PK, { name, contact, kind: authKindVal });
-    renderAuth();
-    pulse(el("authSave"));
-    showToast(T("authSaved"));
-  });
-  on("authEdit", "click", () => {
-    const p = store.get<Profile>(PK);
-    if (!p) return;
-    const n = inp("authName");
-    if (n) n.value = p.name;
-    const c = inp("authContact");
-    if (c) c.value = p.contact;
-    document.querySelectorAll("#authKind .chip").forEach((chip) => {
-      const onChip = chip.getAttribute("data-v") === p.kind;
-      chip.setAttribute("aria-pressed", onChip ? "true" : "false");
-      if (onChip) authKindVal = p.kind;
-    });
-    const prof = el("authProfile");
-    if (prof) prof.hidden = true;
-    const form = el("authForm") as HTMLFormElement | null;
-    if (form) form.hidden = false;
-  });
-  on("authOut", "click", () => {
-    store.del(PK);
-    renderAuth();
-    showToast(T("authOutMsg"));
-  });
-
   const applyLang = (lang: "en" | "hi") => {
     store.set(LK, lang);
     setLang(lang);
@@ -285,53 +126,7 @@ export function initAppShell(): void {
     a.remove();
   });
 
-  const secs = Array.from(document.querySelectorAll<HTMLElement>(".wrap > section"));
-  const reduce =
-    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (secs.length) {
-    if (reduce || !("IntersectionObserver" in window)) {
-      secs.forEach((s) => s.classList.add("in"));
-    } else {
-      secs.forEach((s) => s.classList.add("rv"));
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((en) => {
-            if (en.isIntersecting) {
-              en.target.classList.add("in");
-              io.unobserve(en.target);
-            }
-          });
-        },
-        { rootMargin: "0px 0px 2000px 0px", threshold: 0 },
-      );
-      secs.forEach((s) => io.observe(s));
-      setTimeout(() => secs.forEach((s) => s.classList.add("in")), 2000);
-    }
-    if (!reduce) {
-      secs.forEach((sec, i) => {
-        sec.style.transitionDelay = `${(i % 3) * 70}ms`;
-      });
-    }
-  }
-
-  const capBox = document.getElementById("capStatus");
-  if (capBox) {
-    const links = document.querySelectorAll("#linkGrid a.site").length;
-    const counts = i18nCounts();
-    const span = (ok: boolean, txt: string) =>
-      `<span class='${ok ? "good" : ""}'>${ok ? "✔ " : "⚠ "}${txt}</span>`;
-    capBox.innerHTML =
-      span(links === 31, `Daily links loaded: ${links} / 31`) +
-      span(!!window.jspdf, "PDF maker (jsPDF)") +
-      span(!!window.pdfjsLib, "PDF reader (PDF.js)") +
-      span(!!window.QRCode, "QR maker (QRCode)") +
-      span(!!window.JSZip, "ZIP maker (JSZip)") +
-      span(counts.en === counts.hi, `EN / हिंदी text: ${counts.en} = ${counts.hi}`);
-  }
-
   onLangChange(() => {
-    renderAuth();
-    renderTasks();
     if (el("pcTotal")) pcCalc();
     document.querySelectorAll<HTMLInputElement>("#rcItems .rcn").forEach((i) => {
       i.placeholder = T("rcItemPh");
@@ -343,7 +138,5 @@ export function initAppShell(): void {
 
   const saved = store.get<string>(LK);
   setLang(saved === "hi" ? "hi" : "en");
-  renderAuth();
-  renderTasks();
   if (el("pcTotal")) pcCalc();
 }

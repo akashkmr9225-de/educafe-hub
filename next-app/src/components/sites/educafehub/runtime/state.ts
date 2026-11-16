@@ -26,7 +26,6 @@ const I18N: Record<Lang, Record<string, string>> = {
 let curLang: Lang = "en";
 
 const langSubs = new Set<() => void>();
-const downloadSubs = new Set<(name: string) => void>();
 
 export function getLang(): Lang {
   return curLang;
@@ -36,10 +35,6 @@ export function T(key: string): string {
   return I18N[curLang]?.[key] ?? I18N.en[key] ?? key;
 }
 
-export function i18nCounts(): { en: number; hi: number } {
-  return { en: Object.keys(I18N.en).length, hi: Object.keys(I18N.hi).length };
-}
-
 export function onLangChange(fn: () => void): () => void {
   langSubs.add(fn);
   return () => {
@@ -47,16 +42,6 @@ export function onLangChange(fn: () => void): () => void {
   };
 }
 
-export function onDownload(fn: (name: string) => void): () => void {
-  downloadSubs.add(fn);
-  return () => {
-    downloadSubs.delete(fn);
-  };
-}
-
-export function emitDownload(name: string): void {
-  downloadSubs.forEach((fn) => fn(name));
-}
 
 function applyText(): void {
   const d = I18N[curLang];

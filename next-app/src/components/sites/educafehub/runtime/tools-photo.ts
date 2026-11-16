@@ -1,5 +1,6 @@
 import {
   $,
+  AI_BG_CONFIGS,
   c2b,
   canvas,
   chipGroup, selGroup,
@@ -11,7 +12,9 @@ import {
   fmtSize,
   input,
   loadImg,
+  loadImgly,
   loadScriptOnce,
+  makeZip,
   padJpeg,
   setHTML,
   setMsg,
@@ -320,31 +323,7 @@ export function initPassport(): void {
     dl: { w: 420, h: 525, minKB: 10, maxKB: 20, bg: "#f2f2f2", file: "dl" },
     neet: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "neet" },
   };
-  const ppDynImport = new Function("u", "return import(u)") as (u: string) => Promise<Record<string, unknown>>;
-  let ppImglyFn: ((file: Blob, cfg: Record<string, unknown>) => Promise<Blob>) | null = null;
-  async function ppLoadImgly(): Promise<(file: Blob, cfg: Record<string, unknown>) => Promise<Blob>> {
-    if (ppImglyFn) return ppImglyFn;
-    const urls = [
-      "https://esm.sh/@imgly/background-removal@1.7.0?bundle",
-      "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm",
-      "https://esm.run/@imgly/background-removal@1.7.0",
-      "https://unpkg.com/@imgly/background-removal@1.7.0/dist/index.mjs",
-    ];
-    for (const u of urls) {
-      try {
-        const mod = await ppDynImport(u);
-        const fn = (mod.removeBackground || mod.default) as (file: Blob, cfg: Record<string, unknown>) => Promise<Blob>;
-        if (typeof fn === "function") { ppImglyFn = fn; return fn; }
-      } catch { continue; }
-    }
-    throw new Error("engine missing");
-  }
-  const PP_AI_CONFIGS: { device: string; publicPath: string }[] = [
-    { device: "gpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
-    { device: "cpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
-    { device: "cpu", publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.7.0/dist/" },
-    { device: "cpu", publicPath: "https://unpkg.com/@imgly/background-removal-data@1.7.0/dist/" },
-  ];
+  
   function docPreset(): DocPreset | null {
     const v = ($("ppDocPreset") as HTMLSelectElement).value;
     return DOC_PRESETS[v] || null;
@@ -438,11 +417,11 @@ export function initPassport(): void {
     this.disabled = true;
     setMsg("ppMsg", T("ppBgWorking"), "");
     try {
-      const fn = await ppLoadImgly();
+      const fn = await loadImgly();
       let out: Blob | null = null;
-      for (let c = 0; c < PP_AI_CONFIGS.length && !out; c++) {
+      for (let c = 0; c < AI_BG_CONFIGS.length && !out; c++) {
         try {
-          out = await fn(pp.file, { device: PP_AI_CONFIGS[c].device, publicPath: PP_AI_CONFIGS[c].publicPath, model: "isnet_fp16", output: { format: "image/png", quality: 1 } });
+          out = await fn(pp.file, { device: AI_BG_CONFIGS[c].device, publicPath: AI_BG_CONFIGS[c].publicPath, model: "isnet_fp16", output: { format: "image/png", quality: 1 } });
         } catch { out = null; }
       }
       if (!out) throw new Error("ai failed");
@@ -1150,71 +1129,6 @@ async function kbFitToTargetKB(
   return { blob: best, fittedByDims: false };
 }
 
-const KB_CRC_TABLE: number[] = (() => {
-  const table: number[] = [];
-  for (let n = 0; n < 256; n++) {
-    let c = n;
-    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
-    table.push(c >>> 0);
-  }
-  return table;
-})();
-
-function kbCrc32(data: Uint8Array): number {
-  let crc = 0xffffffff;
-  for (let i = 0; i < data.length; i++) crc = KB_CRC_TABLE[(crc ^ data[i]) & 0xff] ^ (crc >>> 8);
-  return (crc ^ 0xffffffff) >>> 0;
-}
-
-async function kbMakeZip(files: { name: string; blob: Blob }[]): Promise<Blob> {
-  const enc = new TextEncoder();
-  const parts: BlobPart[] = [];
-  const central: BlobPart[] = [];
-  let offset = 0;
-  let centralSize = 0;
-  for (const f of files) {
-    const data = new Uint8Array(await f.blob.arrayBuffer());
-    const nameBytes = enc.encode(f.name);
-    const crc = kbCrc32(data);
-    const lh = new DataView(new ArrayBuffer(30));
-    lh.setUint32(0, 0x04034b50, true);
-    lh.setUint16(4, 20, true);
-    lh.setUint16(6, 0x0800, true);
-    lh.setUint16(8, 0, true);
-    lh.setUint16(10, 0, true);
-    lh.setUint16(12, 0x21, true);
-    lh.setUint32(14, crc, true);
-    lh.setUint32(18, data.length, true);
-    lh.setUint32(22, data.length, true);
-    lh.setUint16(26, nameBytes.length, true);
-    lh.setUint16(28, 0, true);
-    parts.push(lh.buffer, nameBytes, data);
-    const ch = new DataView(new ArrayBuffer(46));
-    ch.setUint32(0, 0x02014b50, true);
-    ch.setUint16(4, 20, true);
-    ch.setUint16(6, 20, true);
-    ch.setUint16(8, 0x0800, true);
-    ch.setUint16(10, 0, true);
-    ch.setUint16(12, 0, true);
-    ch.setUint16(14, 0x21, true);
-    ch.setUint32(16, crc, true);
-    ch.setUint32(20, data.length, true);
-    ch.setUint32(24, data.length, true);
-    ch.setUint16(28, nameBytes.length, true);
-    ch.setUint32(42, offset, true);
-    central.push(ch.buffer, nameBytes);
-    centralSize += 46 + nameBytes.length;
-    offset += 30 + nameBytes.length + data.length;
-  }
-  const end = new DataView(new ArrayBuffer(22));
-  end.setUint32(0, 0x06054b50, true);
-  end.setUint16(8, files.length, true);
-  end.setUint16(10, files.length, true);
-  end.setUint32(12, centralSize, true);
-  end.setUint32(16, offset, true);
-  return new Blob([...parts, ...central, end.buffer], { type: "application/zip" });
-}
-
 export function initKb(): void {
   const kb: KbState = { img: null, file: null, target: 50, mode: "exact", format: "jpg" };
   let kbTimer: ReturnType<typeof setTimeout> | null = null;
@@ -1569,7 +1483,7 @@ export function initKb(): void {
       T("kbBatchDone").replace("{ok}", String(okCount)).replace("{total}", String(kbB.files.length)),
     );
     if (kbB.results.length) {
-      const zip = await kbMakeZip(kbB.results.map((r2) => ({ name: r2.name, blob: r2.blob })));
+      const zip = await makeZip(kbB.results.map((r2) => ({ name: r2.name, blob: r2.blob })));
       const za = $("kbBatchZip") as HTMLAnchorElement;
       za.href = URL.createObjectURL(zip);
       za.download = "resized-photos.zip";

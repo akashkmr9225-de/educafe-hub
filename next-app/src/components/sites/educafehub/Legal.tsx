@@ -17,7 +17,7 @@ export function LegalSection() {
       </div>
       <p className="sec-sub" data-i18n="legalDesc">
         The plain-language pages every real website needs — and the ones Google AdSense asks for.
-        Last updated: 13 November 2026.
+        Last updated: 16 November 2026.
       </p>
       <div className="card">
         <div className="tablist" role="tablist" data-i18n-aria="ariaLegal" aria-label="Legal pages">
@@ -42,7 +42,7 @@ export function LegalSection() {
           <h3 data-i18n="privT">Privacy Policy — your files stay with you</h3>
           <ul>
             <li data-i18n="priv1">Every tool runs in your browser on this device. Photos, signatures and PDFs you open are processed here only — they are never uploaded to us or to anyone else, and we cannot see them. This includes children's photos used for school forms.</li>
-            <li data-i18n="priv2">You may optionally save a small profile on this device (your name, a mobile number or email, and a School / Cyber Cafe label) plus a list of your tasks. Both are stored only in this browser on this device — they are never sent to us or to anyone else, and signing out or clearing browser data removes them. This page sets no cookies and runs no analytics or advertising trackers.</li>
+            <li data-i18n="priv2">You may optionally save a small profile on this device (your name, a mobile number or email, and a School / Cyber Cafe label) It is stored only in this browser on this device — it is never sent to us or to anyone else, and signing out or clearing browser data removes it. This page sets no cookies and runs no analytics or advertising trackers.</li>
             <li data-i18n="priv3">
               If advertising (such as Google AdSense) is added later, after we move to our own
               domain, ad providers like Google may use cookies to show and measure ads. This policy
@@ -110,6 +110,7 @@ export function LegalSection() {
               Vaishali and Muzaffarpur, Bihar — but anyone can use it, free, without login.
             </li>
             <li data-i18n="about3">Why it is free: everything runs in the visitor's own browser, so there is no server bill. That is why it stays free and fast, and never collects your files.</li>
+            <li data-i18n="bizLine">EduCafe Hub is run by Akash Kumar Sharma, Saraiya, Muzaffarpur, Bihar 843120, India. Email: akashkmr9225@gmail.com · WhatsApp: +91 87874 79225.</li>
           </ul>
         </div>
 
@@ -246,9 +247,13 @@ export function Footer() {
         </div>
       </div>
       <p className="flegal">
-        <a href="/legal/#privacy" data-i18n="footPrivacy">Privacy Policy</a>
+        <a href="/privacy/" data-i18n="footPrivacy">Privacy Policy</a>
         <span aria-hidden="true">·</span>
-        <a href="/legal/#terms" data-i18n="footTerms">Terms of Use</a>
+        <a href="/terms/" data-i18n="footTerms">Terms of Use</a>
+        <span aria-hidden="true">·</span>
+        <a href="/cookies/" data-i18n="footCookies">Cookie Policy</a>
+        <span aria-hidden="true">·</span>
+        <a href="/refund/" data-i18n="footRefund">Refund Policy</a>
         <span aria-hidden="true">·</span>
         <a href="/legal/#contact" data-i18n="footContactLink">Contact</a>
       </p>
@@ -258,5 +263,47 @@ export function Footer() {
         size/KB requirement in the form's own instructions once — every portal has different rules.
       </p>
     </footer>
+  );
+}
+
+import rawDict from "@/data/i18n.json";
+
+const EN = (rawDict as { en: Record<string, string> }).en;
+
+const DOCS = {
+  privacy: { titleKey: "privT", items: ["priv1", "priv2", "priv3", "priv4", "priv5", "priv6", "priv7"] },
+  terms: { titleKey: "termsT", items: ["terms1", "terms2", "terms3", "terms4", "terms5", "terms6", "terms7"] },
+  cookies: { titleKey: "ckT", items: ["ck1", "ck2", "ck3", "ck4", "ck5"] },
+  refund: { titleKey: "rfT", items: ["rf1", "rf2", "rf3", "rf4"] },
+} as const;
+
+export function LegalDoc({ doc }: { doc: keyof typeof DOCS }) {
+  const d = DOCS[doc];
+  return (
+    <section>
+      <div className="sec-head">
+        <span className="no">⚖️</span>
+        <h2 data-i18n={d.titleKey}>{EN[d.titleKey]}</h2>
+      </div>
+      <p className="sec-sub" data-i18n="docUpdated">
+        {EN.docUpdated}
+      </p>
+      <div className="card">
+        <ul>
+          {d.items.map((k) => (
+            <li key={k} data-i18n={k}>
+              {EN[k]}
+            </li>
+          ))}
+        </ul>
+        <hr style={{ border: 0, borderTop: "1px solid var(--line)", margin: "20px 0" }} />
+        <p data-i18n="bizLine">{EN.bizLine}</p>
+        <p>
+          <a href="/legal/#contact" data-i18n="footContactLink">
+            Contact
+          </a>
+        </p>
+      </div>
+    </section>
   );
 }

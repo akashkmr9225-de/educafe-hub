@@ -281,6 +281,9 @@ export function BulkTool() {
               <button className="btn saf" id="bkIndBtn" disabled data-i18n="bkIndBtn">
                 ⬇ Download all photos (ZIP)
               </button>
+              <button className="btn ghost" id="bkDirBtn" disabled style={{ display: "none" }} data-i18n="bkDirBtn">
+                Save photos to a folder
+              </button>
             </div>
             <div className="msg" id="bkMsg" />
             <p className="hint" data-i18n="bkHint">

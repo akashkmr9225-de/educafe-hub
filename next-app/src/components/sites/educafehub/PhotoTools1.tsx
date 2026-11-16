@@ -238,13 +238,8 @@ export function PassportTool() {
                   <button type="button" className="btn ghost small" id="ppAdjReset" data-i18n="ppAdjResetBtn">Reset</button>
                 </div>
               </div>
-              <div className="btnrow">
-                <button className="btn" id="ppGenerate" data-i18n="ppGenerateBtn">🖨️ Generate sheet</button>
-                <button className="btn saf" id="ppDownload" disabled data-i18n="ppDownload">⬇ Download sheet (JPG)</button>
-              </div>
-              <div className="msg" id="ppMsg" />
             </div>
-            <div>
+            <div className="prevcol">
               <div className="preview show">
                 <div className="sheetwrap">
                   <canvas
@@ -258,6 +253,11 @@ export function PassportTool() {
                   <span data-i18n="ppStatWait">The sheet will appear here as soon as you upload a photo</span>
                 </div>
               </div>
+              <div className="btnrow" style={{ marginTop: 12 }}>
+                <button className="btn" id="ppGenerate" data-i18n="ppGenerateBtn">🖨️ Generate sheet</button>
+                <button className="btn saf" id="ppDownload" disabled data-i18n="ppDownload">⬇ Download sheet (JPG)</button>
+              </div>
+              <div className="msg" id="ppMsg" />
               <p className="hint" data-i18n="ppPrintHint">
                 When printing, choose “Actual size / 100%” in the printer settings — not “Fit to
                 page”, or the size will change. A light outline on each photo makes cutting easier.
@@ -546,10 +546,10 @@ export function ExactKbTool() {
             <p className="hint" id="kbDimNote" style={{ marginTop: 4 }} />
             <div className="msg" id="kbMsg" />
           </div>
-          <div>
+          <div className="prevcol">
             <div className="preview show" id="kbPreview">
               <img id="kbImg" alt="Resized photo preview" />
-              <div className="stat" id="kbStat" />
+              <div className="stat" id="kbStat"><span data-i18n="kbWait">Your resized photo will appear here</span></div>
               <p className="hint" id="kbPngNote" style={{ display: "none", marginTop: 8 }} data-i18n="kbPngNote" />
               <div className="btnrow" style={{ marginTop: 10 }}>
                 <button type="button" className="btn primary" id="kbGo" data-i18n="kbGoBtn">

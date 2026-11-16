@@ -69,7 +69,7 @@ export function SignatureTool() {
             </div>
             <div className="msg" id="sgMsg" />
           </div>
-          <div>
+          <div className="prevcol">
             <div className="preview" id="sgPreview">
               <img id="sgImg" alt="Cleaned signature preview" />
               <div className="stat" id="sgStat" />
@@ -173,7 +173,7 @@ export function JoinerTool() {
             </div>
             <div className="msg" id="jnMsg" />
           </div>
-          <div>
+          <div className="prevcol">
             <div className="preview" id="jnPreview">
               <img id="jnImg" alt="Photo and signature combined preview" />
               <div className="stat" id="jnStat" />

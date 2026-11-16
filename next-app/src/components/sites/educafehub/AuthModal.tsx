@@ -181,6 +181,9 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
                 {err}
               </p>
             )}
+            <p className="hint" data-i18n="authConsent">
+              By saving, you agree to keep this profile in this browser on this device. It is never sent to us — sign out or clear browser data any time to remove it.
+            </p>
             <div className="btnrow">
               <button className="btn" type="submit">{T("authSave")}</button>
             </div>

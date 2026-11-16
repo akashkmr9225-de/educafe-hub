@@ -3,7 +3,6 @@ import {
   T,
   getLang,
   i18nCounts,
-  onDownload,
   onLangChange,
   pulse,
   setLang,
@@ -13,7 +12,6 @@ import {
 import { pcCalc } from "./tools-calc";
 
 const PK = "educafehub_profile";
-const TK = "educafehub_tasks";
 const LK = "educafehub_lang";
 
 interface Profile {
@@ -22,13 +20,8 @@ interface Profile {
   kind: string;
 }
 
-interface TaskItem {
-  t: string;
-  ts: number;
-}
-
-// Null-safe element helpers: pages render different sections (the homepage has
-// Tasks + Links, tool pages do not), so every lookup here must tolerate a
+// Null-safe element helpers: pages render different sections, so every lookup
+// here must tolerate a
 // missing element instead of throwing and killing the whole shell.
 function el(id: string): HTMLElement | null {
   return document.getElementById(id);
@@ -40,48 +33,6 @@ function inp(id: string): HTMLInputElement | null {
 
 function on(id: string, ev: string, fn: (e: Event) => void): void {
   el(id)?.addEventListener(ev, fn);
-}
-
-function getTasks(): TaskItem[] {
-  return store.get<TaskItem[]>(TK) || [];
-}
-
-function addTask(text: string): void {
-  const list = getTasks();
-  list.unshift({ t: text, ts: Date.now() });
-  if (list.length > 100) list.length = 100;
-  store.set(TK, list);
-  renderTasks();
-}
-
-function renderTasks(): void {
-  const ul = el("taskList");
-  if (!ul) return;
-  const list = getTasks();
-  ul.innerHTML = "";
-  const empty = el("taskEmpty");
-  if (empty) empty.style.display = list.length ? "none" : "";
-  list.forEach((it) => {
-    const li = document.createElement("li");
-    const a = document.createElement("span");
-    a.className = "tt";
-    a.textContent = it.t;
-    const b = document.createElement("span");
-    b.className = "td";
-    try {
-      b.textContent = new Date(it.ts).toLocaleString(getLang() === "hi" ? "hi-IN" : "en-IN", {
-        day: "numeric",
-        month: "short",
-        hour: "numeric",
-        minute: "2-digit",
-      });
-    } catch {
-      b.textContent = "";
-    }
-    li.appendChild(a);
-    li.appendChild(b);
-    ul.appendChild(li);
-  });
 }
 
 function renderAuth(): void {
@@ -115,30 +66,6 @@ export function initAppShell(): void {
         authKindVal = v;
       }) || "school";
   }
-
-  on("taskAdd", "click", () => {
-    const note = inp("taskNote");
-    const v = (note?.value || "").trim();
-    if (!v) return;
-    if (note) note.value = "";
-    addTask(`📝 ${v}`);
-    pulse(el("taskAdd"));
-  });
-  inp("taskNote")?.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      el("taskAdd")?.click();
-    }
-  });
-  on("taskClear", "click", () => {
-    store.set(TK, []);
-    renderTasks();
-  });
-
-  onDownload((name) => {
-    addTask(`⬇ ${name}`);
-    showToast(T("tasksLogged"));
-  });
 
   el("authForm")?.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -344,7 +271,6 @@ export function initAppShell(): void {
 
   onLangChange(() => {
     renderAuth();
-    renderTasks();
     if (el("pcTotal")) pcCalc();
     document.querySelectorAll<HTMLInputElement>("#rcItems .rcn").forEach((i) => {
       i.placeholder = T("rcItemPh");
@@ -357,6 +283,5 @@ export function initAppShell(): void {
   const saved = store.get<string>(LK);
   setLang(saved === "hi" ? "hi" : "en");
   renderAuth();
-  renderTasks();
   if (el("pcTotal")) pcCalc();
 }

@@ -188,7 +188,7 @@ export function ImageCompressorTool() {
             </div>
             <div className="msg" id="cpMsg" />
           </div>
-          <div>
+          <div className="prevcol">
             <div className="preview" id="cpPreview">
               <img id="cpImg" alt="Compressed image preview" />
               <div className="stat" id="cpStat" />

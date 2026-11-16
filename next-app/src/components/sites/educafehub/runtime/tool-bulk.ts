@@ -421,6 +421,7 @@ export function initBulk(): void {
     const has = bk.items.length > 0;
     (input("bkGenerate") as HTMLButtonElement).disabled = !has;
     (input("bkIndBtn") as HTMLButtonElement).disabled = !has;
+    (input("bkDirBtn") as HTMLButtonElement).disabled = !has;
     (input("bkAiRun") as HTMLButtonElement).disabled = !has;
     $("bkClear").style.display = has ? "inline-flex" : "none";
     $("bkName").textContent = has ? TT("bkLoadedN").replace("{n}", String(bk.items.length)) : "";
@@ -594,6 +595,40 @@ export function initBulk(): void {
     btn.textContent = TT("bkIndBtn");
     const msg = $("bkMsg");
     msg.textContent = TT("bkZipDone");
+    msg.className = "msg good";
+  });
+
+  const bkDirSupported = typeof (window as any).showDirectoryPicker === "function";
+  if (bkDirSupported) {
+    ($("bkDirBtn") as HTMLButtonElement).style.display = "";
+  }
+  $("bkDirBtn").addEventListener("click", async function (this: HTMLButtonElement, e: Event) {
+    if (!bk.items.length || !bkDirSupported) return;
+    const btn = e.currentTarget as HTMLButtonElement;
+    let dir: any;
+    try {
+      dir = await (window as any).showDirectoryPicker();
+    } catch {
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = TT("bkSavingFolder");
+    const used: Record<string, number> = {};
+    for (let i = 0; i < bk.items.length; i++) {
+      const it = bk.items[i];
+      const r = await bkIndividualBlob(it);
+      let nm = bkSafeName(it);
+      if (used[nm]) nm = `${nm}-${it.id}`;
+      used[nm] = 1;
+      const fh = await dir.getFileHandle(`${nm}.${r.ext}`, { create: true });
+      const w = await fh.createWritable();
+      await w.write(r.blob);
+      await w.close();
+    }
+    btn.disabled = false;
+    btn.textContent = TT("bkDirBtn");
+    const msg = $("bkMsg");
+    msg.textContent = TT("bkDirDone");
     msg.className = "msg good";
   });
 

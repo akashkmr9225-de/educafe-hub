@@ -51,12 +51,12 @@ export function ExamPhotoTool() {
               portals change rules.
             </p>
           </div>
-          <div>
-            <div className="preview" id="exPreview">
+          <div className="prevcol">
+            <div className="preview show" id="exPreview">
               <div className="sheetwrap">
                 <canvas id="exCanvas" width={200} height={230} />
               </div>
-              <div className="stat" id="exStat" />
+              <div className="stat" id="exStat"><span data-i18n="exWait">Your exam photo will appear here</span></div>
             </div>
           </div>
         </div>

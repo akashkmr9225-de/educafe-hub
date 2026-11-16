@@ -95,7 +95,7 @@ export function QrTool() {
             </div>
             <div className="msg" id="qrMsg" />
           </div>
-          <div>
+          <div className="prevcol">
             <div className="preview" id="qrPreview">
               <div className="sheetwrap" style={{ background: "#fff" }}>
                 <div id="qrOut" style={{ display: "inline-block", lineHeight: 0 }} />

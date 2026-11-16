@@ -25,17 +25,11 @@ export function ConverterCard() {
         <label className="fl" data-i18n="convFmtLabel">
           Convert to
         </label>
-        <div className="chips" id="fcFmt">
-          <button type="button" className="chip saf" data-v="image/jpeg" aria-pressed="true">
-            JPG
-          </button>
-          <button type="button" className="chip" data-v="image/png" aria-pressed="false">
-            PNG
-          </button>
-          <button type="button" className="chip" data-v="image/webp" aria-pressed="false">
-            WebP
-          </button>
-        </div>
+        <select id="fcFmt" className="sel" defaultValue="image/jpeg">
+          <option value="image/jpeg">JPG</option>
+          <option value="image/png">PNG</option>
+          <option value="image/webp">WebP</option>
+        </select>
       </div>
       <div className="btnrow">
         <button className="btn" id="fcGo" disabled data-i18n="convBtn">
@@ -159,17 +153,11 @@ export function FileToolsSection() {
             <label className="fl" data-i18n="ftFmtLabel">
               Format
             </label>
-            <div className="chips" id="fiFmt">
-              <button type="button" className="chip saf" data-v="image/jpeg" aria-pressed="true">
-                JPG
-              </button>
-              <button type="button" className="chip" data-v="image/png" aria-pressed="false">
-                PNG
-              </button>
-              <button type="button" className="chip" data-v="image/webp" aria-pressed="false">
-                WebP
-              </button>
-            </div>
+            <select id="fiFmt" className="sel" defaultValue="image/jpeg">
+              <option value="image/jpeg">JPG</option>
+              <option value="image/png">PNG</option>
+              <option value="image/webp">WebP</option>
+            </select>
           </div>
           <div className="btnrow">
             <button className="btn ghost small" id="fiRotL" type="button" data-i18n="ftRotL">

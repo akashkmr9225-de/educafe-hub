@@ -70,34 +70,22 @@ export function QrTool() {
                 <label className="fl" data-i18n="qrWifiSecLabel">
                   Security type
                 </label>
-                <div className="chips" id="qrWifiSec">
-                  <button type="button" className="chip saf" data-v="WPA" aria-pressed="true">
-                    WPA / WPA2
-                  </button>
-                  <button type="button" className="chip" data-v="WEP" aria-pressed="false">
-                    WEP
-                  </button>
-                  <button type="button" className="chip" data-v="nopass" aria-pressed="false" data-i18n="qrWifiOpen">
-                    Open (no password)
-                  </button>
-                </div>
+                <select id="qrWifiSec" className="sel" defaultValue="WPA">
+                  <option value="WPA">WPA / WPA2</option>
+                  <option value="WEP" data-i18n="qrWifiWep">WEP</option>
+                  <option value="nopass" data-i18n="qrWifiOpen">Open (no password)</option>
+                </select>
               </div>
             </div>
             <div className="field">
               <label className="fl" data-i18n="qrSizeLabel">
                 Print size
               </label>
-              <div className="chips" id="qrSize">
-                <button type="button" className="chip" data-v="256" aria-pressed="false">
-                  256 px
-                </button>
-                <button type="button" className="chip saf" data-v="512" aria-pressed="true">
-                  512 px
-                </button>
-                <button type="button" className="chip" data-v="1024" aria-pressed="false">
-                  1024 px
-                </button>
-              </div>
+              <select id="qrSize" className="sel" defaultValue="512">
+                <option value="256">256 px</option>
+                <option value="512">512 px</option>
+                <option value="1024">1024 px</option>
+              </select>
             </div>
             <div className="btnrow">
               <button className="btn" id="qrGo" data-i18n="qrGo">Make QR</button>

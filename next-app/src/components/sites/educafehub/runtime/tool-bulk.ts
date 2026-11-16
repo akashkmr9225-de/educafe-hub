@@ -1,7 +1,7 @@
 import {
   $,
   c2b,
-  chipGroup,
+  chipGroup, selGroup,
   ctx2d,
   downloadBlob,
   drawContain,
@@ -120,7 +120,7 @@ export function initBulk(): void {
   bkToggle("bkDateOn", "dateOn");
   bkToggle("bkGuides", "guides");
 
-  chipGroup("bkPreset", (v) => {
+  selGroup("bkPreset", (v) => {
     if (v === "custom") {
       $("bkCustomRow").style.display = "flex";
       bk.wmm = parseFloat(input("bkCW").value) || 35;
@@ -141,14 +141,14 @@ export function initBulk(): void {
     bk.hmm = parseFloat(this.value) || 45;
     bkLayoutInfo();
   });
-  chipGroup("bkDpi", (v) => {
+  selGroup("bkDpi", (v) => {
     bk.dpi = parseInt(v, 10);
     bkLayoutInfo();
   });
   chipGroup("bkMode", (v) => {
     bk.mode = v;
   });
-  chipGroup("bkIndFmt", (v) => {
+  selGroup("bkIndFmt", (v) => {
     bk.fmt = v;
   });
   chipGroup("bkStrip", (v) => {
@@ -984,7 +984,7 @@ export function initBulk(): void {
     bk.xl.keepNums = this.getAttribute("aria-pressed") !== "true";
     this.setAttribute("aria-pressed", bk.xl.keepNums ? "true" : "false");
   });
-  chipGroup("bkXlStrict", (v) => {
+  selGroup("bkXlStrict", (v) => {
     bk.xl.strict = v;
   });
 

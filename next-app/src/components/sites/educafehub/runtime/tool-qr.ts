@@ -1,4 +1,4 @@
-import { $, chipGroup, input, setHTML, setMsg } from "./helpers";
+import { $, chipGroup, selGroup, input, setHTML, setMsg } from "./helpers";
 import { T } from "./state";
 
 interface QrState {
@@ -15,10 +15,10 @@ export function initQr(): void {
     $("qrFldLink").hidden = v !== "link";
     $("qrFldWifi").hidden = v !== "wifi";
   });
-  chipGroup("qrSize", (v) => {
+  selGroup("qrSize", (v) => {
     qr.size = parseInt(v, 10);
   });
-  chipGroup("qrWifiSec", (v) => {
+  selGroup("qrWifiSec", (v) => {
     qr.sec = v;
   });
 

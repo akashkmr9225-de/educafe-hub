@@ -220,6 +220,13 @@ export function chipGroup(id: string, cb: (value: string) => void): string | nul
   return cur ? cur.getAttribute("data-v") : null;
 }
 
+export function selGroup(id: string, cb: (value: string) => void): string | null {
+  const el = $(id) as unknown as HTMLSelectElement | null;
+  if (!el) return null;
+  el.addEventListener("change", () => cb(el.value));
+  return el.value;
+}
+
 export async function toTargetKB(cv: HTMLCanvasElement, targetKB: number): Promise<Blob> {
   const target = targetKB * 1024;
   let best = await c2b(cv, 0.92);

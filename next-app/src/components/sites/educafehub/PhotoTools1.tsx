@@ -85,44 +85,12 @@ export function PassportTool() {
                 <label className="fl" data-i18n="ppPresetLabel">
                   Photo size
                 </label>
-                <div className="chips" id="ppPreset">
-                  <button
-                    type="button"
-                    className="chip saf"
-                    data-v="35x45"
-                    aria-pressed="true"
-                    data-i18n="ppPresetPassport"
-                  >
-                    Passport — 35 × 45 mm
-                  </button>
-                  <button
-                    type="button"
-                    className="chip"
-                    data-v="51x51"
-                    aria-pressed="false"
-                    data-i18n="ppPresetPan"
-                  >
-                    PAN / OCI — 51 × 51 mm
-                  </button>
-                  <button
-                    type="button"
-                    className="chip"
-                    data-v="50.8x50.8"
-                    aria-pressed="false"
-                    data-i18n="ppPresetUs"
-                  >
-                    US — 2 × 2 inch
-                  </button>
-                  <button
-                    type="button"
-                    className="chip"
-                    data-v="custom"
-                    aria-pressed="false"
-                    data-i18n="ppPresetCustom"
-                  >
-                    Custom
-                  </button>
-                </div>
+                <select id="ppPreset" className="sel" defaultValue="35x45">
+                  <option value="35x45" data-i18n="ppPresetPassport">Passport — 35 × 45 mm</option>
+                  <option value="51x51" data-i18n="ppPresetPan">PAN / OCI — 51 × 51 mm</option>
+                  <option value="50.8x50.8" data-i18n="ppPresetUs">US — 2 × 2 inch</option>
+                  <option value="custom" data-i18n="ppPresetCustom">Custom</option>
+                </select>
                 <div className="num2" id="ppCustomRow" style={{ display: "none", marginTop: 8 }}>
                   <input
                     type="number"
@@ -359,44 +327,12 @@ export function PassportTool() {
                 <label className="fl" data-i18n="ppPresetLabel">
                   Photo size
                 </label>
-                <div className="chips" id="ppBulkPreset">
-                  <button
-                    type="button"
-                    className="chip saf"
-                    data-v="35x45"
-                    aria-pressed="true"
-                    data-i18n="ppPresetPassport"
-                  >
-                    Passport — 35 × 45 mm
-                  </button>
-                  <button
-                    type="button"
-                    className="chip"
-                    data-v="51x51"
-                    aria-pressed="false"
-                    data-i18n="ppPresetPan"
-                  >
-                    PAN / OCI — 51 × 51 mm
-                  </button>
-                  <button
-                    type="button"
-                    className="chip"
-                    data-v="50.8x50.8"
-                    aria-pressed="false"
-                    data-i18n="ppPresetUs"
-                  >
-                    US — 2 × 2 inch
-                  </button>
-                  <button
-                    type="button"
-                    className="chip"
-                    data-v="custom"
-                    aria-pressed="false"
-                    data-i18n="ppPresetCustom"
-                  >
-                    Custom
-                  </button>
-                </div>
+                <select id="ppBulkPreset" className="sel" defaultValue="35x45">
+                  <option value="35x45" data-i18n="ppPresetPassport">Passport — 35 × 45 mm</option>
+                  <option value="51x51" data-i18n="ppPresetPan">PAN / OCI — 51 × 51 mm</option>
+                  <option value="50.8x50.8" data-i18n="ppPresetUs">US — 2 × 2 inch</option>
+                  <option value="custom" data-i18n="ppPresetCustom">Custom</option>
+                </select>
                 <div className="num2" id="ppBulkCustomRow" style={{ display: "none", marginTop: 8 }}>
                   <input
                     type="number"
@@ -548,29 +484,16 @@ export function ExactKbTool() {
                   <option value="mb" data-i18n="kbUnitMB">MB</option>
                 </select>
               </div>
-              <div className="chips" id="kbPresets" style={{ marginTop: 8 }}>
-                <button type="button" className="chip" data-v="20" data-unit="kb" aria-pressed="false">
-                  20 KB
-                </button>
-                <button type="button" className="chip saf" data-v="50" data-unit="kb" aria-pressed="true">
-                  50 KB
-                </button>
-                <button type="button" className="chip" data-v="100" data-unit="kb" aria-pressed="false">
-                  100 KB
-                </button>
-                <button type="button" className="chip" data-v="200" data-unit="kb" aria-pressed="false">
-                  200 KB
-                </button>
-                <button type="button" className="chip" data-v="1" data-unit="mb" aria-pressed="false">
-                  1 MB
-                </button>
-                <button type="button" className="chip" data-v="2" data-unit="mb" aria-pressed="false">
-                  2 MB
-                </button>
-                <button type="button" className="chip" data-v="5" data-unit="mb" aria-pressed="false">
-                  5 MB
-                </button>
-              </div>
+              <select id="kbPresets" className="sel" style={{ marginTop: 8 }} defaultValue="50:kb">
+                <option value="" disabled data-i18n="kbPresetCustom">Custom size</option>
+                <option value="20:kb">20 KB</option>
+                <option value="50:kb">50 KB</option>
+                <option value="100:kb">100 KB</option>
+                <option value="200:kb">200 KB</option>
+                <option value="1:mb">1 MB</option>
+                <option value="2:mb">2 MB</option>
+                <option value="5:mb">5 MB</option>
+              </select>
             </div>
             <div className="field">
               <label className="fl" data-i18n="kbFormatLabel">
@@ -587,44 +510,12 @@ export function ExactKbTool() {
               <label className="fl" data-i18n="kbModeLabel">
                 Size rule — some forms give a range, not just a limit
               </label>
-              <div className="chips" id="kbMode">
-                <button
-                  type="button"
-                  className="chip saf"
-                  data-v="exact"
-                  aria-pressed="true"
-                  data-i18n="kbModeExact"
-                >
-                  Exact size
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="under"
-                  aria-pressed="false"
-                  data-i18n="kbModeUnder"
-                >
-                  Under the size
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="atleast"
-                  aria-pressed="false"
-                  data-i18n="kbModeAtLeast"
-                >
-                  At least the size
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="between"
-                  aria-pressed="false"
-                  data-i18n="kbModeBetween"
-                >
-                  Between two sizes
-                </button>
-              </div>
+              <select id="kbMode" className="sel" defaultValue="exact">
+                <option value="exact" data-i18n="kbModeExact">Exact size</option>
+                <option value="under" data-i18n="kbModeUnder">Under the size</option>
+                <option value="atleast" data-i18n="kbModeAtLeast">At least the size</option>
+                <option value="between" data-i18n="kbModeBetween">Between two sizes</option>
+              </select>
               <div className="num2" id="kbMaxRow" style={{ display: "none", marginTop: 8 }}>
                 <label className="fl" htmlFor="kbMax" style={{ margin: 0 }} data-i18n="kbMaxLabel">Maximum size (KB)</label>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -694,15 +585,16 @@ export function ExactKbTool() {
                 <option value="mb" data-i18n="kbUnitMB">MB</option>
               </select>
             </div>
-            <div className="chips" id="kbBPresets" style={{ marginTop: 8 }}>
-              <button type="button" className="chip" data-v="20" data-unit="kb" aria-pressed="false">20 KB</button>
-              <button type="button" className="chip saf" data-v="50" data-unit="kb" aria-pressed="true">50 KB</button>
-              <button type="button" className="chip" data-v="100" data-unit="kb" aria-pressed="false">100 KB</button>
-              <button type="button" className="chip" data-v="200" data-unit="kb" aria-pressed="false">200 KB</button>
-              <button type="button" className="chip" data-v="1" data-unit="mb" aria-pressed="false">1 MB</button>
-              <button type="button" className="chip" data-v="2" data-unit="mb" aria-pressed="false">2 MB</button>
-              <button type="button" className="chip" data-v="5" data-unit="mb" aria-pressed="false">5 MB</button>
-            </div>
+            <select id="kbBPresets" className="sel" style={{ marginTop: 8 }} defaultValue="50:kb">
+              <option value="" disabled data-i18n="kbPresetCustom">Custom size</option>
+              <option value="20:kb">20 KB</option>
+              <option value="50:kb">50 KB</option>
+              <option value="100:kb">100 KB</option>
+              <option value="200:kb">200 KB</option>
+              <option value="1:mb">1 MB</option>
+              <option value="2:mb">2 MB</option>
+              <option value="5:mb">5 MB</option>
+            </select>
           </div>
           <div className="field">
             <label className="fl" data-i18n="kbFormatLabel">
@@ -716,20 +608,12 @@ export function ExactKbTool() {
           </div>
           <div className="field">
             <label className="fl" data-i18n="kbModeLabel">Size rule — some forms give a range, not just a limit</label>
-            <div className="chips" id="kbBMode">
-              <button type="button" className="chip saf" data-v="exact" aria-pressed="true" data-i18n="kbModeExact">
-                Exact size
-              </button>
-              <button type="button" className="chip" data-v="under" aria-pressed="false" data-i18n="kbModeUnder">
-                Under the size
-              </button>
-              <button type="button" className="chip" data-v="atleast" aria-pressed="false" data-i18n="kbModeAtLeast">
-                At least the size
-              </button>
-              <button type="button" className="chip" data-v="between" aria-pressed="false" data-i18n="kbModeBetween">
-                Between two sizes
-              </button>
-            </div>
+            <select id="kbBMode" className="sel" defaultValue="exact">
+              <option value="exact" data-i18n="kbModeExact">Exact size</option>
+              <option value="under" data-i18n="kbModeUnder">Under the size</option>
+              <option value="atleast" data-i18n="kbModeAtLeast">At least the size</option>
+              <option value="between" data-i18n="kbModeBetween">Between two sizes</option>
+            </select>
             <div className="num2" id="kbBMaxRow" style={{ display: "none", marginTop: 8 }}>
               <label className="fl" htmlFor="kbBMaxNum" style={{ margin: 0 }} data-i18n="kbMaxLabel">Maximum size (KB)</label>
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>

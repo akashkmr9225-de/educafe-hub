@@ -43,29 +43,11 @@ export function SignatureTool() {
               <label className="fl" data-i18n="sgOutputLabel">
                 Output size
               </label>
-              <div className="chips" id="sgSize">
-                <button
-                  type="button"
-                  className="chip saf"
-                  data-v="300x120"
-                  aria-pressed="true"
-                  data-i18n="sgChip300"
-                >
-                  300 × 120 (common form)
-                </button>
-                <button type="button" className="chip" data-v="400x160" aria-pressed="false">
-                  400 × 160
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="orig"
-                  aria-pressed="false"
-                  data-i18n="sgChipOrig"
-                >
-                  Original (clean only)
-                </button>
-              </div>
+              <select id="sgSize" className="sel" defaultValue="300x120">
+                <option value="300x120" data-i18n="sgChip300">300 × 120 (common form)</option>
+                <option value="400x160">400 × 160</option>
+                <option value="orig" data-i18n="sgChipOrig">Original (clean only)</option>
+              </select>
             </div>
             <p className="hint" data-i18n="sgSizeHint" style={{ marginTop: 6 }}>
               Which size? Most exam forms take 300 × 120; some take 400 × 160. Original keeps your

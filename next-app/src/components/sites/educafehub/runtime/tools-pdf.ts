@@ -1,6 +1,6 @@
 import {
   $,
-  chipGroup,
+  selGroup,
   ctx2d,
   downloadBlob,
   fmtKB,
@@ -22,7 +22,7 @@ interface ImageToPdfState {
 
 export function initImageToPdf(): void {
   const pdf: ImageToPdfState = { files: [], size: "a4" };
-  chipGroup("pdfSize", (v) => {
+  selGroup("pdfSize", (v) => {
     pdf.size = v;
   });
   function renderPdfThumbs(): void {
@@ -191,7 +191,7 @@ export function initPdfCompress(): void {
       `<span>${T("pcOrigSize").replace("{size}", fmtSize(pc.file.size))}</span><span>${T("pcLevelLine").replace("{lvl}", T(pc.level === "high" ? "pcLvlNameHigh" : pc.level === "low" ? "pcLvlNameLow" : "pcLvlNameMed"))}</span>`,
     );
   }
-  chipGroup("pcLevel", (v) => {
+  selGroup("pcLevel", (v) => {
     pc.level = v;
     pcShowStat();
   });
@@ -380,7 +380,7 @@ export function initFileTools(): void {
     flipV: number;
     fmt: string;
   } = { img: null, file: null, rot: 0, flipH: 1, flipV: 1, fmt: "image/jpeg" };
-  chipGroup("fiFmt", (v) => {
+  selGroup("fiFmt", (v) => {
     fi.fmt = v;
   });
   wireDrop("fiDrop", "fiFile", (f) => {
@@ -513,7 +513,7 @@ interface ConverterState {
 
 export function initConverter(): void {
   const fc: ConverterState = { img: null, file: null, fmt: "image/jpeg" };
-  chipGroup("fcFmt", (v) => {
+  selGroup("fcFmt", (v) => {
     fc.fmt = v;
   });
   wireDrop("fcDrop", "fcFile", (f) => {

@@ -2,7 +2,7 @@ import {
   $,
   c2b,
   canvas,
-  chipGroup,
+  chipGroup, selGroup,
   ctx2d,
   downloadBlob,
   drawContain,
@@ -98,7 +98,7 @@ export function initPassport(): void {
     $("ppCanvas").scrollIntoView({ behavior: "smooth", block: "nearest" });
     setMsg("ppMsg", T("ppGenDone"), "good");
   });
-  chipGroup("ppPreset", (v) => {
+  selGroup("ppPreset", (v) => {
     if (v === "custom") {
       $("ppCustomRow").style.display = "flex";
       pp.wmm = parseFloat(input("ppCW").value) || 35;
@@ -729,7 +729,7 @@ export function initPassportBulk(): void {
   function syncSharedControls(): void {
     pb.paper = input("ppPaperSel").value;
     pb.quality = parseInt(input("ppQuality").value, 10) || 300;
-    const preset = $("ppBulkPreset").querySelector<HTMLElement>('[aria-pressed="true"]')?.getAttribute("data-v") || "35x45";
+    const preset = ($("ppBulkPreset") as unknown as HTMLSelectElement).value || "35x45";
     if (preset === "custom") {
       pb.wmm = parseFloat(input("ppBulkCW").value) || 35;
       pb.hmm = parseFloat(input("ppBulkCH").value) || 45;
@@ -769,7 +769,7 @@ export function initPassportBulk(): void {
     setMsg("ppBulkMsg", T("ppGenDone"), "good");
   });
 
-  chipGroup("ppBulkPreset", (v) => {
+  selGroup("ppBulkPreset", (v) => {
     if (v === "custom") {
       $("ppBulkCustomRow").style.display = "flex";
       pb.wmm = parseFloat(input("ppBulkCW").value) || 35;
@@ -780,11 +780,7 @@ export function initPassportBulk(): void {
       pb.wmm = parseFloat(p[0]);
       pb.hmm = parseFloat(p[1]);
     }
-    const presetSel = $("ppPreset").querySelector<HTMLElement>(`[data-v="${v}"]`);
-    if (presetSel) {
-      $("ppPreset").querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", "false"));
-      presetSel.setAttribute("aria-pressed", "true");
-    }
+    ($("ppPreset") as unknown as HTMLSelectElement).value = v;
     syncSharedControls();
     renderSheets();
   });
@@ -1258,12 +1254,9 @@ export function initKb(): void {
   function syncKbChips(): void {
     const num = input("kbTargetNum").value;
     const unit = input("kbTargetUnit").value;
-    $("kbPresets")
-      .querySelectorAll<HTMLElement>(".chip")
-      .forEach((c) => {
-        const on = c.getAttribute("data-v") === num && (c.getAttribute("data-unit") || "kb") === unit;
-        c.setAttribute("aria-pressed", on ? "true" : "false");
-      });
+    const sel = $("kbPresets") as unknown as HTMLSelectElement;
+    const want = `${num}:${unit}`;
+    sel.value = Array.from(sel.options).some((o) => o.value === want) ? want : "";
   }
 
   function scheduleKbRender(): void {
@@ -1348,16 +1341,16 @@ export function initKb(): void {
     );
   }
 
-  chipGroup("kbPresets", (v) => {
-    const chip = $("kbPresets").querySelector('[aria-pressed="true"]');
-    const unit = chip?.getAttribute("data-unit") || "kb";
-    input("kbTargetNum").value = v;
-    input("kbTargetUnit").value = unit;
-    kb.target = unit === "mb" ? parseInt(v, 10) * 1024 : parseInt(v, 10);
+  selGroup("kbPresets", (v) => {
+    if (!v) return;
+    const [num, unit] = v.split(":");
+    input("kbTargetNum").value = num;
+    input("kbTargetUnit").value = unit || "kb";
+    kb.target = unit === "mb" ? parseInt(num, 10) * 1024 : parseInt(num, 10);
     scheduleKbRender();
   });
   kb.mode =
-    chipGroup("kbMode", (v) => {
+    selGroup("kbMode", (v) => {
       kb.mode = v;
       $("kbMaxRow").style.display = v === "between" ? "flex" : "none";
       $("kbModeHint").textContent =
@@ -1436,19 +1429,17 @@ export function initKb(): void {
   function syncKbBChips(): void {
     const num = input("kbBTargetNum").value;
     const unit = input("kbBTargetUnit").value;
-    $("kbBPresets")
-      .querySelectorAll<HTMLElement>(".chip")
-      .forEach((c) => {
-        const on = c.getAttribute("data-v") === num && (c.getAttribute("data-unit") || "kb") === unit;
-        c.setAttribute("aria-pressed", on ? "true" : "false");
-      });
+    const sel = $("kbBPresets") as unknown as HTMLSelectElement;
+    const want = `${num}:${unit}`;
+    sel.value = Array.from(sel.options).some((o) => o.value === want) ? want : "";
   }
-  chipGroup("kbBPresets", (v) => {
-    const chip = $("kbBPresets").querySelector('[aria-pressed="true"]');
-    input("kbBTargetNum").value = v;
-    input("kbBTargetUnit").value = chip?.getAttribute("data-unit") || "kb";
+  selGroup("kbBPresets", (v) => {
+    if (!v) return;
+    const [num, unit] = v.split(":");
+    input("kbBTargetNum").value = num;
+    input("kbBTargetUnit").value = unit || "kb";
   });
-  chipGroup("kbBMode", (v) => {
+  selGroup("kbBMode", (v) => {
     kbBMode = v;
     $("kbBMaxRow").style.display = v === "between" ? "flex" : "none";
   });
@@ -1596,7 +1587,7 @@ interface SignatureState {
 
 export function initSignature(): void {
   const sg: SignatureState = { img: null, file: null, size: "300x120" };
-  chipGroup("sgSize", (v) => {
+  selGroup("sgSize", (v) => {
     sg.size = v;
     scheduleSgRender();
   });
@@ -1852,7 +1843,7 @@ interface CompressorState {
 
 export function initCompressor(): void {
   const cp: CompressorState = { img: null, file: null, dim: 1920 };
-  chipGroup("cpDim", (v) => {
+  selGroup("cpDim", (v) => {
     cp.dim = parseInt(v, 10);
     cpRender();
   });
@@ -1924,7 +1915,7 @@ const EX: Record<string, { w: number; h: number; min: number; max: number }> = {
 export function initExamPhoto(): void {
   let exPreset = "ssc";
   let exImg: HTMLImageElement | null = null;
-  chipGroup("exPreset", (v) => {
+  selGroup("exPreset", (v) => {
     exPreset = v;
     if (exImg) exRender();
   });

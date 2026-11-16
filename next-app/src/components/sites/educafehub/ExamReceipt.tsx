@@ -16,20 +16,12 @@ export function ExamPhotoTool() {
               <label className="fl" data-i18n="exPresetL">
                 Choose the exam
               </label>
-              <div className="chips" id="exPreset">
-                <button type="button" className="chip saf" data-v="ssc" aria-pressed="true" data-i18n="exP1">
-                  SSC CGL / CHSL — 200×230 px · 20–50 KB
-                </button>
-                <button type="button" className="chip" data-v="upsc" aria-pressed="false" data-i18n="exP2">
-                  UPSC — 350×350 px · 20–300 KB
-                </button>
-                <button type="button" className="chip" data-v="bank" aria-pressed="false" data-i18n="exP3">
-                  Bank (IBPS / SBI) — 200×230 px · 20–50 KB
-                </button>
-                <button type="button" className="chip" data-v="bpsc" aria-pressed="false" data-i18n="exP4">
-                  Bihar SSC / BPSC — 250×350 px · 20–50 KB
-                </button>
-              </div>
+              <select id="exPreset" className="sel" defaultValue="ssc">
+                <option value="ssc" data-i18n="exP1">SSC CGL / CHSL — 200×230 px · 20–50 KB</option>
+                <option value="upsc" data-i18n="exP2">UPSC — 350×350 px · 20–300 KB</option>
+                <option value="bank" data-i18n="exP3">Bank (IBPS / SBI) — 200×230 px · 20–50 KB</option>
+                <option value="bpsc" data-i18n="exP4">Bihar SSC / BPSC — 250×350 px · 20–50 KB</option>
+              </select>
             </div>
             <div className="drop" id="exDrop" tabIndex={0} role="button" data-i18n-aria="ariaExDrop" aria-label="Upload photo">
               <div className="big" data-i18n="exDropT">
@@ -122,17 +114,11 @@ export function ReceiptTool() {
           <label className="fl" data-i18n="rcPayL">
             Payment
           </label>
-          <div className="chips" id="rcPay">
-            <button type="button" className="chip" data-v="Cash" aria-pressed="true" data-i18n="rcPayCash">
-              Cash
-            </button>
-            <button type="button" className="chip" data-v="UPI" aria-pressed="false">
-              UPI
-            </button>
-            <button type="button" className="chip" data-v="Card" aria-pressed="false" data-i18n="rcPayCard">
-              Card
-            </button>
-          </div>
+          <select id="rcPay" className="sel" defaultValue="Cash">
+            <option value="Cash" data-i18n="rcPayCash">Cash</option>
+            <option value="UPI" data-i18n="rcPayUpi">UPI</option>
+            <option value="Card" data-i18n="rcPayCard">Card</option>
+          </select>
         </div>
         <div className="result-big">
           <span data-i18n="rcTotalL">Total</span>: ₹<span id="rcTotal">0</span>

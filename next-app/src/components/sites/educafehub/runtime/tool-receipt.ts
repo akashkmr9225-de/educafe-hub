@@ -1,4 +1,4 @@
-import { $, chipGroup, downloadBlob, input, setMsg } from "./helpers";
+import { $, selGroup, downloadBlob, input, setMsg } from "./helpers";
 import { T, pulse, store } from "./state";
 
 const RK = "educafehub_rcpt_no";
@@ -189,7 +189,7 @@ export function initReceipt(): void {
   });
 
   rc.pay =
-    chipGroup("rcPay", (v) => {
+    selGroup("rcPay", (v) => {
       rc.pay = v;
     }) || "Cash";
 

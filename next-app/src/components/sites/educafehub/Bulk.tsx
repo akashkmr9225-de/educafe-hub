@@ -44,44 +44,12 @@ export function BulkTool() {
               <label className="fl" data-i18n="bkPresetLabel">
                 Photo size
               </label>
-              <div className="chips" id="bkPreset">
-                <button
-                  type="button"
-                  className="chip saf"
-                  data-v="35x45"
-                  aria-pressed="true"
-                  data-i18n="ppPresetPassport"
-                >
-                  Passport — 35 × 45 mm
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="51x51"
-                  aria-pressed="false"
-                  data-i18n="ppPresetPan"
-                >
-                  PAN / OCI — 51 × 51 mm
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="50.8x50.8"
-                  aria-pressed="false"
-                  data-i18n="ppPresetUs"
-                >
-                  US — 2 × 2 inch
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="custom"
-                  aria-pressed="false"
-                  data-i18n="ppPresetCustom"
-                >
-                  Custom
-                </button>
-              </div>
+              <select id="bkPreset" className="sel" defaultValue="35x45">
+                <option value="35x45" data-i18n="ppPresetPassport">Passport — 35 × 45 mm</option>
+                <option value="51x51" data-i18n="ppPresetPan">PAN / OCI — 51 × 51 mm</option>
+                <option value="50.8x50.8" data-i18n="ppPresetUs">US — 2 × 2 inch</option>
+                <option value="custom" data-i18n="ppPresetCustom">Custom</option>
+              </select>
               <div className="num2" id="bkCustomRow" style={{ display: "none", marginTop: 8 }}>
                 <input
                   type="number"
@@ -109,17 +77,11 @@ export function BulkTool() {
               <label className="fl" data-i18n="bkDpiLabel">
                 Print quality (DPI)
               </label>
-              <div className="chips" id="bkDpi">
-                <button type="button" className="chip saf" data-v="300" aria-pressed="true">
-                  300 DPI
-                </button>
-                <button type="button" className="chip" data-v="450" aria-pressed="false">
-                  450 DPI
-                </button>
-                <button type="button" className="chip" data-v="600" aria-pressed="false">
-                  600 DPI
-                </button>
-              </div>
+              <select id="bkDpi" className="sel" defaultValue="300">
+                <option value="300">300 DPI</option>
+                <option value="450">450 DPI</option>
+                <option value="600">600 DPI</option>
+              </select>
             </div>
             <div className="field">
               <label className="fl" data-i18n="ppModeLabel">
@@ -249,26 +211,12 @@ export function BulkTool() {
             <hr style={{ border: 0, borderTop: "1px solid var(--line)", margin: "18px 0" }} />
             <div className="field">
               <label className="fl" data-i18n="bkIndFmtLabel">Each student's separate file — format</label>
-              <div className="chips" id="bkIndFmt">
-                <button
-                  type="button"
-                  className="chip saf"
-                  data-v="orig"
-                  aria-pressed="true"
-                  data-i18n="bkFmtOrig"
-                >
-                  Original format
-                </button>
-                <button type="button" className="chip" data-v="image/jpeg" aria-pressed="false">
-                  JPG
-                </button>
-                <button type="button" className="chip" data-v="image/png" aria-pressed="false">
-                  PNG
-                </button>
-                <button type="button" className="chip" data-v="image/webp" aria-pressed="false">
-                  WebP
-                </button>
-              </div>
+              <select id="bkIndFmt" className="sel" defaultValue="orig">
+                <option value="orig" data-i18n="bkFmtOrig">Original format</option>
+                <option value="image/jpeg">JPG</option>
+                <option value="image/png">PNG</option>
+                <option value="image/webp">WebP</option>
+              </select>
             </div>
             <div className="field">
               <label className="fl" data-i18n="bkStripLabel">
@@ -421,17 +369,11 @@ export function BulkTool() {
                 <label className="fl" data-i18n="xlStrictL">
                   Matching
                 </label>
-                <div className="chips" id="bkXlStrict">
-                  <button type="button" className="chip" data-v="strict" aria-pressed="false" data-i18n="xlStrict">
-                    Strict — only when very sure
-                  </button>
-                  <button type="button" className="chip saf" data-v="balanced" aria-pressed="true" data-i18n="xlBalanced">
-                    Balanced — recommended
-                  </button>
-                  <button type="button" className="chip" data-v="loose" aria-pressed="false" data-i18n="xlLoose">
-                    Loose — match more, check more
-                  </button>
-                </div>
+                <select id="bkXlStrict" className="sel" defaultValue="balanced">
+                  <option value="strict" data-i18n="xlStrict">Strict — only when very sure</option>
+                  <option value="balanced" data-i18n="xlBalanced">Balanced — recommended</option>
+                  <option value="loose" data-i18n="xlLoose">Loose — match more, check more</option>
+                </select>
               </div>
               <div className="btnrow">
                 <button className="btn" id="bkXlRun" data-i18n="xlRunBtn">Match & rename</button>

@@ -27,23 +27,11 @@ export function ImageToPdfTool() {
               <label className="fl" data-i18n="pdfSizeLabel">
                 Page size
               </label>
-              <div className="chips" id="pdfSize">
-                <button type="button" className="chip saf" data-v="a4" aria-pressed="true">
-                  A4
-                </button>
-                <button type="button" className="chip" data-v="4x6" aria-pressed="false">
-                  4 × 6 inch
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="fit"
-                  aria-pressed="false"
-                  data-i18n="pdfSizeFit"
-                >
-                  Page sized to the photo
-                </button>
-              </div>
+              <select id="pdfSize" className="sel" defaultValue="a4">
+                <option value="a4">A4</option>
+                <option value="4x6">4 × 6 inch</option>
+                <option value="fit" data-i18n="pdfSizeFit">Page sized to the photo</option>
+              </select>
             </div>
             <div className="field">
               <label className="fl" htmlFor="pdfNameInput" data-i18n="pdfNameLabel">
@@ -103,29 +91,11 @@ export function PdfCompressTool() {
               <label className="fl" data-i18n="pcLevelLabel">
                 How much compression?
               </label>
-              <div className="chips" id="pcLevel">
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="high"
-                  aria-pressed="false"
-                  data-i18n="pcLvlHigh"
-                >
-                  Light — best quality (200 DPI)
-                </button>
-                <button type="button" className="chip saf" data-v="med" aria-pressed="true" data-i18n="pcLvlMed">
-                  Medium (150 DPI)
-                </button>
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="low"
-                  aria-pressed="false"
-                  data-i18n="pcLvlLow"
-                >
-                  Smallest (100 DPI)
-                </button>
-              </div>
+              <select id="pcLevel" className="sel" defaultValue="med">
+                <option value="high" data-i18n="pcLvlHigh">Light — best quality (200 DPI)</option>
+                <option value="med" data-i18n="pcLvlMed">Medium (150 DPI)</option>
+                <option value="low" data-i18n="pcLvlLow">Smallest (100 DPI)</option>
+              </select>
             </div>
             <div className="btnrow">
               <button className="btn" id="pcGo" disabled data-i18n="pcGo">Compress now</button>
@@ -198,26 +168,12 @@ export function ImageCompressorTool() {
               <label className="fl" data-i18n="cpDimLabel">
                 Largest side (px) — the photo will not exceed this
               </label>
-              <div className="chips" id="cpDim">
-                <button
-                  type="button"
-                  className="chip"
-                  data-v="0"
-                  aria-pressed="false"
-                  data-i18n="cpOrigChip"
-                >
-                  Original
-                </button>
-                <button type="button" className="chip saf" data-v="1920" aria-pressed="true">
-                  1920
-                </button>
-                <button type="button" className="chip" data-v="1280" aria-pressed="false">
-                  1280
-                </button>
-                <button type="button" className="chip" data-v="800" aria-pressed="false">
-                  800
-                </button>
-              </div>
+              <select id="cpDim" className="sel" defaultValue="1920">
+                <option value="0" data-i18n="cpOrigChip">Original</option>
+                <option value="1920">1920</option>
+                <option value="1280">1280</option>
+                <option value="800">800</option>
+              </select>
             </div>
             <div className="btnrow">
               <a

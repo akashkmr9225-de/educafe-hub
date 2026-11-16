@@ -13,7 +13,7 @@ Owner: Akash. Coordinated by Sapna. Rule that keeps us conflict-free: **only Sap
 - [x] Passport rounds 2+3: 10 papers, paper types, up to 600 DPI, Photo FIX folder upload, Generate buttons, PASSPORTFIX (Excel name matching, per-photo remove, HEIC message), online-form presets (Passport Seva/IBPS/SBI/OCI/DL/NEET — Agent Akash's verified B4 specs only), name+date strip, brightness/contrast, background removal
 - [x] Homepage: tools as small boxes, each tool on its own page; relatable emoji icons (iLovePDF pictogram logic) + real logos for 24/31 Daily Websites (7 portals block logo downloads — emoji kept there)
 - [x] K4 polish (tools 5-8): Image-to-PDF appends photos, per-photo remove/reorder, PDF size shown, Hindi filenames kept; PDF Compress retitled honestly + live level line + MB sizes; Image Compressor error messages, white background for JPG, JPG/PNG choice, larger-than-original warning; Age Calculator admission-year 31 March + Class 1 eligibility verdict
-- [ ] Remaining polish: convert 4+ option chip rows to dropdowns on tools 9-16 (design refactor — needs Akash's go-ahead)
+- [x] Dropdown pass: 20 chip rows converted to dropdowns across 11 tools (Exact KB presets + size rule, passport/bulk presets + DPI + format + Excel strictness, exam presets, signature size, PDF page size + compress level, compressor max side, converter/file-tools format, QR size + Wi-Fi security, receipt payment mode) — live, browser-tested (commit 927b8d9)
 - [ ] SEO pass: B2 keywords into titles/H1/meta/H2/FAQ + "kaise kare" steps on every tool page
 - [x] Pages CMS editor live (Akash can edit site texts himself)
 - [x] Repo AGENTS.md (architecture + don't-break list)

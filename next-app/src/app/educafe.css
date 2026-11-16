@@ -423,9 +423,3 @@ html[lang="en"] .hi-only { display: none !important; }
 
   /* ---------- visual upgrade: Haikei-style layered waves + scroll reveal ---------- */
   .intro::before{content:"";position:absolute;left:0;right:0;bottom:0;height:54%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='xMidYMax slice'%3E%3Cpath fill='%23ffffff' fill-opacity='0.05' d='M0,160 C240,110 480,210 720,180 C960,150 1200,90 1440,140 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='0.09' d='M0,210 C260,160 520,250 780,220 C1040,190 1240,150 1440,200 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='0.15' d='M0,262 C300,222 600,292 900,262 C1150,240 1300,232 1440,257 L1440,320 L0,320 Z'/%3E%3Cpath fill='none' stroke='%23F59E0B' stroke-opacity='0.35' stroke-width='3' d='M0,262 C300,222 600,292 900,262 C1150,240 1300,232 1440,257'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:bottom center;background-size:100% 100%;pointer-events:none}
-  @supports (animation-timeline: view()){
-    @media (prefers-reduced-motion: no-preference){
-      .rv{animation:rvIn linear both;animation-timeline:view();animation-range:entry 0% entry 55%}
-    }
-  }
-  @keyframes rvIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}

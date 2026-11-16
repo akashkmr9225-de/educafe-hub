@@ -9,12 +9,12 @@ export function PassportTool() {
       </div>
       <p className="sec-sub" data-i18n="t1Desc">Upload one photo, download a print-ready sheet — 300 DPI, correct passport size (35 × 45 mm). The busiest tool in any cafe.</p>
       <div className="card">
-        <div className="field" style={{ marginBottom: 16 }}>
+        <div className="field" style={{ marginBottom: 16, maxWidth: 340 }}>
           <label className="fl" data-i18n="ppModeSwitchLabel">Mode</label>
-          <div className="chips" id="ppModeSwitch">
-            <button type="button" className="chip saf" data-v="single" aria-pressed="true" data-i18n="ppModeSingle">Single photo</button>
-            <button type="button" className="chip" data-v="bulk" aria-pressed="false" data-i18n="ppModeBulk">Bulk — many students</button>
-          </div>
+          <select id="ppModeSwitch" className="sel" defaultValue="single">
+            <option value="single" data-i18n="ppModeSingle">Single photo</option>
+            <option value="bulk" data-i18n="ppModeBulk">Bulk — many students</option>
+          </select>
         </div>
         <div id="ppSinglePanel">
           <div className="grid2">
@@ -35,6 +35,7 @@ export function PassportTool() {
                 <input type="file" id="ppFile" accept="image/*" />
               </div>
               <div className="fname" id="ppName" />
+              <div className="row3">
               <div className="field" style={{ marginTop: 16 }}>
                 <label className="fl" data-i18n="ppPaperLabel">
                   Paper size
@@ -70,6 +71,8 @@ export function PassportTool() {
                   <span className="hint" id="ppCopiesNote" data-i18n="ppCopiesNote">Max 8 fit on 4×6 inch paper</span>
                 </div>
               </div>
+              </div>
+              <div className="row3">
               <div className="field">
                 <label className="fl" data-i18n="ppQualityLabel">
                   Print quality
@@ -139,6 +142,7 @@ export function PassportTool() {
                   </button>
                 </div>
               </div>
+              </div>
               <div className="field">
                 <label className="fl" data-i18n="ppExtraLabel">
                   Guides, background & name label
@@ -194,50 +198,6 @@ export function PassportTool() {
                   the shoulders in the frame.
                 </p>
               </div>
-              <div className="field">
-                <label className="fl" data-i18n="ppDocPresetLabel">Online form preset — digital photo</label>
-                <select id="ppDocPreset" className="sel">
-                  <option value="" data-i18n="ppDocPresetNone">No preset — print sheet only</option>
-                  <option value="passport-seva" data-i18n="ppDocPassport">India Passport (Passport Seva) — 630×810 px, 10–250 KB, white background</option>
-                  <option value="ibps" data-i18n="ppDocIbps">IBPS exam — 200×230 px, 20–50 KB</option>
-                  <option value="sbi" data-i18n="ppDocSbi">SBI exam — 200×230 px, 20–50 KB</option>
-                  <option value="oci" data-i18n="ppDocOci">OCI — 600×600 px, up to 200 KB, light background (not white)</option>
-                  <option value="dl" data-i18n="ppDocDl">Driving Licence — 420×525 px, 10–20 KB</option>
-                  <option value="neet" data-i18n="ppDocNeet">NEET UG — 413×531 px, 10–200 KB, name + date strip</option>
-                  <option value="jee" data-i18n="ppDocJee">JEE Main — 413×531 px, 10–200 KB</option>
-                  <option value="upsc" data-i18n="ppDocUpsc">UPSC — 413×531 px, 20–200 KB</option>
-                  <option value="pan" data-i18n="ppDocPan">PAN Card — 276×197 px, up to 20 KB</option>
-                  <option value="visa" data-i18n="ppDocVisa">Indian Visa — 600×600 px, 10–300 KB, square photo</option>
-                </select>
-                <p className="hint" data-i18n="ppDocPresetNote">Specs as of Nov 2026 — check your current notice before submitting.</p>
-                <div className="btnrow" style={{ marginTop: 8 }}>
-                  <button type="button" className="btn" id="ppDocDownload" disabled data-i18n="ppDocDownloadBtn">⬇ Download digital photo</button>
-                  <button type="button" className="btn ghost" id="ppBgRemove" disabled data-i18n="ppBgRemoveBtn">Remove background</button>
-                </div>
-                <p className="hint" id="ppDocInfo" />
-              </div>
-              <div className="field">
-                <label className="fl" data-i18n="ppStripLabel">Name + date strip</label>
-                <div className="num2">
-                  <button type="button" className="chip" id="ppStrip" aria-pressed="false" data-i18n="ppStripToggle">Print name + date at the bottom</button>
-                </div>
-                <div className="num2" style={{ marginTop: 8, gap: 8 }}>
-                  <input type="text" id="ppStripName" className="nm" placeholder="Candidate name" data-i18n-ph="ppStripNamePh" style={{ flex: 1 }} />
-                  <input type="date" id="ppStripDate" className="nm" />
-                </div>
-              </div>
-              <div className="field">
-                <label className="fl" data-i18n="ppAdjustLabel">Brightness &amp; contrast</label>
-                <div className="num2" style={{ gap: 10, alignItems: "center" }}>
-                  <span className="hint" style={{ margin: 0 }} data-i18n="ppBrightLabel">Brightness</span>
-                  <input type="range" id="ppBright" min="50" max="150" defaultValue="100" style={{ flex: 1 }} />
-                </div>
-                <div className="num2" style={{ gap: 10, alignItems: "center", marginTop: 6 }}>
-                  <span className="hint" style={{ margin: 0 }} data-i18n="ppContrastLabel">Contrast</span>
-                  <input type="range" id="ppContrast" min="50" max="150" defaultValue="100" style={{ flex: 1 }} />
-                  <button type="button" className="btn ghost small" id="ppAdjReset" data-i18n="ppAdjResetBtn">Reset</button>
-                </div>
-              </div>
             </div>
             <div className="prevcol">
               <div className="preview show">
@@ -290,6 +250,7 @@ export function PassportTool() {
                 <input type="file" id="ppFolder" multiple style={{ display: 'none' }} {...DIRECTORY_ATTRS} />
               </div>
               <div className="fname" id="ppBulkName" />
+              <div className="row3">
               <div className="field" style={{ marginTop: 16 }}>
                 <label className="fl" data-i18n="ppPaperLabel">
                   Paper size
@@ -327,6 +288,8 @@ export function PassportTool() {
                   <option value="plain" data-i18n="ppTypePlain">Plain paper</option>
                 </select>
               </div>
+              </div>
+              <div className="row2">
               <div className="field">
                 <label className="fl" data-i18n="ppPresetLabel">
                   Photo size
@@ -386,6 +349,7 @@ export function PassportTool() {
                   <input type="color" id="ppBulkBg" defaultValue="#ffffff" data-i18n-aria="ariaBg" aria-label="Background colour" />
                 </div>
               </div>
+              </div>
               <div className="field">
                 <label className="fl" data-i18n="ppBulkExcelLabel">
                   Excel name matching
@@ -397,14 +361,8 @@ export function PassportTool() {
                 <input type="file" id="ppBulkXlFile" accept=".xlsx,.xls,.csv" style={{ display: "none" }} />
                 <p className="hint" id="ppBulkXlStatus" style={{ marginTop: 8 }} />
               </div>
-              <div className="btnrow">
-                <button className="btn" id="ppBulkGenerate" data-i18n="ppGenerateBtn">🖨️ Generate sheet</button>
-                <button className="btn" id="ppBulkPdf" disabled data-i18n="ppBulkPdf">⬇ Download all pages (PDF)</button>
-                <button className="btn saf" id="ppBulkPageJpg" disabled data-i18n="ppBulkPageJpg">⬇ Current page (JPG)</button>
-              </div>
-              <div className="msg" id="ppBulkMsg" />
             </div>
-            <div>
+            <div className="prevcol">
               <div className="preview show">
                 <div className="sheetwrap">
                   <canvas
@@ -421,6 +379,12 @@ export function PassportTool() {
                   <button className="btn" id="ppBulkNext" disabled data-i18n="ppBulkNext">Next ›</button>
                 </div>
               </div>
+              <div className="btnrow" style={{ marginTop: 12 }}>
+                <button className="btn" id="ppBulkGenerate" data-i18n="ppGenerateBtn">🖨️ Generate sheet</button>
+                <button className="btn" id="ppBulkPdf" disabled data-i18n="ppBulkPdf">⬇ Download all pages (PDF)</button>
+                <button className="btn saf" id="ppBulkPageJpg" disabled data-i18n="ppBulkPageJpg">⬇ Current page (JPG)</button>
+              </div>
+              <div className="msg" id="ppBulkMsg" />
               <p className="hint" data-i18n="ppPrintHint">
                 When printing, choose “Actual size / 100%” in the printer settings — not “Fit to
                 page”, or the size will change. A light outline on each photo makes cutting easier.

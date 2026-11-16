@@ -10,6 +10,7 @@ import {
   initCompressor,
   initExamPhoto,
   initJoiner,
+  initFormPhoto,
   initKb,
   initPassport,
   initSignature,
@@ -44,6 +45,7 @@ export function initEduCafe(): Promise<void> {
       new Promise((resolve) => setTimeout(resolve, 8000)),
     ]);
     run("passport", initPassport);
+    run("form-photo", initFormPhoto);
     run("kb", initKb);
     run("signature", initSignature);
     run("joiner", initJoiner);

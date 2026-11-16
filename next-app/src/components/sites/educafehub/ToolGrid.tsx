@@ -1,4 +1,5 @@
 import { TOOLS } from "@/data/tool-registry";
+import { ScrollReveal } from "@/components/sites/educafehub/ScrollReveal";
 
 // Big, instantly-readable symbols (Sir's direction 2026-11-16: a new visitor must
 // know in one second what each tool does). One emoji per tool + a generic fallback.
@@ -19,6 +20,7 @@ const ICONS: Record<string, string> = {
   "print-cost-calculator": "🖨\uFE0F",
   "age-calculator": "🎂",
   "marks-percentage-calculator": "💯",
+  "online-form-photo": "📋",
 };
 
 const COLORS: Record<string, string> = {
@@ -38,6 +40,7 @@ const COLORS: Record<string, string> = {
   "print-cost-calculator": "#9333EA",
   "age-calculator": "#E11D48",
   "marks-percentage-calculator": "#16A34A",
+  "online-form-photo": "#0369A1",
 };
 
 
@@ -52,7 +55,8 @@ export function ToolGrid() {
       </p>
       <div className="toolgrid">
         {TOOLS.map((t, i) => (
-          <a key={t.slug} className="toolbox" href={`/tools/${t.slug}/`} style={{ animationDelay: `${Math.min(i, 15) * 35}ms` }}>
+          <ScrollReveal key={t.slug} delay={Math.min(i, 15) * 0.05}>
+          <a className="toolbox" href={`/tools/${t.slug}/`}>
             <span className="tb-no">Tool {i + 1}</span>
             <span className="tb-ic" aria-hidden="true" style={{ "--tc": COLORS[t.slug] || "#0F766E" } as React.CSSProperties}>
               {ICONS[t.slug] || "🧰"}
@@ -62,6 +66,7 @@ export function ToolGrid() {
               <span className="hi-only">{t.nameHi}</span>
             </span>
           </a>
+          </ScrollReveal>
         ))}
       </div>
     </section>

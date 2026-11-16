@@ -3,6 +3,7 @@ import { LanguageBar, Intro, AuthProvider } from "@/components/sites/educafehub/
 import { ToolGrid } from "@/components/sites/educafehub/ToolGrid";
 import { LinksSection } from "@/components/sites/educafehub/Links";
 import { Footer } from "@/components/sites/educafehub/Legal";
+import { ScrollReveal } from "@/components/sites/educafehub/ScrollReveal";
 
 export default function Home() {
   return (
@@ -17,8 +18,12 @@ export default function Home() {
         </noscript>
         <LanguageBar />
         <Intro />
-        <ToolGrid />
-        <LinksSection />
+        <ScrollReveal>
+          <ToolGrid />
+        </ScrollReveal>
+        <ScrollReveal>
+          <LinksSection />
+        </ScrollReveal>
         <Footer />
         <div className="toast" id="toast" role="status" aria-live="polite">
           <span className="tick">✓</span>

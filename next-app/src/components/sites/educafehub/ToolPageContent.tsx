@@ -6,6 +6,7 @@ import { Tool, getToolsByCategory } from "@/data/tool-registry";
 import { EduCafeRuntime } from "@/components/sites/educafehub/EduCafeRuntime";
 import { LanguageBar, AuthProvider } from "@/components/sites/educafehub/Hero";
 import { Footer } from "@/components/sites/educafehub/Legal";
+import { ScrollReveal } from "@/components/sites/educafehub/ScrollReveal";
 
 import { PassportTool, ExactKbTool } from "@/components/sites/educafehub/PhotoTools1";
 import { SignatureTool, JoinerTool } from "@/components/sites/educafehub/PhotoTools2";
@@ -15,6 +16,7 @@ import { FileToolsSection, ConverterCard } from "@/components/sites/educafehub/F
 import { QrTool } from "@/components/sites/educafehub/QrTool";
 import { BulkTool } from "@/components/sites/educafehub/Bulk";
 import { ExamPhotoTool, ReceiptTool, PrintCostTool } from "@/components/sites/educafehub/ExamReceipt";
+import { FormPhotoTool } from "@/components/sites/educafehub/FormPhoto";
 
 function renderToolComponent(slug: string) {
   switch (slug) {
@@ -54,6 +56,8 @@ function renderToolComponent(slug: string) {
       );
     case "file-tools":
       return <FileToolsSection />;
+    case "online-form-photo":
+      return <FormPhotoTool />;
     default:
       return null;
   }
@@ -76,6 +80,7 @@ const STEPS: Record<string, [string, string, string]> = {
   "print-cost-calculator": ["Set your cafe's rates once — per page, per photo set, per lamination.", "Enter the job: pages, copies, photo sets, forms filled.", "Read the exact total and charge the customer — no mental maths, no mistakes."],
   "age-calculator": ["Enter the child's date of birth.", "Press Calculate age — you get today's age plus the age on 31 March and 31 December.", "Read the Class 1 verdict: eligible if the child is 6 or more on 31 March of the admission year."],
   "marks-percentage-calculator": ["Enter each subject's full marks and obtained marks (rows can be added or removed).", "Press Calculate — total, percentage, division and grade appear together.", "Use the converter below for CGPA ↔ percentage (CBSE × 9.5)."],
+  "online-form-photo": ["Upload the photo — JPG, PNG or HEIC, straight from the phone gallery.", "Pick the form (Passport Seva, IBPS, NEET, PAN, Visa…) — the pixel size, KB range and background set themselves; add the name + date strip if the form prints one.", "Press Download digital photo — exact pixels, inside the KB range, ready to upload to the form."],
 };
 
 export function ToolPageContent({ tool }: { tool: Tool }) {
@@ -114,7 +119,7 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
         <h1 className="hi-only">{tool.titleHi}</h1>
       </div>
 
-      {renderToolComponent(tool.slug)}
+      <ScrollReveal>{renderToolComponent(tool.slug)}</ScrollReveal>
 
       {/* Privacy strip */}
       <div

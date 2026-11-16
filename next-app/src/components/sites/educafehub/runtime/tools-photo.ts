@@ -50,6 +50,63 @@ const PAPER_SIZES: Record<string, { w: number; h: number }> = {
   legal: { w: 215.9, h: 355.6 },
 };
 
+  // ---- PASSPORT3: document presets, name+date strip, brightness/contrast, background removal ----
+  interface DocPreset { w: number; h: number; minKB: number; maxKB: number; bg: string; file: string }
+  const DOC_PRESETS: Record<string, DocPreset> = {
+    "passport-seva": { w: 630, h: 810, minKB: 10, maxKB: 250, bg: "#ffffff", file: "passport-seva" },
+    ibps: { w: 200, h: 230, minKB: 20, maxKB: 50, bg: "#f2f2f2", file: "ibps" },
+    sbi: { w: 200, h: 230, minKB: 20, maxKB: 50, bg: "#f2f2f2", file: "sbi" },
+    oci: { w: 600, h: 600, minKB: 0, maxKB: 200, bg: "#f2f2f2", file: "oci" },
+    dl: { w: 420, h: 525, minKB: 10, maxKB: 20, bg: "#f2f2f2", file: "dl" },
+    neet: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "neet" },
+    jee: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "jee-main" },
+    upsc: { w: 413, h: 531, minKB: 20, maxKB: 200, bg: "#ffffff", file: "upsc" },
+    pan: { w: 276, h: 197, minKB: 0, maxKB: 20, bg: "#ffffff", file: "pan-card" },
+    visa: { w: 600, h: 600, minKB: 10, maxKB: 300, bg: "#ffffff", file: "indian-visa" },
+  };
+  const ppDynImport = new Function("u", "return import(u)") as (u: string) => Promise<Record<string, unknown>>;
+  let ppImglyFn: ((file: Blob, cfg: Record<string, unknown>) => Promise<Blob>) | null = null;
+  async function ppLoadImgly(): Promise<(file: Blob, cfg: Record<string, unknown>) => Promise<Blob>> {
+    if (ppImglyFn) return ppImglyFn;
+    const urls = [
+      "https://esm.sh/@imgly/background-removal@1.7.0?bundle",
+      "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm",
+      "https://esm.run/@imgly/background-removal@1.7.0",
+      "https://unpkg.com/@imgly/background-removal@1.7.0/dist/index.mjs",
+    ];
+    for (const u of urls) {
+      try {
+        const mod = await ppDynImport(u);
+        const fn = (mod.removeBackground || mod.default) as (file: Blob, cfg: Record<string, unknown>) => Promise<Blob>;
+        if (typeof fn === "function") { ppImglyFn = fn; return fn; }
+      } catch { continue; }
+    }
+    throw new Error("engine missing");
+  }
+  const PP_AI_CONFIGS: { device: string; publicPath: string }[] = [
+    { device: "gpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
+    { device: "cpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
+    { device: "cpu", publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.7.0/dist/" },
+    { device: "cpu", publicPath: "https://unpkg.com/@imgly/background-removal-data@1.7.0/dist/" },
+  ];
+  async function ppEncodeInRange(cv: HTMLCanvasElement, minKB: number, maxKB: number): Promise<Blob> {
+    const max = maxKB * 1024;
+    let blob = await kbEncode(cv, "image/jpeg", 0.92);
+    if (blob.size > max) {
+      let lo = 0.08, hi = 0.92;
+      for (let i = 0; i < 9; i++) {
+        const mid = (lo + hi) / 2;
+        const b = await kbEncode(cv, "image/jpeg", mid);
+        if (b.size <= max) { blob = b; lo = mid; } else { hi = mid; }
+      }
+    }
+    if (minKB > 0 && blob.size < minKB * 1024) {
+      const target = Math.round((minKB + Math.max(1, (maxKB - minKB) * 0.1)) * 1024);
+      blob = await padJpeg(blob, target);
+    }
+    return blob;
+  }
+
 export function initPassport(): void {
   const pp: PassportState = {
     img: null,
@@ -310,45 +367,6 @@ export function initPassport(): void {
     );
   });
 
-  // ---- PASSPORT3: document presets, name+date strip, brightness/contrast, background removal ----
-  interface DocPreset { w: number; h: number; minKB: number; maxKB: number; bg: string; file: string }
-  const DOC_PRESETS: Record<string, DocPreset> = {
-    "passport-seva": { w: 630, h: 810, minKB: 10, maxKB: 250, bg: "#ffffff", file: "passport-seva" },
-    ibps: { w: 200, h: 230, minKB: 20, maxKB: 50, bg: "#f2f2f2", file: "ibps" },
-    sbi: { w: 200, h: 230, minKB: 20, maxKB: 50, bg: "#f2f2f2", file: "sbi" },
-    oci: { w: 600, h: 600, minKB: 0, maxKB: 200, bg: "#f2f2f2", file: "oci" },
-    dl: { w: 420, h: 525, minKB: 10, maxKB: 20, bg: "#f2f2f2", file: "dl" },
-    neet: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "neet" },
-    jee: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "jee-main" },
-    upsc: { w: 413, h: 531, minKB: 20, maxKB: 200, bg: "#ffffff", file: "upsc" },
-    pan: { w: 276, h: 197, minKB: 0, maxKB: 20, bg: "#ffffff", file: "pan-card" },
-    visa: { w: 600, h: 600, minKB: 10, maxKB: 300, bg: "#ffffff", file: "indian-visa" },
-  };
-  const ppDynImport = new Function("u", "return import(u)") as (u: string) => Promise<Record<string, unknown>>;
-  let ppImglyFn: ((file: Blob, cfg: Record<string, unknown>) => Promise<Blob>) | null = null;
-  async function ppLoadImgly(): Promise<(file: Blob, cfg: Record<string, unknown>) => Promise<Blob>> {
-    if (ppImglyFn) return ppImglyFn;
-    const urls = [
-      "https://esm.sh/@imgly/background-removal@1.7.0?bundle",
-      "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm",
-      "https://esm.run/@imgly/background-removal@1.7.0",
-      "https://unpkg.com/@imgly/background-removal@1.7.0/dist/index.mjs",
-    ];
-    for (const u of urls) {
-      try {
-        const mod = await ppDynImport(u);
-        const fn = (mod.removeBackground || mod.default) as (file: Blob, cfg: Record<string, unknown>) => Promise<Blob>;
-        if (typeof fn === "function") { ppImglyFn = fn; return fn; }
-      } catch { continue; }
-    }
-    throw new Error("engine missing");
-  }
-  const PP_AI_CONFIGS: { device: string; publicPath: string }[] = [
-    { device: "gpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
-    { device: "cpu", publicPath: "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/" },
-    { device: "cpu", publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.7.0/dist/" },
-    { device: "cpu", publicPath: "https://unpkg.com/@imgly/background-removal-data@1.7.0/dist/" },
-  ];
   function docPreset(): DocPreset | null {
     const v = ($("ppDocPreset") as HTMLSelectElement).value;
     return DOC_PRESETS[v] || null;
@@ -363,23 +381,7 @@ export function initPassport(): void {
     const name = (input("ppStripName") as HTMLInputElement).value.trim() || (input("ppLabelText").value || "").trim();
     return { name, date };
   }
-  async function ppEncodeInRange(cv: HTMLCanvasElement, minKB: number, maxKB: number): Promise<Blob> {
-    const max = maxKB * 1024;
-    let blob = await kbEncode(cv, "image/jpeg", 0.92);
-    if (blob.size > max) {
-      let lo = 0.08, hi = 0.92;
-      for (let i = 0; i < 9; i++) {
-        const mid = (lo + hi) / 2;
-        const b = await kbEncode(cv, "image/jpeg", mid);
-        if (b.size <= max) { blob = b; lo = mid; } else { hi = mid; }
-      }
-    }
-    if (minKB > 0 && blob.size < minKB * 1024) {
-      const target = Math.round((minKB + Math.max(1, (maxKB - minKB) * 0.1)) * 1024);
-      blob = await padJpeg(blob, target);
-    }
-    return blob;
-  }
+  if (document.getElementById("ppDocPreset")) {
   ($("ppDocPreset") as HTMLSelectElement).addEventListener("change", () => {
     if (($("ppDocPreset") as HTMLSelectElement).value === "neet" && !pp.strip) {
       pp.strip = true;
@@ -471,8 +473,10 @@ export function initPassport(): void {
     syncDocButtons();
   });
   syncDocButtons();
+  }
 
-  chipGroup("ppModeSwitch", (v) => {
+  ($("ppModeSwitch") as HTMLSelectElement).addEventListener("change", (e) => {
+    const v = (e.target as HTMLSelectElement).value;
     const singlePanel = $("ppSinglePanel");
     const bulkPanel = $("ppBulkPanel");
     if (v === "bulk") {
@@ -1992,4 +1996,156 @@ export function initExamPhoto(): void {
   });
 
   input("exDateIn").value = new Date().toISOString().slice(0, 10);
+}
+
+interface FormPhotoState {
+  img: HTMLImageElement | null;
+  file: File | null;
+  mode: string;
+  bright: number;
+  contrast: number;
+  strip: boolean;
+  bgRemoved: boolean;
+}
+
+export function initFormPhoto(): void {
+  if (!document.getElementById("fpCanvas")) return;
+  const fp: FormPhotoState = { img: null, file: null, mode: "fill", bright: 100, contrast: 100, strip: false, bgRemoved: false };
+
+  function preset(): DocPreset | null {
+    const v = ($("fpPreset") as HTMLSelectElement).value;
+    return DOC_PRESETS[v] || null;
+  }
+  function syncFpButtons(): void {
+    (input("fpDownload") as HTMLButtonElement).disabled = !(fp.img && preset());
+    (input("fpBgRemove") as HTMLButtonElement).disabled = !fp.img;
+  }
+  function fpStripParts(): { name: string; date: string } {
+    const raw = (input("fpStripDate") as HTMLInputElement).value;
+    const date = raw ? raw.split("-").reverse().join("/") : "";
+    const name = (input("fpStripName") as HTMLInputElement).value.trim();
+    return { name, date };
+  }
+  function drawFp(target: HTMLCanvasElement): void {
+    const P = preset() || { w: 413, h: 531, minKB: 0, maxKB: 0, bg: "#ffffff", file: "form-photo" };
+    target.width = P.w;
+    target.height = P.h;
+    const ctx = ctx2d(target);
+    ctx.fillStyle = P.bg;
+    ctx.fillRect(0, 0, P.w, P.h);
+    if (!fp.img) return;
+    const stripH = fp.strip ? Math.max(30, Math.round(P.h * 0.12)) : 0;
+    const ph = P.h - stripH;
+    ctx.save();
+    ctx.filter = "brightness(" + fp.bright + "%) contrast(" + fp.contrast + "%)";
+    if (fp.mode === "fit") drawContain(ctx, fp.img, 0, 0, P.w, ph);
+    else drawCover(ctx, fp.img, 0, 0, P.w, ph, 1, 0.25);
+    ctx.restore();
+    if (stripH) {
+      const sp = fpStripParts();
+      const lines = [sp.name, sp.date].filter(Boolean);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, ph, P.w, stripH);
+      ctx.fillStyle = "#111111";
+      ctx.textAlign = "center";
+      ctx.font = "700 " + Math.round(stripH * (lines.length > 1 ? 0.3 : 0.42)) + "px sans-serif";
+      lines.forEach((ln, i) => {
+        ctx.fillText(ln, P.w / 2, ph + stripH * (lines.length > 1 ? (i === 0 ? 0.4 : 0.8) : 0.64), P.w - 10);
+      });
+      ctx.textAlign = "left";
+    }
+  }
+  function renderFp(): void {
+    drawFp(canvas("fpCanvas"));
+    const P = preset();
+    const st = document.getElementById("fpStat");
+    if (st) st.textContent = fp.img && P ? P.w + " × " + P.h + " px · " + P.minKB + "–" + P.maxKB + " KB" : T("fpWait");
+  }
+
+  wireDrop("fpDrop", "fpFile", (f) => {
+    void (async () => {
+      const r = await loadImg(f);
+      fp.img = r.img;
+      fp.file = f;
+      fp.bgRemoved = false;
+      setHTML("fpName", "📄 " + f.name);
+      renderFp();
+      syncFpButtons();
+    })();
+  });
+  ($("fpPreset") as HTMLSelectElement).addEventListener("change", () => {
+    if (($("fpPreset") as HTMLSelectElement).value === "neet" && !fp.strip) {
+      fp.strip = true;
+      $("fpStrip").setAttribute("aria-pressed", "true");
+    }
+    renderFp();
+    syncFpButtons();
+  });
+  chipGroup("fpMode", (v) => {
+    fp.mode = v;
+    renderFp();
+  });
+  $("fpStrip").addEventListener("click", function (this: HTMLElement) {
+    fp.strip = this.getAttribute("aria-pressed") !== "true";
+    this.setAttribute("aria-pressed", fp.strip ? "true" : "false");
+    renderFp();
+  });
+  input("fpStripName").addEventListener("input", renderFp);
+  input("fpStripDate").addEventListener("input", renderFp);
+  input("fpBright").addEventListener("input", () => { fp.bright = parseInt(input("fpBright").value, 10) || 100; renderFp(); });
+  input("fpContrast").addEventListener("input", () => { fp.contrast = parseInt(input("fpContrast").value, 10) || 100; renderFp(); });
+  $("fpAdjReset").addEventListener("click", () => {
+    fp.bright = 100;
+    fp.contrast = 100;
+    (input("fpBright") as HTMLInputElement).value = "100";
+    (input("fpContrast") as HTMLInputElement).value = "100";
+    renderFp();
+  });
+  $("fpDownload").addEventListener("click", async () => {
+    const P = preset();
+    if (!P || !fp.img) return;
+    const cv = document.createElement("canvas");
+    drawFp(cv);
+    const blob = await ppEncodeInRange(cv, P.minKB, P.maxKB);
+    const base = fp.file ? fp.file.name.replace(/\.[^.]+$/, "") : "photo";
+    downloadBlob(blob, P.file + "-" + base + "-" + Date.now().toString(36) + ".jpg");
+    setMsg("fpMsg", T("ppDocDone").replace("{kb}", (blob.size / 1024).toFixed(1)).replace("{w}", String(P.w)).replace("{h}", String(P.h)), "good");
+    $("fpInfo").textContent = fp.bgRemoved ? "" : T("ppDocBgNote");
+  });
+  $("fpBgRemove").addEventListener("click", async function (this: HTMLButtonElement) {
+    if (!fp.file) { setMsg("fpMsg", T("ppGenNeedPhoto"), "warn"); return; }
+    this.disabled = true;
+    setMsg("fpMsg", T("ppBgWorking"), "");
+    try {
+      const fn = await ppLoadImgly();
+      let out: Blob | null = null;
+      for (let c = 0; c < PP_AI_CONFIGS.length && !out; c++) {
+        try {
+          out = await fn(fp.file, { device: PP_AI_CONFIGS[c].device, publicPath: PP_AI_CONFIGS[c].publicPath, model: "isnet_fp16", output: { format: "image/png", quality: 1 } });
+        } catch { out = null; }
+      }
+      if (!out) throw new Error("ai failed");
+      const r = await loadImg(out);
+      const P = preset();
+      const fill = P ? P.bg : "#ffffff";
+      const cv = document.createElement("canvas");
+      cv.width = r.img.naturalWidth;
+      cv.height = r.img.naturalHeight;
+      const ctx = ctx2d(cv);
+      ctx.fillStyle = fill;
+      ctx.fillRect(0, 0, cv.width, cv.height);
+      ctx.drawImage(r.img, 0, 0);
+      const flat = await kbEncode(cv, "image/png", 1);
+      const r2 = await loadImg(flat);
+      fp.img = r2.img;
+      fp.bgRemoved = true;
+      renderFp();
+      setMsg("fpMsg", T("ppBgDone"), "good");
+    } catch {
+      setMsg("fpMsg", T("ppBgFail"), "warn");
+    }
+    syncFpButtons();
+  });
+  renderFp();
+  syncFpButtons();
 }

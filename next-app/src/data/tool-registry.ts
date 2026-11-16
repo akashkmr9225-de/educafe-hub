@@ -223,6 +223,19 @@ export const TOOLS: Tool[] = [
     initFunction: "initMarks",
     sectionId: "marks",
   },
+  {
+    slug: "online-form-photo",
+    nameEn: "Online Form Photo",
+    nameHi: "ऑनलाइन फ़ॉर्म फ़ोटो",
+    titleEn: "Online Form Photo — Exact Pixels & KB for Passport Seva, IBPS, NEET, PAN, Visa Forms",
+    titleHi: "ऑनलाइन फ़ॉर्म फ़ोटो — Passport Seva, IBPS, NEET, PAN, Visa के लिए ठीक पिक्सेल और KB",
+    descriptionEn: "Make a digital photo for an online form: pick the form (Passport Seva, IBPS, SBI, OCI, Driving Licence, NEET, JEE, UPSC, PAN, Indian Visa) and download the exact pixel size and KB range it asks for, with name + date strip and background removal.",
+    descriptionHi: "ऑनलाइन फ़ॉर्म के लिए डिजिटल फ़ोटो बनाएँ: फ़ॉर्म चुनें (Passport Seva, IBPS, SBI, OCI, ड्राइविंग लाइसेंस, NEET, JEE, UPSC, PAN, भारतीय वीज़ा) और ठीक उसी पिक्सेल साइज़ और KB रेंज में डाउनलोड करें, नाम + तारीख़ पट्टी और बैकग्राउंड हटाने के साथ।",
+    category: "photo",
+    component: "FormPhotoTool",
+    initFunction: "initFormPhoto",
+    sectionId: "form-photo",
+  },
 ];
 
 export function getToolBySlug(slug: string): Tool | undefined {

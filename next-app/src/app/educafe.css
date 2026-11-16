@@ -433,7 +433,6 @@ html[lang="en"] .hi-only { display: none !important; }
 @media (min-width: 768px) { .mmenu { display: none; } }
 .mmenu a { display: flex; align-items: center; gap: 8px; padding: 11px 13px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 14.5px; }
 .mmenu a:active { border-color: var(--accent); }
-.toolbox { animation: cardIn .5s var(--ease) backwards; }
 @keyframes cardIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 .wordmark, .foot-brand { text-decoration: none; color: inherit; }
 .fcopy { color: var(--ink2); font-size: 13.5px; margin: 2px 0 0; }
@@ -444,3 +443,12 @@ html[lang="en"] .hi-only { display: none !important; }
   .preview .sheetwrap{display:flex;justify-content:center;align-items:flex-start}
   .preview img:not([src]){display:none}
   #ppModeSwitch .chip,#kbModeSwitch .chip{flex:1;text-align:center}
+
+/* Scroll-reveal trial (Motion): cards fill the reveal wrapper cell */
+.toolgrid .toolbox{height:100%}
+
+/* Compact control rows (Tool 1 pass, 2026-11-16) */
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.row2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
+.row3>.field,.row2>.field{margin-bottom:0}
+@media (max-width:767px){.row3,.row2{grid-template-columns:1fr}}

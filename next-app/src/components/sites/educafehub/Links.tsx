@@ -5,7 +5,7 @@ import type { LinkGroup } from "@/types/educafe";
 const groups = linksData as LinkGroup[];
 
 // Real site logos (fetched from the sites themselves / official files, self-hosted).
-// Hosts not in this map keep their emoji.
+// Hosts not in this map show their two-letter code tile.
 const LOGOS: Record<string, string> = {
   "udiseplus.gov.in": "udiseplus.gov.in.png",
   "ncert.nic.in": "ncert.nic.in.png",
@@ -37,7 +37,7 @@ export function LinksSection() {
   return (
     <section id="links">
       <div className="sec-head">
-        <span className="no">Daily</span>
+        <span className="no">02</span>
         <h2 data-i18n="sections.dailyLinks">Daily Websites — One Click</h2>
       </div>
       <p className="sec-sub" data-i18n="linksDesc">Official websites opened daily in a school office and cyber cafe. Type a name to filter.</p>
@@ -45,12 +45,12 @@ export function LinksSection() {
         className="searchlinks"
         type="text"
         id="linkSearch"
-        placeholder="🔎 Search a website — e.g. aadhaar, result, train, pan…"
+        placeholder="Search a website, e.g. aadhaar, result, train, PAN"
         data-i18n-ph="site.heroSearchPlaceholder"
         data-i18n-aria="ariaSearchLinks" aria-label="Search links"
       />
       <div className="linkgrid" id="linkGrid">
-        {groups.map((group, index) => (
+        {groups.map((group) => (
           <Fragment key={group.c[0]}>
             <div className="lcat" data-en={group.c[0]} data-hi={group.c[1]} data-cat="1">
               {group.c[0]}
@@ -58,7 +58,7 @@ export function LinksSection() {
             {group.items.map((item) => (
               <a
                 key={item[4]}
-                className={index % 2 ? "site saf" : "site"}
+                className="site"
                 href={item[4]}
                 target="_blank"
                 rel="noopener"

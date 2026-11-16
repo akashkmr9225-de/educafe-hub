@@ -3,17 +3,17 @@ import "./globals.css";
 import "./educafe.css";
 
 export const metadata: Metadata = {
-  title: "EduCafe Hub — School & Cyber Cafe",
+  title: "EduCafe Hub: Free Tools for School and Cyber Cafe",
   description:
-    "Free in-browser tools for schools and cyber cafes — passport photo sheets, exact-KB photo & signature resize, image to PDF, PDF compress, QR code maker, age & marks calculators, plus 31 official daily links. Optional sign in stays on your device; files are never uploaded. English / हिंदी.",
+    "16 free tools that run in your browser: passport photo sheets, exact KB photo resize, signature cleaning, image to PDF, PDF compress, QR code maker, age and marks calculators, plus 31 official daily links. Files are never uploaded. English and Hindi.",
   icons: {
     icon: [{ url: "/educafehub/logo.svg", type: "image/svg+xml" }],
   },
   openGraph: {
     type: "website",
-    title: "EduCafe Hub — School & Cyber Cafe",
+    title: "EduCafe Hub: Free Tools for School and Cyber Cafe",
     description:
-      "Passport photos, exact-KB resize, signatures, PDFs, QR codes and calculators — free, in your browser, in English and Hindi. Plus 31 official daily links.",
+      "Passport photos, exact KB resize, signatures, PDFs, QR codes and calculators. Free, in your browser, in English and Hindi. Plus 31 official daily links.",
   },
 };
 
@@ -21,11 +21,8 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  colorScheme: "light dark",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#0a4a3e" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a352b" },
-  ],
+  colorScheme: "light",
+  themeColor: "#FAFAF7",
 };
 
 export default function RootLayout({
@@ -44,7 +41,7 @@ export default function RootLayout({
         />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Mukta:wght@600;700;800&display=swap"
         />
         {children}
       </body>

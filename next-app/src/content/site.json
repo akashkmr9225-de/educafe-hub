@@ -1,142 +1,136 @@
 {
-  "site": {
-    "tagline": {
-      "en": "EduCafe Hub — Free tools for School & Cyber cafe",
-      "hi": "EduCafe Hub — स्कूल और साइबर कैफ़े के लिए"
-    },
-    "heroHeading": {
-      "en": "EduCafe Hub — For School & Cyber cafe",
-      "hi": "EduCafe Hub — स्कूल और साइबर कैफ़े के लिए"
-    },
-    "heroSubheading": {
-      "en": "Passport photos, exact-KB photo & signature for forms, image to PDF, age & marks calculators — plus every government website you open daily, on one page. Sign in is optional and stays on this device; files are never uploaded anywhere.",
-      "hi": "पासपोर्ट फ़ोटो, फ़ॉर्म के लिए ठीक KB में फ़ोटो और हस्ताक्षर, फ़ोटो से PDF, उम्र और नंबर का हिसाब — और रोज़ काम आने वाली सारी सरकारी वेबसाइटें, एक ही पेज पर। साइन इन करना ज़रूरी नहीं है, और आपकी फ़ाइलें कहीं नहीं जातीं।"
-    },
-    "heroSearchPlaceholder": {
-      "en": "🔎 Search a website — e.g. aadhaar, result, train, pan…",
-      "hi": "🔎 वेबसाइट खोजें — जैसे: आधार, रिज़ल्ट, ट्रेन, पैन…"
-    },
-    "heroSignin": {
-      "en": "🔐 Sign in (optional)",
-      "hi": "🔐 साइन इन (वैकल्पिक)"
-    }
+ "site": {
+  "tagline": {
+   "en": "EduCafe Hub: Free tools for school and cyber cafe",
+   "hi": "EduCafe Hub: स्कूल और साइबर कैफ़े के लिए मुफ़्त टूल"
   },
-  "sections": {
-    "tools": {
-      "en": "Tools",
-      "hi": "टूल्स"
-    },
-    "howItWorks": {
-      "en": "How it works",
-      "hi": "यह कैसे काम करता है"
-    },
-    "trustStrip": {
-      "en": "Trust",
-      "hi": "भरोसा"
-    },
-    "dailyLinks": {
-      "en": "Daily Websites — One Click",
-      "hi": "रोज़ की वेबसाइट्स — एक क्लिक"
-    },
-    "faq": {
-      "en": "FAQ",
-      "hi": "सामान्य प्रश्न"
-    }
+  "heroHeading": {
+   "en": "16 free tools for photo, PDF and form work.",
+   "hi": "फ़ोटो, PDF और फ़ॉर्म के काम के लिए 16 मुफ़्त टूल।"
   },
-  "heroTrust": {
-    "trust1": {
-      "en": "Photos never leave this computer — everything runs in the browser",
-      "hi": "फ़ोटो इस फ़ोन/कंप्यूटर से बाहर नहीं जाती — सारा काम ब्राउज़र में होता है"
-    },
-    "trust2": {
-      "en": "Zero server load — fast even on old PCs",
-      "hi": "पुराने PC पर भी तेज़ चलता है"
-    },
-    "trust3": {
-      "en": "100% free — no limits, no watermark",
-      "hi": "100% मुफ़्त — कोई सीमा नहीं, कोई वॉटरमार्क नहीं"
-    }
+  "heroSubheading": {
+   "en": "Every tool runs in your browser. Your files are not uploaded anywhere. No sign-up is needed.",
+   "hi": "हर टूल आपके ब्राउज़र में चलता है। आपकी फ़ाइलें कहीं अपलोड नहीं होतीं। साइन-अप की ज़रूरत नहीं है।"
   },
-  "footer": {
-    "aboutLine": {
-      "en": "photo, signature, PDF, calculators and official links for the daily work of a school office and cyber cafe, all on one page.",
-      "hi": "फ़ोटो, सिग्नेचर, PDF, कैलकुलेटर और एक स्कूल ऑफिस और साइबर कैफ़े के रोज़ के काम के लिए आधिकारिक लिंक, सब एक ही पेज पर।"
-    },
-    "googleSearchLine": {
-      "en": "Search the web — Google par search karein",
-      "hi": "वेब खोजें — Google पर खोजें"
-    },
-    "copyrightLine": {
-      "en": "All tools are completely free and work without any login. Always confirm a form's exact size/KB requirement in the form's own instructions once — every portal has different rules.",
-      "hi": "सभी टूल पूरी तरह मुफ़्त हैं और बिना किसी लॉगिन के काम करते हैं। हमेशा फ़ॉर्म के अपने निर्देशों में सटीक आकार/KB आवश्यकता की पुष्टि एक बार करें — हर पोर्टल के अलग नियम होते हैं।"
-    }
+  "heroSearchPlaceholder": {
+   "en": "Search a website, e.g. aadhaar, result, train, PAN",
+   "hi": "वेबसाइट खोजें, जैसे आधार, परिणाम, ट्रेन, PAN"
+  },
+  "heroSignin": {
+   "en": "Sign in (optional)",
+   "hi": "साइन इन (वैकल्पिक)"
+  },
+  "heroSteps": {
+   "en": "Pick a tool. Add your file. Download the result.",
+   "hi": "टूल चुनें। फ़ाइल जोड़ें। परिणाम डाउनलोड करें।"
+  }
+ },
+ "sections": {
+  "tools": {
+   "en": "Tools",
+   "hi": "टूल्स"
+  },
+  "howItWorks": {
+   "en": "How it works",
+   "hi": "यह कैसे काम करता है"
+  },
+  "trustStrip": {
+   "en": "Trust",
+   "hi": "भरोसा"
+  },
+  "dailyLinks": {
+   "en": "Daily Websites",
+   "hi": "रोज़ की वेबसाइट्स"
   },
   "faq": {
-    "title": {
-      "en": "FAQ",
-      "hi": "सामान्य प्रश्न"
-    },
-    "items": [
-      {
-        "q": {
-          "en": "Is EduCafe Hub really free?",
-          "hi": "क्या EduCafe Hub सच में मुफ़्त है?"
-        },
-        "a": {
-          "en": "Yes. Every tool runs in your browser — there is no server cost, so everything stays free with no limits, no watermarks, and no login required.",
-          "hi": "हाँ। हर टूल आपके ब्राउज़र में चलता है — कोई सर्वर खर्च नहीं है, इसलिए सब कुछ मुफ़्त रहता है, बिना किसी सीमा, वॉटरमार्क या लॉगिन के।"
-        }
-      },
-      {
-        "q": {
-          "en": "Are my photos uploaded anywhere?",
-          "hi": "क्या मेरी फ़ोटो कहीं अपलोड होती हैं?"
-        },
-        "a": {
-          "en": "Never. All processing happens on your device. Photos, signatures, and PDFs never leave your computer or phone.",
-          "hi": "कभी नहीं। सारा काम आपके डिवाइस पर होता है। फ़ोटो, हस्ताक्षर और PDF कभी भी आपके कंप्यूटर या फ़ोन से बाहर नहीं जाते।"
-        }
-      },
-      {
-        "q": {
-          "en": "Do I need to sign in to use the tools?",
-          "hi": "क्या टूल्स इस्तेमाल करने के लिए साइन इन करना ज़रूरी है?"
-        },
-        "a": {
-          "en": "No. Sign in is optional and only saves a small profile on this device. All tools work without any account.",
-          "hi": "नहीं। साइन इन वैकल्पिक है और सिर्फ़ इस डिवाइस पर एक छोटी प्रोफ़ाइल सेव करता है। सभी टूल बिना किसी अकाउंट के काम करते हैं।"
-        }
-      },
-      {
-        "q": {
-          "en": "Will the passport photo sheet be accepted by the form portal?",
-          "hi": "क्या पासपोर्ट फ़ोटो शीट फ़ॉर्म पोर्टल स्वीकार करेगा?"
-        },
-        "a": {
-          "en": "The sheet is generated at the correct 35×45 mm size and 300 DPI. Always print at Actual Size / 100% and confirm the portal's exact requirements before submitting — rules vary by portal.",
-          "hi": "शीट सही 35×45 मिमी आकार और 300 DPI पर बनती है। हमेशा Actual Size / 100% पर प्रिंट करें और जमा करने से पहले पोर्टल की सटीक ज़रूरतें जाँच लें — हर पोर्टल के नियम अलग होते हैं।"
-        }
-      },
-      {
-        "q": {
-          "en": "Can I use this on a shared cyber cafe computer?",
-          "hi": "क्या इसे शेयर किए गए साइबर कैफ़े कंप्यूटर पर इस्तेमाल कर सकते हैं?"
-        },
-        "a": {
-          "en": "Yes. Files you download go to the browser's Downloads folder. Delete them when done if they are not yours to keep. No data stays on the site.",
-          "hi": "हाँ। आपके द्वारा डाउनलोड की गई फ़ाइलें ब्राउज़र के डाउनलोड फ़ोल्डर में जाती हैं। काम पूरा होने पर उन्हें डिलीट कर दें अगर वे आपकी नहीं हैं। साइट पर कोई डेटा नहीं रहता।"
-        }
-      },
-      {
-        "q": {
-          "en": "How do I add a local business banner on this page?",
-          "hi": "इस पेज पर लोकल बिज़नेस बैनर कैसे जोड़ें?"
-        },
-        "a": {
-          "en": "Use the Contact form in the Legal section, or email akashkmr9225@gmail.com. Local banner spots start at ₹500/month.",
-          "hi": "लीगल सेक्शन में Contact फ़ॉर्म इस्तेमाल करें, या akashkmr9225@gmail.com पर ईमेल करें। लोकल बैनर स्पॉट ₹500/माह से शुरू।"
-        }
-      }
-    ]
+   "en": "FAQ",
+   "hi": "सामान्य प्रश्न"
   }
+ },
+ "heroTrust": {
+  "trust1": {
+   "en": "Photos never leave this computer — everything runs in the browser",
+   "hi": "फ़ोटो इस फ़ोन/कंप्यूटर से बाहर नहीं जाती — सारा काम ब्राउज़र में होता है"
+  },
+  "trust2": {
+   "en": "Zero server load — fast even on old PCs",
+   "hi": "पुराने PC पर भी तेज़ चलता है"
+  },
+  "trust3": {
+   "en": "100% free — no limits, no watermark",
+   "hi": "100% मुफ़्त — कोई सीमा नहीं, कोई वॉटरमार्क नहीं"
+  }
+ },
+ "footer": {
+  "aboutLine": {
+   "en": "photo, signature, PDF, calculators and official links for the daily work of a school office and cyber cafe, all on one page.",
+   "hi": "फ़ोटो, सिग्नेचर, PDF, कैलकुलेटर और एक स्कूल ऑफिस और साइबर कैफ़े के रोज़ के काम के लिए आधिकारिक लिंक, सब एक ही पेज पर।"
+  },
+  "googleSearchLine": {
+   "en": "Search the web — Google par search karein",
+   "hi": "वेब खोजें — Google पर खोजें"
+  },
+  "copyrightLine": {
+   "en": "All tools are completely free and work without any login. Always confirm a form's exact size/KB requirement in the form's own instructions once — every portal has different rules.",
+   "hi": "सभी टूल पूरी तरह मुफ़्त हैं और बिना किसी लॉगिन के काम करते हैं। हमेशा फ़ॉर्म के अपने निर्देशों में सटीक आकार/KB आवश्यकता की पुष्टि एक बार करें — हर पोर्टल के अलग नियम होते हैं।"
+  }
+ },
+ "faq": {
+  "title": {
+   "en": "FAQ",
+   "hi": "सामान्य प्रश्न"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "Is EduCafe Hub really free?",
+     "hi": "क्या EduCafe Hub सच में मुफ़्त है?"
+    },
+    "a": {
+     "en": "Yes. Every tool runs in your browser. There is no server cost, so everything stays free, with no limits, no watermarks and no login required.",
+     "hi": "हाँ। हर टूल आपके ब्राउज़र में चलता है। कोई सर्वर खर्च नहीं है, इसलिए सब कुछ मुफ़्त रहता है, बिना किसी सीमा, वॉटरमार्क या लॉगिन के।"
+    }
+   },
+   {
+    "q": {
+     "en": "Are my photos uploaded anywhere?",
+     "hi": "क्या मेरी फ़ोटो कहीं अपलोड होती हैं?"
+    },
+    "a": {
+     "en": "Never. All processing happens on your device. Photos, signatures, and PDFs never leave your computer or phone.",
+     "hi": "कभी नहीं। सारा काम आपके डिवाइस पर होता है। फ़ोटो, हस्ताक्षर और PDF कभी भी आपके कंप्यूटर या फ़ोन से बाहर नहीं जाते।"
+    }
+   },
+   {
+    "q": {
+     "en": "Do I need to sign in to use the tools?",
+     "hi": "क्या टूल्स इस्तेमाल करने के लिए साइन इन करना ज़रूरी है?"
+    },
+    "a": {
+     "en": "No. Sign in is optional and only saves a small profile on this device. All tools work without any account.",
+     "hi": "नहीं। साइन इन वैकल्पिक है और सिर्फ़ इस डिवाइस पर एक छोटी प्रोफ़ाइल सेव करता है। सभी टूल बिना किसी अकाउंट के काम करते हैं।"
+    }
+   },
+   {
+    "q": {
+     "en": "Will the passport photo sheet be accepted by the form portal?",
+     "hi": "क्या पासपोर्ट फ़ोटो शीट फ़ॉर्म पोर्टल स्वीकार करेगा?"
+    },
+    "a": {
+     "en": "The sheet is made at the standard 35×45 mm passport size, at the print quality you pick. Print at Actual Size or 100%, and check your portal's exact requirements before submitting, because rules vary by portal.",
+     "hi": "शीट मानक 35×45 मिमी पासपोर्ट आकार में, आपकी चुनी छपाई गुणवत्ता पर बनती है। Actual Size या 100% पर छापें, और जमा करने से पहले अपने पोर्टल की सही शर्तें जाँच लें, क्योंकि नियम हर पोर्टल पर अलग होते हैं।"
+    }
+   },
+   {
+    "q": {
+     "en": "Can I use this on a shared cyber cafe computer?",
+     "hi": "क्या इसे शेयर किए गए साइबर कैफ़े कंप्यूटर पर इस्तेमाल कर सकते हैं?"
+    },
+    "a": {
+     "en": "Yes. Files you download go to the browser's Downloads folder. Delete them when done if they are not yours to keep. No data stays on the site.",
+     "hi": "हाँ। आपके द्वारा डाउनलोड की गई फ़ाइलें ब्राउज़र के डाउनलोड फ़ोल्डर में जाती हैं। काम पूरा होने पर उन्हें डिलीट कर दें अगर वे आपकी नहीं हैं। साइट पर कोई डेटा नहीं रहता।"
+    }
+   }
+  ]
+ }
 }

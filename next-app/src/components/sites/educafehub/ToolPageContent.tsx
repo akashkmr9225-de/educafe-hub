@@ -86,7 +86,7 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
       <noscript>
         <div
           style={{
-            background: "var(--saffron-bg)",
+            background: "var(--surface2)",
             color: "var(--warn)",
             border: "1px solid var(--warn)",
             borderRadius: 12,

@@ -1,0 +1,251 @@
+[
+ {
+  "c": [
+   "School & Education",
+   "स्कूल और शिक्षा"
+  ],
+  "items": [
+   [
+    "UD",
+    "UDISE+ Portal",
+    "School data, student PEN, APAAR status, school login",
+    "स्कूल डेटा, छात्र PEN, APAAR स्थिति, स्कूल लॉगिन",
+    "https://udiseplus.gov.in/"
+   ],
+   [
+    "AP",
+    "APAAR ID",
+    "APAAR / Academic Bank of Credits, the student's lifelong ID",
+    "APAAR / Academic Bank of Credits, छात्र की आजीवन ID",
+    "https://apaar.education.gov.in/"
+   ],
+   [
+    "CB",
+    "CBSE",
+    "The board's official site, results, circulars, affiliation",
+    "बोर्ड की आधिकारिक साइट, परिणाम, परिपत्र, मान्यता",
+    "https://www.cbse.gov.in/"
+   ],
+   [
+    "BB",
+    "Bihar Board (BSEB)",
+    "Matric / Inter results, admit card, registration",
+    "मैट्रिक / इंटर परिणाम, प्रवेश पत्र, पंजीकरण",
+    "https://biharboardonline.com/"
+   ],
+   [
+    "NC",
+    "NCERT",
+    "Free textbooks for Classes 1–12 (PDF)",
+    "कक्षा 1–12 की मुफ़्त पाठ्यपुस्तकें (PDF)",
+    "https://ncert.nic.in/"
+   ],
+   [
+    "NS",
+    "Scholarship (NSP)",
+    "National Scholarship Portal, forms and status",
+    "राष्ट्रीय छात्रवृत्ति पोर्टल, फ़ॉर्म और स्थिति",
+    "https://scholarships.gov.in/"
+   ],
+   [
+    "BR",
+    "BRABU University",
+    "Muzaffarpur, admission, results, Samarth portal information",
+    "मुज़फ़्फ़रपुर, प्रवेश, परिणाम, समर्थ पोर्टल जानकारी",
+    "https://brabu.ac.in/"
+   ],
+   [
+    "DI",
+    "DIKSHA",
+    "Free courses and content for teachers and students",
+    "शिक्षकों और छात्रों के लिए मुफ़्त पाठ्यक्रम/सामग्री",
+    "https://diksha.gov.in/"
+   ]
+  ]
+ },
+ {
+  "c": [
+   "ID & Government Services",
+   "पहचान और सरकारी सेवाएँ"
+  ],
+  "items": [
+   [
+    "AA",
+    "myAadhaar (UIDAI)",
+    "Aadhaar download, address update, PVC card order",
+    "आधार डाउनलोड, पता सुधार, PVC कार्ड ऑर्डर",
+    "https://myaadhaar.uidai.gov.in/"
+   ],
+   [
+    "DL",
+    "DigiLocker",
+    "Marksheets, Aadhaar, PAN, verified documents",
+    "अंकपत्र, आधार, PAN, सत्यापित दस्तावेज़",
+    "https://www.digilocker.gov.in/"
+   ],
+   [
+    "IT",
+    "Income Tax / PAN",
+    "PAN application, e-filing, refund status",
+    "PAN आवेदन, ई-फ़ाइलिंग, रिफ़ंड स्थिति",
+    "https://www.incometax.gov.in/"
+   ],
+   [
+    "VT",
+    "Voter Services (ECI)",
+    "New voter card, name check and correction",
+    "नया मतदाता कार्ड, नाम जाँच और सुधार",
+    "https://voters.eci.gov.in/"
+   ],
+   [
+    "PV",
+    "Parivahan",
+    "Driving licence, RC and vehicle services",
+    "ड्राइविंग लाइसेंस, RC और वाहन सेवाएँ",
+    "https://parivahan.gov.in/"
+   ],
+   [
+    "RT",
+    "Bihar RTPS",
+    "Caste, income and residence certificates, apply and track online",
+    "जाति, आय, निवास प्रमाण पत्र, ऑनलाइन आवेदन/स्थिति",
+    "https://serviceonline.bihar.gov.in/"
+   ],
+   [
+    "BH",
+    "Bihar Bhumi",
+    "Jamabandi, khata-khesra, land records",
+    "जमाबंदी, खाता-खेसरा, भूमि अभिलेख",
+    "https://biharbhumi.bihar.gov.in/"
+   ],
+   [
+    "PK",
+    "PM Kisan",
+    "Farmer honor fund, status and new registration",
+    "किसान सम्मान निधि, स्थिति और नया पंजीकरण",
+    "https://pmkisan.gov.in/"
+   ],
+   [
+    "AY",
+    "Ayushman Bharat",
+    "Free treatment up to ₹5 lakh, card and eligibility",
+    "₹5 लाख तक मुफ़्त इलाज, कार्ड और पात्रता",
+    "https://beneficiary.nha.gov.in/"
+   ],
+   [
+    "ES",
+    "e-Shram",
+    "Worker card, registration and status",
+    "श्रमिक कार्ड, पंजीकरण और स्थिति",
+    "https://eshram.gov.in/"
+   ]
+  ]
+ },
+ {
+  "c": [
+   "Train, Post & Daily Work",
+   "ट्रेन, डाक और रोज़ के काम"
+  ],
+  "items": [
+   [
+    "IR",
+    "IRCTC",
+    "Train ticket booking",
+    "ट्रेन टिकट बुकिंग",
+    "https://www.irctc.co.in/"
+   ],
+   [
+    "PN",
+    "PNR Status",
+    "Indian Railways' official PNR enquiry",
+    "भारतीय रेल की आधिकारिक PNR पूछताछ",
+    "https://www.indianrail.gov.in/enquiry/PNR/PNRStatus.html"
+   ],
+   [
+    "NT",
+    "Train Running (NTES)",
+    "Where is the train right now, live status",
+    "ट्रेन अभी कहाँ है, लाइव स्थिति",
+    "https://enquiry.indianrail.gov.in/"
+   ],
+   [
+    "IP",
+    "India Post",
+    "Speed post / parcel tracking",
+    "स्पीड पोस्ट / पार्सल ट्रैकिंग",
+    "https://www.indiapost.gov.in/"
+   ],
+   [
+    "GM",
+    "Gmail",
+    "Email, school and personal",
+    "ईमेल, स्कूल और निजी",
+    "https://mail.google.com/"
+   ],
+   [
+    "WA",
+    "WhatsApp Web",
+    "WhatsApp on the computer",
+    "कंप्यूटर पर WhatsApp",
+    "https://web.whatsapp.com/"
+   ],
+   [
+    "CV",
+    "Canva",
+    "Poster, banner and certificate design, free",
+    "पोस्टर, बैनर, प्रमाणपत्र डिज़ाइन, मुफ़्त",
+    "https://www.canva.com/"
+   ],
+   [
+    "MP",
+    "Google Maps",
+    "Find addresses and routes",
+    "पते और रास्ते खोजें",
+    "https://maps.google.com/"
+   ]
+  ]
+ },
+ {
+  "c": [
+   "Exams, Results & Jobs",
+   "परीक्षा, परिणाम और नौकरी"
+  ],
+  "items": [
+   [
+    "SR",
+    "Sarkari Result",
+    "Every government form, result and admit card, in one place",
+    "हर सरकारी फ़ॉर्म, परिणाम, प्रवेश पत्र, एक जगह",
+    "https://www.sarkariresult.com/"
+   ],
+   [
+    "SS",
+    "SSC",
+    "SSC's official site, CGL, GD, MTS",
+    "SSC की आधिकारिक साइट, CGL, GD, MTS",
+    "https://ssc.gov.in/"
+   ],
+   [
+    "UP",
+    "UPSC",
+    "Civil services and other UPSC exams",
+    "सिविल सेवा और अन्य UPSC परीक्षाएँ",
+    "https://www.upsc.gov.in/"
+   ],
+   [
+    "BP",
+    "Bihar Police (BPSSC)",
+    "Bihar police recruitment, forms and results",
+    "बिहार पुलिस भर्ती, फ़ॉर्म और परिणाम",
+    "https://bpssc.bihar.gov.in/"
+   ],
+   [
+    "IB",
+    "IBPS Banking",
+    "Bank PO / Clerk exams",
+    "बैंक PO / क्लर्क परीक्षाएँ",
+    "https://www.ibps.in/"
+   ]
+  ]
+ }
+]

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Tool, getToolsByCategory } from "@/data/tool-registry";
 import { EduCafeRuntime } from "@/components/sites/educafehub/EduCafeRuntime";
 import { LanguageBar, AuthProvider } from "@/components/sites/educafehub/Hero";
-import { LegalSection, Footer } from "@/components/sites/educafehub/Legal";
+import { Footer } from "@/components/sites/educafehub/Legal";
 
 import { PassportTool, ExactKbTool } from "@/components/sites/educafehub/PhotoTools1";
 import { SignatureTool, JoinerTool } from "@/components/sites/educafehub/PhotoTools2";
@@ -181,8 +181,6 @@ export function ToolPageContent({ tool }: { tool: Tool }) {
           </div>
         </div>
       )}
-
-      <LegalSection />
       <Footer />
 
       <div className="toast" id="toast" role="status" aria-live="polite">

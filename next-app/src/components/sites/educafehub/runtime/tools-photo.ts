@@ -319,6 +319,10 @@ export function initPassport(): void {
     oci: { w: 600, h: 600, minKB: 0, maxKB: 200, bg: "#f2f2f2", file: "oci" },
     dl: { w: 420, h: 525, minKB: 10, maxKB: 20, bg: "#f2f2f2", file: "dl" },
     neet: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "neet" },
+    jee: { w: 413, h: 531, minKB: 10, maxKB: 200, bg: "#ffffff", file: "jee-main" },
+    upsc: { w: 413, h: 531, minKB: 20, maxKB: 300, bg: "#ffffff", file: "upsc" },
+    pan: { w: 276, h: 197, minKB: 0, maxKB: 20, bg: "#ffffff", file: "pan-card" },
+    visa: { w: 600, h: 600, minKB: 10, maxKB: 300, bg: "#ffffff", file: "indian-visa" },
   };
   const ppDynImport = new Function("u", "return import(u)") as (u: string) => Promise<Record<string, unknown>>;
   let ppImglyFn: ((file: Blob, cfg: Record<string, unknown>) => Promise<Blob>) | null = null;

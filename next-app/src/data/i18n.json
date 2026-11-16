@@ -888,7 +888,11 @@
   "nfTitle": "Page not found",
   "nfText": "The page you opened does not exist. It may have been moved, or the address may be wrong.",
   "nfHome": "Go to the home page",
-  "nfTools": "See all 16 tools"
+  "nfTools": "See all 16 tools",
+  "ppDocJee": "JEE Main — 413×531 px, 10–200 KB",
+  "ppDocUpsc": "UPSC — 413×531 px, 20–300 KB",
+  "ppDocPan": "PAN Card — 276×197 px, up to 20 KB",
+  "ppDocVisa": "Indian Visa — 600×600 px, 10–300 KB, square photo"
  },
  "hi": {
   "navCapacity": "🛡️ क्षमता और स्थिति",
@@ -1779,6 +1783,10 @@
   "nfTitle": "पेज नहीं मिला",
   "nfText": "आपने जो पेज खोला है, वह मौजूद नहीं है। हो सकता है वह कहीं और चला गया हो, या पता गलत हो।",
   "nfHome": "होम पेज पर जाएँ",
-  "nfTools": "सभी 16 टूल देखें"
+  "nfTools": "सभी 16 टूल देखें",
+  "ppDocJee": "JEE मेन — 413×531 px, 10–200 KB",
+  "ppDocUpsc": "UPSC — 413×531 px, 20–300 KB",
+  "ppDocPan": "पैन कार्ड — 276×197 px, 20 KB तक",
+  "ppDocVisa": "भारतीय वीज़ा — 600×600 px, 10–300 KB, चौकोर फ़ोटो"
  }
 }

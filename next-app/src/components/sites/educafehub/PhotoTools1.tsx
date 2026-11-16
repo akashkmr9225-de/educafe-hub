@@ -204,6 +204,10 @@ export function PassportTool() {
                   <option value="oci" data-i18n="ppDocOci">OCI — 600×600 px, up to 200 KB, light background (not white)</option>
                   <option value="dl" data-i18n="ppDocDl">Driving Licence — 420×525 px, 10–20 KB</option>
                   <option value="neet" data-i18n="ppDocNeet">NEET UG — 413×531 px, 10–200 KB, name + date strip</option>
+                  <option value="jee" data-i18n="ppDocJee">JEE Main — 413×531 px, 10–200 KB</option>
+                  <option value="upsc" data-i18n="ppDocUpsc">UPSC — 413×531 px, 20–300 KB</option>
+                  <option value="pan" data-i18n="ppDocPan">PAN Card — 276×197 px, up to 20 KB</option>
+                  <option value="visa" data-i18n="ppDocVisa">Indian Visa — 600×600 px, 10–300 KB, square photo</option>
                 </select>
                 <p className="hint" data-i18n="ppDocPresetNote">Specs as of Nov 2026 — check your current notice before submitting.</p>
                 <div className="btnrow" style={{ marginTop: 8 }}>

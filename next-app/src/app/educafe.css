@@ -423,3 +423,17 @@ html[lang="en"] .hi-only { display: none !important; }
 
   /* ---------- Haikei-style layered waves in the hero ---------- */
   .intro::before{content:"";position:absolute;left:0;right:0;bottom:0;height:54%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='xMidYMax slice'%3E%3Cpath fill='%23ffffff' fill-opacity='0.05' d='M0,160 C240,110 480,210 720,180 C960,150 1200,90 1440,140 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='0.09' d='M0,210 C260,160 520,250 780,220 C1040,190 1240,150 1440,200 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='0.15' d='M0,262 C300,222 600,292 900,262 C1150,240 1300,232 1440,257 L1440,320 L0,320 Z'/%3E%3Cpath fill='none' stroke='%23F59E0B' stroke-opacity='0.35' stroke-width='3' d='M0,262 C300,222 600,292 900,262 C1150,240 1300,232 1440,257'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:bottom center;background-size:100% 100%;pointer-events:none}
+
+/* Fix pass (16 Nov 2026): mobile menu, card entrance, footer copy line */
+.menubtn { display: none; }
+@media (max-width: 767px) {
+  .menubtn { display: inline-flex; align-items: center; gap: 7px; }
+  .mmenu { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; animation: heroIn .35s var(--ease) backwards; }
+}
+@media (min-width: 768px) { .mmenu { display: none; } }
+.mmenu a { display: flex; align-items: center; gap: 8px; padding: 11px 13px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 14.5px; }
+.mmenu a:active { border-color: var(--accent); }
+.toolbox { animation: cardIn .5s var(--ease) backwards; }
+@keyframes cardIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.wordmark, .foot-brand { text-decoration: none; color: inherit; }
+.fcopy { color: var(--ink2); font-size: 13.5px; margin: 2px 0 0; }

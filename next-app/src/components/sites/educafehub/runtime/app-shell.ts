@@ -223,6 +223,19 @@ export function initAppShell(): void {
       });
       if (focus) tab.focus();
     };
+    const hashTab: Record<string, string> = {
+      privacy: "tab-priv",
+      terms: "tab-terms",
+      disclaimer: "tab-disc",
+      about: "tab-about",
+      contact: "tab-contact",
+    };
+    const applyHash = () => {
+      const id = hashTab[window.location.hash.replace("#", "")];
+      if (id) document.getElementById(id)?.click();
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
     tabs.forEach((t, i) => {
       t.addEventListener("click", () => select(t, false));
       t.addEventListener("keydown", (e) => {

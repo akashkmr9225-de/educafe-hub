@@ -58,16 +58,6 @@ content:
               - name: hi
                 label: Hi
                 type: string
-          - name: heroSteps
-            label: Hero Steps
-            type: object
-            fields:
-              - name: en
-                label: En
-                type: string
-              - name: hi
-                label: Hi
-                type: string
       - name: sections
         label: Sections
         type: object

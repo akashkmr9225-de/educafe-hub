@@ -140,7 +140,7 @@ export function LegalSection() {
             <span className="lbl2" data-i18n="contactWaL">
               WhatsApp
             </span>
-            <span className="addr">+91 87874 79225</span>
+            <a className="addr" href="tel:+918787479225">+91 87874 79225</a>
             
           </div>
           <div className="btnrow" style={{ marginTop: 2 }}>
@@ -222,7 +222,7 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a href="/legal/" data-i18n="navLegal">
+              <a href="/legal/#contact" data-i18n="navLegal">
                 ⚖️ Legal & Contact
               </a>
             </li>
@@ -246,12 +246,13 @@ export function Footer() {
         </div>
       </div>
       <p className="flegal">
-        <a href="/legal/" data-i18n="footPrivacy">Privacy Policy</a>
+        <a href="/legal/#privacy" data-i18n="footPrivacy">Privacy Policy</a>
         <span aria-hidden="true">·</span>
-        <a href="/legal/" data-i18n="footTerms">Terms of Use</a>
+        <a href="/legal/#terms" data-i18n="footTerms">Terms of Use</a>
         <span aria-hidden="true">·</span>
-        <a href="/legal/" data-i18n="footContactLink">Contact</a>
+        <a href="/legal/#contact" data-i18n="footContactLink">Contact</a>
       </p>
+      <p className="fcopy">© 2026 EduCafe Hub</p>
       <p data-i18n="footer.copyrightLine">
         All tools are completely free and work without any login. Always confirm a form's exact
         size/KB requirement in the form's own instructions once — every portal has different rules.

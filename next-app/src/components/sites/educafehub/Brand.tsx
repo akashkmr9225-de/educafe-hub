@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export function Logo({ size = 42, className }: { size?: number; className?: string }) {
   return (
@@ -15,22 +16,22 @@ export function Logo({ size = 42, className }: { size?: number; className?: stri
 
 export function Wordmark() {
   return (
-    <div className="wordmark">
+    <Link href="/" className="wordmark" aria-label="EduCafe Hub, home">
       <Logo size={42} className="wm-logo" />
       <span>
         Edu<span className="wm-cafe">Cafe</span> Hub
       </span>
       <span className="wm-dom">educafehub.com</span>
       <span className="wm-tag" data-i18n="wmTag">One stop for school & cyber cafe work</span>
-    </div>
+    </Link>
   );
 }
 
 export function FootBrand() {
   return (
-    <div className="foot-brand">
+    <Link href="/" className="foot-brand" aria-label="EduCafe Hub, home">
       <Logo size={36} />
       <h3>EduCafe Hub</h3>
-    </div>
+    </Link>
   );
 }

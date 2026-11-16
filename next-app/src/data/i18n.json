@@ -881,7 +881,14 @@
   "how_age-calculator_3": "Read the Class 1 verdict: eligible if the child is 6 or more on 31 March of the admission year.",
   "how_marks-percentage-calculator_1": "Enter each subject's full marks and obtained marks (rows can be added or removed).",
   "how_marks-percentage-calculator_2": "Press Calculate — total, percentage, division and grade appear together.",
-  "how_marks-percentage-calculator_3": "Use the converter below for CGPA ↔ percentage (CBSE × 9.5)."
+  "how_marks-percentage-calculator_3": "Use the converter below for CGPA ↔ percentage (CBSE × 9.5).",
+  "navMenu": "Menu",
+  "ariaMenu": "Site menu",
+  "authErrEmpty": "Please fill in both fields: your name, and a mobile number or email.",
+  "nfTitle": "Page not found",
+  "nfText": "The page you opened does not exist. It may have been moved, or the address may be wrong.",
+  "nfHome": "Go to the home page",
+  "nfTools": "See all 16 tools"
  },
  "hi": {
   "navCapacity": "🛡️ क्षमता और स्थिति",
@@ -1765,6 +1772,13 @@
   "how_age-calculator_3": "कक्षा 1 का निर्णय पढ़ें: प्रवेश वर्ष की 31 मार्च को बच्चा 6 या अधिक हो तो योग्य है।",
   "how_marks-percentage-calculator_1": "हर विषय के पूर्णांक और प्राप्तांक डालें (पंक्तियाँ जोड़ी या हटाई जा सकती हैं)।",
   "how_marks-percentage-calculator_2": "गणना दबाएँ — कुल, प्रतिशत, श्रेणी और ग्रेड एक साथ दिखेंगे।",
-  "how_marks-percentage-calculator_3": "CGPA ↔ प्रतिशत के लिए नीचे का कन्वर्टर उपयोग करें (CBSE × 9.5)।"
+  "how_marks-percentage-calculator_3": "CGPA ↔ प्रतिशत के लिए नीचे का कन्वर्टर उपयोग करें (CBSE × 9.5)।",
+  "navMenu": "मेनू",
+  "ariaMenu": "साइट मेनू",
+  "authErrEmpty": "कृपया दोनों चीज़ें भरें: अपना नाम, और मोबाइल नंबर या ईमेल।",
+  "nfTitle": "पेज नहीं मिला",
+  "nfText": "आपने जो पेज खोला है, वह मौजूद नहीं है। हो सकता है वह कहीं और चला गया हो, या पता गलत हो।",
+  "nfHome": "होम पेज पर जाएँ",
+  "nfTools": "सभी 16 टूल देखें"
  }
 }

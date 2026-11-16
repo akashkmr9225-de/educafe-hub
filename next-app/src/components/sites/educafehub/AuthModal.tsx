@@ -12,6 +12,7 @@ interface AuthModalProps {
 
 export function AuthModal({ open, onClose }: AuthModalProps) {
   const [kind, setKind] = useState<"school" | "cafe">("school");
+  const [err, setErr] = useState("");
   const [auth, setAuth] = useState(getAuthState());
   const modalRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -27,6 +28,7 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
 
   useEffect(() => {
     if (!open) return;
+    setErr("");
     firstFieldRef.current?.focus();
   }, [open]);
 
@@ -67,7 +69,11 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
     const contactInput = form.elements.namedItem("authContact") as HTMLInputElement;
     const name = nameInput.value.trim();
     const contact = contactInput.value.trim();
-    if (!name || !contact) return;
+    if (!name || !contact) {
+      setErr(T("authErrEmpty"));
+      return;
+    }
+    setErr("");
     const kindVal = kind;
     setAuthState({ name, contact, kind: kindVal });
     handleClose();
@@ -170,6 +176,11 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
                  </button>
               </div>
             </div>
+            {err && (
+              <p className="msg warn" role="alert">
+                {err}
+              </p>
+            )}
             <div className="btnrow">
               <button className="btn" type="submit">{T("authSave")}</button>
             </div>

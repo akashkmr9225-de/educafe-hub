@@ -255,17 +255,23 @@ export function initAppShell(): void {
   }
 
   // Hero trust badges join the same .rv reveal, but the hero is above the
-  // fold, so they reveal on load (next frame) with a per-pill stagger
-  // instead of waiting for a scroll intersection. Reduced motion: the .rv
-  // class is never added and the pills simply stay visible, as on sections.
+  // fold, so they reveal on load with a per-pill stagger instead of
+  // waiting for a scroll intersection. The reveal is held briefly so it
+  // is witnessed rather than finished before first paint settles.
+  // Reduced motion: the .rv class is never added and the pills simply
+  // stay visible, as on sections.
   const badges = Array.from(document.querySelectorAll<HTMLElement>(".trustrow .trust"));
   if (badges.length && !reduce) {
     badges.forEach((b, i) => {
       b.classList.add("rv");
-      b.style.transitionDelay = `${i * 120}ms`;
+      b.style.transitionDelay = `${i * 160}ms`;
     });
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => badges.forEach((b) => b.classList.add("in"))),
+    setTimeout(
+      () =>
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => badges.forEach((b) => b.classList.add("in"))),
+        ),
+      450,
     );
   }
 

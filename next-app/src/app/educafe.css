@@ -344,11 +344,11 @@
   .wordmark .wm-logo{width:64px;height:64px;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.3);flex:none}
   /* Wordmark logo: Wi-Fi signal pulse — a soft dim wave travels dot -> inner arc -> outer arc, then rests. Static (full opacity) under reduced motion. */
   @media (prefers-reduced-motion: no-preference){
-    .wordmark .wm-wifi-dot,.wordmark .wm-wifi-arc1,.wordmark .wm-wifi-arc2{animation:wmWifi 2.6s ease-in-out infinite}
-    .wordmark .wm-wifi-arc1{animation-delay:.3s}
-    .wordmark .wm-wifi-arc2{animation-delay:.6s}
+    .wordmark .wm-wifi-dot,.wordmark .wm-wifi-arc1,.wordmark .wm-wifi-arc2{animation:wmWifi 3.4s ease-in-out infinite}
+    .wordmark .wm-wifi-arc1{animation-delay:.35s}
+    .wordmark .wm-wifi-arc2{animation-delay:.7s}
   }
-  @keyframes wmWifi{0%,100%{opacity:1}10%{opacity:.35}22%{opacity:1}}
+  @keyframes wmWifi{0%,100%{opacity:1}12%{opacity:.2}30%{opacity:1}}
   .wordmark .wm-cafe{color:var(--hero-hl)}
   .foot-brand{display:flex;align-items:center;gap:10px;margin-bottom:8px}
   .foot-brand img{width:36px;height:36px;border-radius:9px;flex:none}
@@ -481,6 +481,7 @@ html[lang="en"] .hi-only { display: none !important; }
    would animate the pill OUT when .rv lands. Off until .in arrives, so the
    hidden state applies instantly and only the reveal animates. */
 .trust.rv:not(.in){transition:none}
+.trust.rv.in{transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
 
 /* Landing sections (Sir's approved brief, 2026-11-16): tagline
    word reveal, homepage FAQ, final call to action */

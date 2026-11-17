@@ -28,6 +28,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${tool.titleEn} | EduCafe Hub`,
       description: tool.descriptionEn,
       type: "website",
+      siteName: "EduCafe Hub",
+      url: `https://educafehub.pages.dev/tools/${tool.slug}/`,
+      images: [
+        {
+          url: "https://educafehub.pages.dev/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: "EduCafe Hub — free tools for schools and cyber cafes",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${tool.titleEn} | EduCafe Hub`,
+      description: tool.descriptionEn,
+      images: ["https://educafehub.pages.dev/og-image.png"],
     },
   };
 }

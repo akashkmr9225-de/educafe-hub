@@ -1,0 +1,35 @@
+# EduCafe Hub
+
+> Free in-browser tools for schools and cyber cafes — passport photo sheets, exact-KB photo & signature resize, image to PDF, PDF compress, QR code maker, age & marks calculators, plus 31 official daily links. Every tool runs in the visitor's browser; files are never uploaded. The site is available in English and Hindi.
+
+## Tools
+
+- [Passport Photo](https://educafehub.pages.dev/tools/passport-photo/): Make a passport size photo online free: upload one photo and download a print-ready sheet of 35 × 45 mm passport photos at 300 DPI — copies, paper size and background of your choice, no watermark.
+- [Exact KB Photo](https://educafehub.pages.dev/tools/exact-kb-photo/): Resize a photo to an exact KB size for online forms — pick 20 KB, 50 KB, 100 KB or any target and the download is exactly that size.
+- [Signature Maker](https://educafehub.pages.dev/tools/signature-maker/): Signature resizer for online forms: photo of a signature on paper becomes a clean white-background JPG at the form's size — 140×60 pixels, 10 KB–20 KB — ready to upload.
+- [Photo + Signature Joiner](https://educafehub.pages.dev/tools/photo-signature-joiner/): Photo and signature joiner: put the photo on top and the signature below in one single image for forms that ask for a combined file — with an optional KB limit so the form accepts it.
+- [Image to PDF](https://educafehub.pages.dev/tools/image-to-pdf/): JPG to PDF converter: turn photos into one clean PDF in your chosen order — A4, 4×6 or fit-to-photo pages.
+- [PDF Compress](https://educafehub.pages.dev/tools/pdf-compress/): Compress PDF online free: shrink a large PDF — scanned documents and photo PDFs shrink the most.
+- [Image Compressor](https://educafehub.pages.dev/tools/image-compressor/): Image compressor: reduce a photo's size for WhatsApp or email with a live quality slider — watch the KB drop before you download.
+- [Age Calculator](https://educafehub.pages.dev/tools/age-calculator/): Age calculator by date of birth: exact age today, plus age on 31 March and 31 December — with a clear Class 1 admission verdict (6 years or more on 31 March).
+- [Marks & Percentage Calculator](https://educafehub.pages.dev/tools/marks-percentage-calculator/): Percentage calculator from marks: enter subject marks and get the total, percentage, division and grade — plus a CGPA to percentage converter (CBSE × 9.5).
+- [QR Code Maker](https://educafehub.pages.dev/tools/qr-code-maker/): UPI QR code generator free: make a payment QR for your shop counter, a Wi-Fi QR for customers, or a link QR — print-ready PNG, no sign-up.
+- [Bulk Student Photos](https://educafehub.pages.dev/tools/bulk-student-photos/): Bulk passport photo maker for a whole class: add every student's photo together (a folder works, HEIC too) and print named A4 sheets, or download one file per student.
+- [Exam Form Photo](https://educafehub.pages.dev/tools/exam-form-photo/): Pick the exam and add the photo — you get a JPG of the exact pixel size and KB range that form asks for (SSC, NEET, bank, BPSC), with name and date printed below when the form needs it.
+- [Receipt / Bill Maker](https://educafehub.pages.dev/tools/receipt-bill-maker/): Receipt maker online free: type the items and download a clean fee receipt or cafe bill image in seconds — ready to print or send on WhatsApp.
+- [Print Cost Calculator](https://educafehub.pages.dev/tools/print-cost-calculator/): Print cost calculator for the cafe counter: B/W and colour pages, passport photo sets, lamination and form filling at your own rates — the exact total to charge, without mistakes.
+- [File Converter](https://educafehub.pages.dev/tools/file-converter/): Image format converter: change a photo between JPG, PNG and WebP in your browser — WebP to JPG for forms that refuse WebP, JPG to PNG when you need transparency.
+- [File Tools](https://educafehub.pages.dev/tools/file-tools/): Merge PDF and split PDF online free, plus image resize / convert / rotate and text tools (word counter, case changer, duplicate-line remover) — all in your browser, nothing uploaded.
+- [Online Form Photo](https://educafehub.pages.dev/tools/online-form-photo/): Make a digital photo for an online form: pick the form (Passport Seva, IBPS, SBI, OCI, Driving Licence, NEET, JEE, UPSC, PAN, Indian Visa) and download the exact pixel size and KB range it asks for, with name + date strip and background removal.
+- [Document Auto Crop](https://educafehub.pages.dev/tools/document-auto-crop/): Document auto crop: upload a photo of any document and its four corners are found automatically — drag to adjust, the page is straightened flat, and you download a clean JPG or PDF.
+
+## Pages
+
+- [EduCafe Hub — home](https://educafehub.pages.dev/): All 18 free tools and the 31 official daily links on one page.
+
+## Legal
+
+- [Privacy Policy](https://educafehub.pages.dev/privacy/)
+- [Terms of Use](https://educafehub.pages.dev/terms/)
+- [Cookie Policy](https://educafehub.pages.dev/cookies/)
+- [Refund Policy](https://educafehub.pages.dev/refund/)

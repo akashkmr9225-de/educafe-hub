@@ -469,6 +469,12 @@ html[lang="en"] .hi-only { display: none !important; }
 .rv.in{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
 
+/* Hero trust badges (load-triggered .rv reveal, see app-shell): the generic
+   .rv rule above also inherits a base transition from the design block, which
+   would animate the pill OUT when .rv lands. Off until .in arrives, so the
+   hidden state applies instantly and only the reveal animates. */
+.trust.rv:not(.in){transition:none}
+
 /* Landing sections (Sir's approved brief, 2026-11-16): tagline
    word reveal, homepage FAQ, final call to action */
 .tagsec{margin-top:26px}

@@ -342,13 +342,13 @@
   /* ---------- EduCafe Hub: wordmark, sign-in, tasks, toast, new tools ---------- */
   .wordmark{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--font-bricolage),"Bricolage Grotesque",sans-serif;font-weight:800;font-size:30px;letter-spacing:-.01em;margin-bottom:14px}
   .wordmark .wm-logo{width:64px;height:64px;border-radius:14px;box-shadow:0 6px 16px rgba(0,0,0,.3);flex:none}
-  /* Wordmark logo: Wi-Fi signal pulse — a soft dim wave travels dot -> inner arc -> outer arc, then rests. Static (full opacity) under reduced motion. */
+  /* Wordmark logo: Wi-Fi signal pulse — a dim wave travels dot -> inner arc -> outer arc in a continuous loop (phase-shifted dips, no resting plateau). Static (full opacity) under reduced motion. */
   @media (prefers-reduced-motion: no-preference){
-    .wordmark .wm-wifi-dot,.wordmark .wm-wifi-arc1,.wordmark .wm-wifi-arc2{animation:wmWifi 3.4s ease-in-out infinite}
-    .wordmark .wm-wifi-arc1{animation-delay:.35s}
-    .wordmark .wm-wifi-arc2{animation-delay:.7s}
+    .wordmark .wm-wifi-dot,.wordmark .wm-wifi-arc1,.wordmark .wm-wifi-arc2{animation:wmWifi 2.4s ease-in-out infinite}
+    .wordmark .wm-wifi-arc1{animation-delay:.3s}
+    .wordmark .wm-wifi-arc2{animation-delay:.6s}
   }
-  @keyframes wmWifi{0%,100%{opacity:1}12%{opacity:.2}30%{opacity:1}}
+  @keyframes wmWifi{0%,100%{opacity:1}50%{opacity:.25}}
   .wordmark .wm-cafe{color:var(--hero-hl)}
   .foot-brand{display:flex;align-items:center;gap:10px;margin-bottom:8px}
   .foot-brand img{width:36px;height:36px;border-radius:9px;flex:none}
@@ -438,7 +438,12 @@ html[lang="en"] .hi-only { display: none !important; }
   @media (max-width:560px){.toolgrid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:9px}.toolbox{padding:16px 6px 13px}.toolbox .tb-ic{width:40px;height:40px;border-radius:11px}.toolbox .tb-ic svg{width:23px;height:23px}.toolbox .tb-name{font-size:13.5px}}
 
   /* ---------- Haikei-style layered waves in the hero ---------- */
-  .intro::before{content:"";position:absolute;left:0;right:0;bottom:0;height:54%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='xMidYMax slice'%3E%3Cpath fill='%23ffffff' fill-opacity='0.05' d='M0,160 C240,110 480,210 720,180 C960,150 1200,90 1440,140 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='0.09' d='M0,210 C260,160 520,250 780,220 C1040,190 1240,150 1440,200 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='0.15' d='M0,262 C300,222 600,292 900,262 C1150,240 1300,232 1440,257 L1440,320 L0,320 Z'/%3E%3Cpath fill='none' stroke='%23F59E0B' stroke-opacity='0.35' stroke-width='3' d='M0,262 C300,222 600,292 900,262 C1150,240 1300,232 1440,257'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:bottom center;background-size:100% 100%;pointer-events:none}
+  .intro::before{content:"";position:absolute;left:-3%;right:-3%;bottom:0;height:54%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='xMidYMax slice'%3E%3Cpath fill='%23ffffff' fill-opacity='0.05' d='M0,160 C240,110 480,210 720,180 C960,150 1200,90 1440,140 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='0.09' d='M0,210 C260,160 520,250 780,220 C1040,190 1240,150 1440,200 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='0.15' d='M0,262 C300,222 600,292 900,262 C1150,240 1300,232 1440,257 L1440,320 L0,320 Z'/%3E%3Cpath fill='none' stroke='%23F59E0B' stroke-opacity='0.35' stroke-width='3' d='M0,262 C300,222 600,292 900,262 C1150,240 1300,232 1440,257'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:bottom center;background-size:100% 100%;pointer-events:none}
+
+  /* Hero waves: gentle continuous sway (layer is oversized 3% each side and
+     .intro clips it, so the edges never show). Static under reduced motion. */
+  @media (prefers-reduced-motion: no-preference){.intro::before{animation:heroWaveSway 9s ease-in-out infinite alternate}}
+  @keyframes heroWaveSway{from{transform:translateX(-7px)}to{transform:translateX(7px)}}
 
 /* Fix pass (16 Nov 2026): card entrance, footer copy line */
 @keyframes cardIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
@@ -485,7 +490,7 @@ html[lang="en"] .hi-only { display: none !important; }
 /* Landing sections (Sir's approved brief, 2026-11-16): tagline
    word reveal, homepage FAQ, final call to action */
 .tagsec{margin-top:26px}
-.tagline{font-size:clamp(26px,4.6vw,40px);font-weight:700;line-height:1.35;max-width:680px;margin:0;text-wrap:balance}
+.tagline{font-size:clamp(26px,4.6vw,40px);font-weight:700;line-height:1.35;max-width:1160px;margin:0;text-wrap:balance}
 .tagline .w{transition:color .45s cubic-bezier(.22,1,.36,1)}
 .tagline.armed .w{color:color-mix(in srgb,var(--ink) 28%,transparent)}
 .tagline.armed.in .w{color:var(--ink)}

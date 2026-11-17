@@ -228,24 +228,17 @@ export function initAppShell(): void {
   const secs = Array.from(document.querySelectorAll<HTMLElement>(".wrap > section"));
   const reduce =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Two-way reveal: elements rise in when they enter the viewport and
+  // reverse out when they leave, replaying on every pass (never one-shot).
+  const toggleIn = (entries: IntersectionObserverEntry[]) =>
+    entries.forEach((en) => en.target.classList.toggle("in", en.isIntersecting));
   if (secs.length) {
     if (reduce || !("IntersectionObserver" in window)) {
       secs.forEach((s) => s.classList.add("in"));
     } else {
       secs.forEach((s) => s.classList.add("rv"));
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((en) => {
-            if (en.isIntersecting) {
-              en.target.classList.add("in");
-              io.unobserve(en.target);
-            }
-          });
-        },
-        { rootMargin: "0px 0px 2000px 0px", threshold: 0 },
-      );
+      const io = new IntersectionObserver(toggleIn, { rootMargin: "0px", threshold: 0 });
       secs.forEach((s) => io.observe(s));
-      setTimeout(() => secs.forEach((s) => s.classList.add("in")), 2000);
     }
     if (!reduce) {
       secs.forEach((sec, i) => {
@@ -254,25 +247,20 @@ export function initAppShell(): void {
     }
   }
 
-  // Hero trust badges join the same .rv reveal, but the hero is above the
-  // fold, so they reveal on load with a per-pill stagger instead of
-  // waiting for a scroll intersection. The reveal is held briefly so it
-  // is witnessed rather than finished before first paint settles.
-  // Reduced motion: the .rv class is never added and the pills simply
-  // stay visible, as on sections.
+  // Hero trust badges join the same two-way .rv reveal as the sections,
+  // with a per-pill stagger. They are intersecting on load, so they rise
+  // in immediately; scrolling them out of view reverses them and
+  // scrolling back replays the rise. Reduced motion (or no
+  // IntersectionObserver): the .rv class is never added and the pills
+  // simply stay visible, as on sections.
   const badges = Array.from(document.querySelectorAll<HTMLElement>(".trustrow .trust"));
-  if (badges.length && !reduce) {
+  if (badges.length && !reduce && "IntersectionObserver" in window) {
     badges.forEach((b, i) => {
       b.classList.add("rv");
       b.style.transitionDelay = `${i * 160}ms`;
     });
-    setTimeout(
-      () =>
-        requestAnimationFrame(() =>
-          requestAnimationFrame(() => badges.forEach((b) => b.classList.add("in"))),
-        ),
-      450,
-    );
+    const bio = new IntersectionObserver(toggleIn, { rootMargin: "0px", threshold: 0 });
+    badges.forEach((b) => bio.observe(b));
   }
 
   const capBox = document.getElementById("capStatus");

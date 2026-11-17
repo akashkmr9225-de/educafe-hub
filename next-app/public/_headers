@@ -2,7 +2,11 @@
   Cache-Control: public, max-age=31536000, immutable
 
 /*
-  Cache-Control: public, max-age=0, must-revalidate
+  # No Cache-Control here on purpose: Cloudflare merges every matching
+  # rule, so a Cache-Control in /* would append to the immutable value
+  # on /_next/static/* assets and conflict with it. HTML already gets
+  # "public, max-age=0, must-revalidate" from the platform default
+  # (verified at baseline before this file existed).
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

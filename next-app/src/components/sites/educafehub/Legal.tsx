@@ -204,8 +204,8 @@ export function Footer() {
           <FootBrand />
           <p style={{ margin: 0 }}>
             <span data-i18n="footer.aboutLine">
-              photo, signature, PDF, calculators and official links for the daily work of a school
-              office and cyber cafe, all on one page.
+              Passport photos, signatures, PDFs, calculators and official links for the daily work
+              of a school office and cyber cafe, all on one page.
             </span>
           </p>
         </div>
@@ -213,18 +213,63 @@ export function Footer() {
           <h3 data-i18n="footLinksT">Quick links</h3>
           <ul>
             <li>
-              <a href="/tools/passport-photo/" data-i18n="navPassport">
-                Passport Photo
+              <a href="/tools/passport-photo/" className="qlink">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                  <circle cx="12" cy="13" r="3" />
+                </svg>{" "}
+                <span data-i18n="navPassport">Passport Photo</span>
               </a>
             </li>
             <li>
-              <a href="/#links" data-i18n="navLinks">
-                🔗 Daily Links
+              <a href="/#links" className="qlink">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>{" "}
+                <span data-i18n="navLinks">Daily Links</span>
               </a>
             </li>
             <li>
-              <a href="/legal/#contact" data-i18n="navLegal">
-                ⚖️ Legal & Contact
+              <a href="/legal/#contact" className="qlink">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+                  <path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" />
+                  <path d="M7 21h10" />
+                  <path d="M12 3v18" />
+                  <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" />
+                </svg>{" "}
+                <span data-i18n="navLegal">Legal & Contact</span>
               </a>
             </li>
           </ul>

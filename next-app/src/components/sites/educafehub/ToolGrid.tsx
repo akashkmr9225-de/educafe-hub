@@ -21,6 +21,7 @@ const ICONS: Record<string, string> = {
   "age-calculator": "🎂",
   "marks-percentage-calculator": "💯",
   "online-form-photo": "📋",
+  "document-auto-crop": "📐",
 };
 
 const COLORS: Record<string, string> = {
@@ -41,6 +42,7 @@ const COLORS: Record<string, string> = {
   "age-calculator": "#E11D48",
   "marks-percentage-calculator": "#16A34A",
   "online-form-photo": "#0369A1",
+  "document-auto-crop": "#65A30D",
 };
 
 

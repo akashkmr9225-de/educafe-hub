@@ -5,7 +5,7 @@ import site from "@/content/site.json";
 // Copy lives in i18n.json / site.json as EN+HI pairs, like the rest of the site.
 
 const STEPS = [
-  { t: "how1T", d: "how1D", fb: "1. Pick your tool", fd: "17 free tools for the jobs a school office and cyber cafe do every day." },
+  { t: "how1T", d: "how1D", fb: "1. Pick your tool", fd: "18 free tools for the jobs a school office and cyber cafe do every day." },
   { t: "how2T", d: "how2D", fb: "2. Add your photo or file", fd: "Everything runs on this device. Your file is never uploaded to any server." },
   { t: "how3T", d: "how3D", fb: "3. Download and print", fd: "The finished file is ready in seconds, sized exactly as the form asks." },
 ] as const;
@@ -59,7 +59,7 @@ export function FinalCta() {
         Start with the job in front of you. It is free, and it takes seconds.
       </p>
       <a className="btn" href="#tools" data-i18n="heroCta">
-        See all 17 tools
+        See all 18 tools
       </a>
     </section>
   );

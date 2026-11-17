@@ -17,6 +17,7 @@ import { QrTool } from "@/components/sites/educafehub/QrTool";
 import { BulkTool } from "@/components/sites/educafehub/Bulk";
 import { ExamPhotoTool, ReceiptTool, PrintCostTool } from "@/components/sites/educafehub/ExamReceipt";
 import { FormPhotoTool } from "@/components/sites/educafehub/FormPhoto";
+import { DocCropTool } from "@/components/sites/educafehub/DocCrop";
 
 function renderToolComponent(slug: string) {
   switch (slug) {
@@ -58,6 +59,8 @@ function renderToolComponent(slug: string) {
       return <FileToolsSection />;
     case "online-form-photo":
       return <FormPhotoTool />;
+    case "document-auto-crop":
+      return <DocCropTool />;
     default:
       return null;
   }
@@ -81,6 +84,7 @@ const STEPS: Record<string, [string, string, string]> = {
   "age-calculator": ["Enter the child's date of birth.", "Press Calculate age — you get today's age plus the age on 31 March and 31 December.", "Read the Class 1 verdict: eligible if the child is 6 or more on 31 March of the admission year."],
   "marks-percentage-calculator": ["Enter each subject's full marks and obtained marks (rows can be added or removed).", "Press Calculate — total, percentage, division and grade appear together.", "Use the converter below for CGPA ↔ percentage (CBSE × 9.5)."],
   "online-form-photo": ["Upload the photo — JPG, PNG or HEIC, straight from the phone gallery.", "Pick the form (Passport Seva, IBPS, NEET, PAN, Visa…) — the pixel size, KB range and background set themselves; add the name + date strip if the form prints one.", "Press Download digital photo — exact pixels, inside the KB range, ready to upload to the form."],
+  "document-auto-crop": ["Upload a photo of the document — Aadhaar, certificate, any paper page, taken from above.", "Check the four corners — they are found automatically; drag any dot that is off the edge.", "Pick the look (original or B&W scan) and download the straightened page as JPG or PDF."],
 };
 
 export function ToolPageContent({ tool }: { tool: Tool }) {

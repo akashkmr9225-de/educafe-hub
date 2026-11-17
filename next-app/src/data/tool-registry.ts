@@ -236,6 +236,19 @@ export const TOOLS: Tool[] = [
     initFunction: "initFormPhoto",
     sectionId: "form-photo",
   },
+  {
+    slug: "document-auto-crop",
+    nameEn: "Document Auto Crop",
+    nameHi: "दस्तावेज़ ऑटो क्रॉप",
+    titleEn: "Document Auto Crop Online Free — Straighten a Photo of Aadhaar, Certificate, Any Document",
+    titleHi: "दस्तावेज़ ऑटो क्रॉप ऑनलाइन मुफ़्त — आधार, प्रमाणपत्र, किसी भी दस्तावेज़ की फ़ोटो सीधी करें",
+    descriptionEn: "Document auto crop: upload a photo of any document and its four corners are found automatically — drag to adjust, the page is straightened flat, and you download a clean JPG or PDF. Aadhaar, certificates, marksheets and forms.",
+    descriptionHi: "दस्तावेज़ ऑटो क्रॉप: किसी भी दस्तावेज़ की फ़ोटो डालें, उसके चारों कोने अपने-आप मिल जाते हैं — खींचकर ठीक करें, पेज सीधा-समतल होता है, और साफ़ JPG या PDF डाउनलोड करें। आधार, प्रमाणपत्र, मार्कशीट और फ़ॉर्म।",
+    category: "photo",
+    component: "DocCropTool",
+    initFunction: "initDocCrop",
+    sectionId: "doc-crop",
+  },
 ];
 
 export function getToolBySlug(slug: string): Tool | undefined {

@@ -2,6 +2,7 @@ import { ensureCoreLibs } from "./helpers";
 import { setLang, store } from "./state";
 import { initAppShell } from "./app-shell";
 import { initBulk } from "./tool-bulk";
+import { initDocCrop } from "./tool-doccrop";
 import { initQr } from "./tool-qr";
 import { initReceipt } from "./tool-receipt";
 import { initAge, initMarks, initPrintCost } from "./tools-calc";
@@ -46,6 +47,7 @@ export function initEduCafe(): Promise<void> {
     ]);
     run("passport", initPassport);
     run("form-photo", initFormPhoto);
+    run("doc-crop", initDocCrop);
     run("kb", initKb);
     run("signature", initSignature);
     run("joiner", initJoiner);

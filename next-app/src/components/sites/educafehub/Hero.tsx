@@ -36,7 +36,6 @@ export function LanguageBar() {
   return (
     <>
       <div className="langbar" role="group" data-i18n-aria="ariaLangGroup" aria-label="Language">
-        <span className="lbl" data-i18n="langLabel">🌐 Language</span>
         <span className="langbar-right"><span className="grp">
           <button type="button" className="langbtn" id="langEn" aria-pressed="true">
             English
@@ -54,7 +53,6 @@ export function Intro() {
   return (
     <div className="intro">
       <Wordmark />
-      <h1 data-i18n="site.heroHeading">EduCafe Hub — For School & Cyber cafe</h1>
       <div className="trustrow">
         <span className="trust">
           <svg

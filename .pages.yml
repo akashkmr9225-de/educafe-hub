@@ -28,16 +28,6 @@ content:
               - name: hi
                 label: Hi
                 type: string
-          - name: heroSubheading
-            label: Hero Subheading
-            type: object
-            fields:
-              - name: en
-                label: En
-                type: text
-              - name: hi
-                label: Hi
-                type: text
           - name: heroSearchPlaceholder
             label: Hero Search Placeholder
             type: object

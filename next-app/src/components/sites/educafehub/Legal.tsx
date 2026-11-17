@@ -110,7 +110,7 @@ export function LegalSection() {
               Vaishali and Muzaffarpur, Bihar — but anyone can use it, free, without login.
             </li>
             <li data-i18n="about3">Why it is free: everything runs in the visitor's own browser, so there is no server bill. That is why it stays free and fast, and never collects your files.</li>
-            <li data-i18n="bizLine">EduCafe Hub is run by Akash Kumar Sharma, Saraiya, Muzaffarpur, Bihar 843120, India. Email: akashkmr9225@gmail.com · WhatsApp: +91 87874 79225.</li>
+            <li data-i18n="bizLine">EduCafe Hub is run by Akash Kumar Sharma, Saraiya, Muzaffarpur, Bihar 843120, India. Email: educafehub@gmail.com · WhatsApp: +91 87874 79225.</li>
           </ul>
         </div>
 
@@ -123,13 +123,13 @@ export function LegalSection() {
             <span className="lbl2" data-i18n="contactEmailL">
               Email
             </span>
-            <a className="addr" href="mailto:akashkmr9225@gmail.com">
-              akashkmr9225@gmail.com
+            <a className="addr" href="mailto:educafehub@gmail.com">
+              educafehub@gmail.com
             </a>
             
           </div>
           <div className="btnrow" style={{ marginTop: 2 }}>
-            <a className="btn ghost small" href="mailto:akashkmr9225@gmail.com" data-i18n="contactMailBtn">
+            <a className="btn ghost small" href="mailto:educafehub@gmail.com" data-i18n="contactMailBtn">
               Write email
             </a>
             <button type="button" className="btn ghost small" id="ctCopy" data-i18n="contactCopyBtn">
@@ -233,7 +233,7 @@ export function Footer() {
           <h3 data-i18n="footContactT">Contact</h3>
           <ul>
             <li>
-              <a href="mailto:akashkmr9225@gmail.com">akashkmr9225@gmail.com</a>
+              <a href="mailto:educafehub@gmail.com">educafehub@gmail.com</a>
             </li>
             <li>
               <a href="tel:+918787479225">+91 87874 79225</a>

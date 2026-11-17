@@ -179,7 +179,7 @@ export function initAppShell(): void {
     window.addEventListener("hashchange", applyHash);
   }
 
-  const ADDR = "akashkmr9225@gmail.com";
+  const ADDR = "educafehub@gmail.com";
   el("ctCopy")?.addEventListener("click", () => {
     const done = (ok: boolean) => {
       const msg = document.getElementById("ctCopyMsg");

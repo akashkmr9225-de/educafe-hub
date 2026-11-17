@@ -55,13 +55,6 @@ export function Intro() {
     <div className="intro">
       <Wordmark />
       <h1 data-i18n="site.heroHeading">EduCafe Hub — For School & Cyber cafe</h1>
-      <p className="lede" data-i18n="site.heroSubheading">
-        Passport photos, exact-KB photo & signature for forms, image to PDF, age & marks
-        calculators — plus every government website you open daily, on one page. Sign in is optional and stays on this device; files are never uploaded anywhere.
-      </p>
-      <a className="btn herobtn" href="#tools" data-i18n="heroCta">
-        See all 18 tools
-      </a>
       <div className="trustrow">
         <span className="trust">
           <svg

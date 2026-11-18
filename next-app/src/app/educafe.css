@@ -92,10 +92,11 @@
   .intro::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.13) 1.5px,transparent 1.6px);background-size:22px 22px;pointer-events:none;mask-image:linear-gradient(115deg,transparent 55%,#000 100%);-webkit-mask-image:linear-gradient(115deg,transparent 55%,#000 100%)}
   .intro>*{position:relative;z-index:1}
 
-  .trustrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-  .trust{display:inline-flex;align-items:center;gap:7px;background:var(--hero-chip);border:1px solid var(--hero-line);border-radius:999px;padding:7px 13px;font-size:13.5px;font-weight:600;color:var(--hero-ink);backdrop-filter:blur(2px)}
+  .trustrow{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+  .trust{display:inline-flex;flex:0 0 auto;align-items:center;gap:7px;white-space:nowrap;max-width:100%;background:var(--hero-chip);border:1px solid var(--hero-line);border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600;color:var(--hero-ink);backdrop-filter:blur(2px)}
   .trust svg{flex:none}
   .trust b{color:var(--hero-hl)}
+  @media (max-width:1240px){.trust{font-size:13px}}
 
   /* ---------- tool nav: one slim swipeable row, NOT sticky ----------
      (the old sticky bar wrapped to 3 rows on wide screens and stayed pinned
@@ -499,10 +500,14 @@ html[lang="en"] .hi-only { display: none !important; }
 /* Landing sections (Sir's approved brief, 2026-11-16): tagline
    word reveal, homepage FAQ, final call to action */
 .tagsec{margin-top:26px}
-.tagline{font-size:clamp(26px,4.6vw,40px);font-weight:700;line-height:1.35;max-width:1160px;margin:0;text-wrap:balance}
+.tagline{font-size:18px;font-weight:400;line-height:1.55;max-width:65ch;margin:0 auto;text-align:center;color:#16181D}
 .tagline .w{transition:color .45s cubic-bezier(.22,1,.36,1)}
 .tagline.armed .w{color:color-mix(in srgb,var(--ink) 28%,transparent)}
 .tagline.armed.in .w{color:var(--ink)}
+.tagline .accent{color:#0F766E;font-weight:500}
+.tagline.armed .accent{color:color-mix(in srgb,#0F766E 28%,transparent)}
+.tagline.armed.in .accent{color:#0F766E}
+@media (max-width:639px){.tagline{font-size:16px;line-height:1.5}}
 .faqhome{display:grid;gap:10px;margin-top:14px}
 .faqitem{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:14px 18px}
 .faqitem summary{font-weight:700;font-size:16.5px;cursor:pointer}

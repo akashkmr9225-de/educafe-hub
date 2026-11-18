@@ -8,15 +8,41 @@ import I18N from "@/data/i18n.json";
 // in reading order, as the section scrolls into view. Before JS arms it, and
 // for reduced-motion visitors, the text shows at full colour.
 const DICT = I18N as unknown as Record<string, Record<string, string>>;
-const EN_WORDS = (DICT.en.taglineText ?? "").split(" ");
-const HI_WORDS = (DICT.hi.taglineText ?? "").split(" ");
+// The sentence is stored as segments so the two promise phrases
+// (taglineB / taglineD) can carry the .accent style; the flattened word
+// list is word-for-word the old taglineText sentence in both languages.
+const SEGMENTS: [string, boolean][] = [
+  ["taglineA", false],
+  ["taglineB", true],
+  ["taglineC", false],
+  ["taglineD", true],
+  ["taglineE", false],
+];
 
-function Words({ words }: { words: string[] }) {
+type Word = { w: string; accent: boolean };
+
+function buildWords(dict: Record<string, string>): Word[] {
+  return SEGMENTS.flatMap(([key, accent]) =>
+    (dict[key] ?? "")
+      .split(" ")
+      .filter(Boolean)
+      .map((w) => ({ w, accent }))
+  );
+}
+
+const EN_WORDS = buildWords(DICT.en);
+const HI_WORDS = buildWords(DICT.hi);
+
+function Words({ words }: { words: Word[] }) {
   return (
     <>
-      {words.map((w, i) => (
-        <span key={i} className="w" style={{ transitionDelay: `${i * 65}ms` }}>
-          {w}{" "}
+      {words.map((word, i) => (
+        <span
+          key={i}
+          className={word.accent ? "w accent" : "w"}
+          style={{ transitionDelay: `${i * 65}ms` }}
+        >
+          {word.w}{" "}
         </span>
       ))}
     </>

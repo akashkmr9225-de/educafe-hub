@@ -59,7 +59,7 @@ export function FinalCta() {
         Start with the job in front of you. It is free, and it takes seconds.
       </p>
       <a className="btn" href="#tools" data-i18n="heroCta">
-        See all 18 tools
+        See all 12 tools
       </a>
     </section>
   );

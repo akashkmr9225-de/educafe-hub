@@ -11,12 +11,9 @@ import { ScrollReveal } from "@/components/sites/educafehub/ScrollReveal";
 import { PassportTool, ExactKbTool } from "@/components/sites/educafehub/PhotoTools1";
 import { SignatureTool, JoinerTool } from "@/components/sites/educafehub/PhotoTools2";
 import { ImageToPdfTool, PdfCompressTool, ImageCompressorTool } from "@/components/sites/educafehub/PdfTools";
-import { AgeTool, MarksTool } from "@/components/sites/educafehub/Calculators";
+import { MarksTool } from "@/components/sites/educafehub/Calculators";
 import { FileToolsSection, ConverterCard } from "@/components/sites/educafehub/FileTools";
-import { QrTool } from "@/components/sites/educafehub/QrTool";
-import { BulkTool } from "@/components/sites/educafehub/Bulk";
-import { ExamPhotoTool, ReceiptTool, PrintCostTool } from "@/components/sites/educafehub/ExamReceipt";
-import { FormPhotoTool } from "@/components/sites/educafehub/FormPhoto";
+import { ReceiptTool } from "@/components/sites/educafehub/ExamReceipt";
 import { DocCropTool } from "@/components/sites/educafehub/DocCrop";
 
 function renderToolComponent(slug: string) {
@@ -35,20 +32,10 @@ function renderToolComponent(slug: string) {
       return <PdfCompressTool />;
     case "image-compressor":
       return <ImageCompressorTool />;
-    case "age-calculator":
-      return <AgeTool />;
     case "marks-percentage-calculator":
       return <MarksTool />;
-    case "qr-code-maker":
-      return <QrTool />;
-    case "bulk-student-photos":
-      return <BulkTool />;
-    case "exam-form-photo":
-      return <ExamPhotoTool />;
     case "receipt-bill-maker":
       return <ReceiptTool />;
-    case "print-cost-calculator":
-      return <PrintCostTool />;
     case "file-converter":
       return (
         <section id="converter">
@@ -57,8 +44,6 @@ function renderToolComponent(slug: string) {
       );
     case "file-tools":
       return <FileToolsSection />;
-    case "online-form-photo":
-      return <FormPhotoTool />;
     case "document-auto-crop":
       return <DocCropTool />;
     default:
@@ -69,8 +54,6 @@ function renderToolComponent(slug: string) {
 const STEPS: Record<string, [string, string, string]> = {
   "passport-photo": ["Upload one clear photo — JPG, PNG or HEIC, straight from the phone gallery.", "Pick the copies, paper (A4, 4×6…) and background colour. The sheet preview updates live.", "Press Generate, then download the sheet JPG or PDF and print it — 300 DPI, exact 35×45 mm."],
   "exact-kb-photo": ["Upload the photo (or up to 200 photos in Many-photos mode).", "Type the target size — e.g. 50 KB — or pick a chip. Exact size mode makes the download exactly that big.", "Press Resize and download — the size shown is the size you get."],
-  "exam-form-photo": ["Pick your exam — SSC, NEET, bank, BPSC — the size and KB range set themselves.", "Upload the photo; add name and date if the form prints them below the photo.", "Download the JPG — exact pixels, inside the KB range, ready for the form."],
-  "bulk-student-photos": ["Add the whole class's photos — pick files or a full folder; HEIC works too.", "Match names from the Excel sheet (or type them) and choose sheets or separate files.", "Download the named A4 sheets or the ZIP of separate student files and print."],
   "signature-maker": ["Upload a photo of the signature on plain white paper.", "The background is cleaned and the signature is cropped — adjust the cleaning level if needed.", "Download the JPG at the form's size (140×60, 10–20 KB) and upload it to the form."],
   "photo-signature-joiner": ["Upload the photo and the signature photo separately.", "Choose the layout (photo above, signature below) and set a KB limit if the form has one.", "Download the one combined image and upload it to the form."],
   "image-to-pdf": ["Add the photos — marksheets, certificates, any documents. More can be added anytime.", "Fix the order with ◀ ▶, remove mistakes with ✕, pick A4 / 4×6 / fit and name the PDF.", "Press Make PDF and download — the final size is shown before you submit it anywhere."],
@@ -78,12 +61,8 @@ const STEPS: Record<string, [string, string, string]> = {
   "image-compressor": ["Upload the photo you want to send or upload.", "Move the quality slider and watch the size change live; pick JPG or PNG.", "Download the smaller photo — if it ever comes out larger, the tool warns you."],
   "file-converter": ["Upload the image — JPG, PNG or WebP.", "Pick the format you need: JPG for forms, PNG for transparency, WebP for small size.", "Download the converted image — same photo, new format."],
   "file-tools": ["Choose what to do: merge or split a PDF, resize / rotate an image, or clean up text.", "Add the file and set the pages, size or angle the job needs.", "Download the finished file — everything happens in your browser."],
-  "qr-code-maker": ["Pick the QR type: UPI payment, Wi-Fi, or a link / text.", "Fill the details — UPI ID for payment, network name and password for Wi-Fi.", "Download the print-ready PNG and put it on the counter."],
   "receipt-bill-maker": ["Write the shop / school name and add the items with amounts.", "Check the total — it adds up as you type.", "Download the receipt image — print it or send it on WhatsApp."],
-  "print-cost-calculator": ["Set your cafe's rates once — per page, per photo set, per lamination.", "Enter the job: pages, copies, photo sets, forms filled.", "Read the exact total and charge the customer — no mental maths, no mistakes."],
-  "age-calculator": ["Enter the child's date of birth.", "Press Calculate age — you get today's age plus the age on 31 March and 31 December.", "Read the Class 1 verdict: eligible if the child is 6 or more on 31 March of the admission year."],
   "marks-percentage-calculator": ["Enter each subject's full marks and obtained marks (rows can be added or removed).", "Press Calculate — total, percentage, division and grade appear together.", "Use the converter below for CGPA ↔ percentage (CBSE × 9.5)."],
-  "online-form-photo": ["Upload the photo — JPG, PNG or HEIC, straight from the phone gallery.", "Pick the form (Passport Seva, IBPS, NEET, PAN, Visa…) — the pixel size, KB range and background set themselves; add the name + date strip if the form prints one.", "Press Download digital photo — exact pixels, inside the KB range, ready to upload to the form."],
   "document-auto-crop": ["Upload a photo of the document — Aadhaar, certificate, any paper page, taken from above.", "Check the four corners — they are found automatically; drag any dot that is off the edge.", "Pick the look (original or B&W scan) and download the straightened page as JPG or PDF."],
 };
 

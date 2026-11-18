@@ -6,8 +6,6 @@ import { ScrollReveal } from "@/components/sites/educafehub/ScrollReveal";
 const ICONS: Record<string, string> = {
   "passport-photo": "📸",
   "exact-kb-photo": "🎯",
-  "exam-form-photo": "🪪",
-  "bulk-student-photos": "🎓",
   "signature-maker": "\u270D\uFE0F",
   "photo-signature-joiner": "🧩",
   "image-to-pdf": "📄",
@@ -15,20 +13,14 @@ const ICONS: Record<string, string> = {
   "image-compressor": "🖼\uFE0F",
   "file-converter": "🔄",
   "file-tools": "🗂\uFE0F",
-  "qr-code-maker": "🔳",
   "receipt-bill-maker": "🧾",
-  "print-cost-calculator": "🖨\uFE0F",
-  "age-calculator": "🎂",
   "marks-percentage-calculator": "💯",
-  "online-form-photo": "📋",
   "document-auto-crop": "📐",
 };
 
 const COLORS: Record<string, string> = {
   "passport-photo": "#0F766E",
   "exact-kb-photo": "#2563EB",
-  "exam-form-photo": "#7C3AED",
-  "bulk-student-photos": "#DB2777",
   "signature-maker": "#B45309",
   "photo-signature-joiner": "#0891B2",
   "image-to-pdf": "#DC2626",
@@ -36,12 +28,8 @@ const COLORS: Record<string, string> = {
   "image-compressor": "#059669",
   "file-converter": "#4F46E5",
   "file-tools": "#CA8A04",
-  "qr-code-maker": "#1F2937",
   "receipt-bill-maker": "#0D9488",
-  "print-cost-calculator": "#9333EA",
-  "age-calculator": "#E11D48",
   "marks-percentage-calculator": "#16A34A",
-  "online-form-photo": "#0369A1",
   "document-auto-crop": "#65A30D",
 };
 

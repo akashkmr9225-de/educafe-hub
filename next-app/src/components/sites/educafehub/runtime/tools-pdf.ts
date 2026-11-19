@@ -13,6 +13,7 @@ import {
   wireDrop,
   wireDropMulti,
 } from "./helpers";
+import { playSound } from "./sound";
 import { T } from "./state";
 
 interface ImageToPdfState {
@@ -338,12 +339,12 @@ export function initFileTools(): void {
     const ref: { out: JsPdfDoc | null } = { out: null };
     const spec = input("fsPages").value;
     try {
-      const out = await renderPdfPages(fsFileObj, (total) => parsePages(spec, total), ref);
-      out.save("split.pdf");
-      setMsg("fsMsg", T("fsDone"));
-    } catch {
-      setMsg("fsMsg", T("fsFail"));
-    }
+          const out = await renderPdfPages(fsFileObj, (total) => parsePages(spec, total), ref);
+          out.save("split.pdf");
+          setMsg("fsMsg", T("fsDone"), "good");
+        } catch {
+          setMsg("fsMsg", T("fsFail"));
+        }
   });
 
   let fmFilesArr: File[] = [];
@@ -362,14 +363,14 @@ export function initFileTools(): void {
     }
     const ref: { out: JsPdfDoc | null } = { out: null };
     try {
-      for (let i = 0; i < fmFilesArr.length; i++) {
-        await renderPdfPages(fmFilesArr[i], null, ref);
-      }
-      ref.out?.save("merged.pdf");
-      setMsg("fmMsg", T("fmDone"));
-    } catch {
-      setMsg("fmMsg", T("fmFail"));
-    }
+          for (let i = 0; i < fmFilesArr.length; i++) {
+            await renderPdfPages(fmFilesArr[i], null, ref);
+          }
+          ref.out?.save("merged.pdf");
+          setMsg("fmMsg", T("fmDone"), "good");
+        } catch {
+          setMsg("fmMsg", T("fmFail"));
+        }
   });
 
   const fi: {
@@ -450,13 +451,14 @@ export function initFileTools(): void {
       `<span class='good'>${fmtKB(blob.size)}</span><span>${cv.width}×${cv.height} px</span><span>${fi.fmt.replace("image/", "").toUpperCase()}</span>`,
     );
     const dl = $("fiDownload") as HTMLAnchorElement;
-    dl.href = url;
-    dl.style.display = "inline-flex";
-    dl.setAttribute(
-      "download",
-      `edited-image.${fi.fmt === "image/png" ? "png" : fi.fmt === "image/webp" ? "webp" : "jpg"}`,
-    );
-  }
+        dl.href = url;
+        dl.style.display = "inline-flex";
+        dl.setAttribute(
+          "download",
+          `edited-image.${fi.fmt === "image/png" ? "png" : fi.fmt === "image/webp" ? "webp" : "jpg"}`,
+        );
+        playSound("success");
+      }
 
   const ftTa = input("ftText");
   function ftUpdate(): void {

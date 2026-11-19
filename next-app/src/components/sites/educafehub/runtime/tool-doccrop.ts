@@ -11,6 +11,7 @@ import {
   setMsg,
   wireDrop,
 } from "./helpers";
+import { playSound } from "./sound";
 import { T } from "./state";
 
 interface Pt {
@@ -434,6 +435,7 @@ export function initDocCrop(): void {
         "dcStat",
         `<span>${out.width} × ${out.height} px</span><span>${fmtSize(blob.size)}</span>`,
       );
+      playSound("success");
       syncButtons();
     });
     syncButtons();

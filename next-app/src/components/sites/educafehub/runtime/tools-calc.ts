@@ -1,4 +1,5 @@
 import { $, input, setHTML, setMsg } from "./helpers";
+import { playSound } from "./sound";
 import { T, getLang, onLangChange } from "./state";
 
 
@@ -18,37 +19,38 @@ export function initMarks(): void {
   );
   $("mkAdd").addEventListener("click", () => mkRow(""));
   $("mkGo").addEventListener("click", () => {
-    const rows = Array.from($("mkBody").querySelectorAll("tr"));
-    let totM = 0;
-    let totO = 0;
-    let used = 0;
-    let fail = false;
-    rows.forEach((tr) => {
-      const mx = parseFloat((tr.querySelector(".mkMax") as HTMLInputElement).value);
-      const ob = parseFloat((tr.querySelector(".mkObt") as HTMLInputElement).value);
-      if (!isNaN(mx) && !isNaN(ob) && mx > 0) {
-        totM += mx;
-        totO += ob;
-        used++;
-        if (ob < mx * 0.33) fail = true;
+      const rows = Array.from($("mkBody").querySelectorAll("tr"));
+      let totM = 0;
+      let totO = 0;
+      let used = 0;
+      let fail = false;
+      rows.forEach((tr) => {
+        const mx = parseFloat((tr.querySelector(".mkMax") as HTMLInputElement).value);
+        const ob = parseFloat((tr.querySelector(".mkObt") as HTMLInputElement).value);
+        if (!isNaN(mx) && !isNaN(ob) && mx > 0) {
+          totM += mx;
+          totO += ob;
+          used++;
+          if (ob < mx * 0.33) fail = true;
+        }
+      });
+      if (!used || totM === 0) {
+        setMsg("mkMsg", T("mkNeedRow"), "warn");
+        $("mkResult").style.display = "none";
+        return;
       }
+      $("mkMsg").textContent = "";
+      const pct = (totO / totM) * 100;
+      $("mkBig").textContent = `${pct.toFixed(2)}%`;
+      $("mkTot").textContent = `${totO} / ${totM}`;
+      $("mkDiv").textContent =
+        pct >= 60 ? T("mkDiv1") : pct >= 45 ? T("mkDiv2") : pct >= 33 ? T("mkDiv3") : "—";
+      $("mkGrade").textContent =
+        pct >= 90 ? "A+" : pct >= 80 ? "A" : pct >= 70 ? "B+" : pct >= 60 ? "B" : pct >= 50 ? "C" : pct >= 40 ? "D" : pct >= 33 ? "E" : "F";
+      $("mkPass").textContent = fail ? T("mkPassFailSub") : pct >= 33 ? T("mkPassOk") : T("mkPassFail");
+      $("mkResult").style.display = "block";
+      playSound("success");
     });
-    if (!used || totM === 0) {
-      setMsg("mkMsg", T("mkNeedRow"), "warn");
-      $("mkResult").style.display = "none";
-      return;
-    }
-    $("mkMsg").textContent = "";
-    const pct = (totO / totM) * 100;
-    $("mkBig").textContent = `${pct.toFixed(2)}%`;
-    $("mkTot").textContent = `${totO} / ${totM}`;
-    $("mkDiv").textContent =
-      pct >= 60 ? T("mkDiv1") : pct >= 45 ? T("mkDiv2") : pct >= 33 ? T("mkDiv3") : "—";
-    $("mkGrade").textContent =
-      pct >= 90 ? "A+" : pct >= 80 ? "A" : pct >= 70 ? "B+" : pct >= 60 ? "B" : pct >= 50 ? "C" : pct >= 40 ? "D" : pct >= 33 ? "E" : "F";
-    $("mkPass").textContent = fail ? T("mkPassFailSub") : pct >= 33 ? T("mkPassOk") : T("mkPassFail");
-    $("mkResult").style.display = "block";
-  });
   onLangChange(() => {
     if ($("mkResult").style.display !== "none") ($("mkGo") as HTMLButtonElement).click();
   });

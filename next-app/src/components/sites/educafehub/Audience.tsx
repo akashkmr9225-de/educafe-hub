@@ -35,7 +35,7 @@ export function EarnSection() {
           </p>
         </div>
         <div className="card">
-          <h3 data-i18n="earn4T">4) 🔗 Affiliate + Donation</h3>
+          <h3 data-i18n="earn4T">4) Affiliate + Donation</h3>
           <p data-i18n="earn4D">
             Photo paper, printer ink, pen drive jaisi cheezon ke affiliate links aur ek chhota sa
             support/donation button bhi jod sakte ho. Income chhoti hoti hai, par zero cost par

@@ -9,7 +9,6 @@ import {
   showToast,
   store,
 } from "./state";
-import { pcCalc } from "./tools-calc";
 
 const PK = "educafehub_profile";
 const LK = "educafehub_lang";
@@ -273,14 +272,12 @@ export function initAppShell(): void {
       span(links === 31, `Daily links loaded: ${links} / 31`) +
       span(!!window.jspdf, "PDF maker (jsPDF)") +
       span(!!window.pdfjsLib, "PDF reader (PDF.js)") +
-      span(!!window.QRCode, "QR maker (QRCode)") +
       span(!!window.JSZip, "ZIP maker (JSZip)") +
       span(counts.en === counts.hi, `EN / हिंदी text: ${counts.en} = ${counts.hi}`);
   }
 
   onLangChange(() => {
     renderAuth();
-    if (el("pcTotal")) pcCalc();
     document.querySelectorAll<HTMLInputElement>("#rcItems .rcn").forEach((i) => {
       i.placeholder = T("rcItemPh");
     });
@@ -292,5 +289,4 @@ export function initAppShell(): void {
   const saved = store.get<string>(LK);
   setLang(saved === "hi" ? "hi" : "en");
   renderAuth();
-  if (el("pcTotal")) pcCalc();
 }

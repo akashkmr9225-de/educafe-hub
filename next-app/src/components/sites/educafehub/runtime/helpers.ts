@@ -363,9 +363,6 @@ export function ensureCoreLibs(): Promise<unknown[]> {
     window.pdfjsLib
       ? Promise.resolve()
       : loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"),
-    window.QRCode
-      ? Promise.resolve()
-      : loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"),
     window.JSZip
       ? Promise.resolve()
       : loadScriptOnce("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"),

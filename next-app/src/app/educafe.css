@@ -97,6 +97,7 @@
   .trust svg{flex:none}
   .trust b{color:var(--hero-hl)}
   @media (max-width:1240px){.trust{font-size:13px}}
+  @media (min-width:1200px){.trustrow{flex-wrap:nowrap;gap:8px}.trust{font-size:12px;padding:8px 11px}}
 
   /* ---------- tool nav: one slim swipeable row, NOT sticky ----------
      (the old sticky bar wrapped to 3 rows on wide screens and stayed pinned

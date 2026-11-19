@@ -12,7 +12,7 @@ export function LegalSection() {
   return (
     <section id="legal">
       <div className="sec-head">
-        <span className="no">⚖️</span>
+        <span className="no">§</span>
         <h2 data-i18n="legalTitle">Legal pages — Privacy, Terms, Disclaimer, About & Contact</h2>
       </div>
       <p className="sec-sub" data-i18n="legalDesc">
@@ -327,7 +327,7 @@ export function LegalDoc({ doc }: { doc: keyof typeof DOCS }) {
   return (
     <section>
       <div className="sec-head">
-        <span className="no">⚖️</span>
+        <span className="no">§</span>
         <h2 data-i18n={d.titleKey}>{EN[d.titleKey]}</h2>
       </div>
       <p className="sec-sub" data-i18n="docUpdated">

@@ -1,17 +1,14 @@
 import { ensureCoreLibs } from "./helpers";
 import { setLang, store } from "./state";
 import { initAppShell } from "./app-shell";
-import { initBulk } from "./tool-bulk";
 import { initDocCrop } from "./tool-doccrop";
-import { initQr } from "./tool-qr";
 import { initReceipt } from "./tool-receipt";
-import { initAge, initMarks, initPrintCost } from "./tools-calc";
+
 import { initConverter, initFileTools, initImageToPdf, initPdfCompress } from "./tools-pdf";
+import { initMarks } from "./tools-calc";
 import {
   initCompressor,
-  initExamPhoto,
   initJoiner,
-  initFormPhoto,
   initKb,
   initPassport,
   initSignature,
@@ -46,7 +43,6 @@ export function initEduCafe(): Promise<void> {
       new Promise((resolve) => setTimeout(resolve, 8000)),
     ]);
     run("passport", initPassport);
-    run("form-photo", initFormPhoto);
     run("doc-crop", initDocCrop);
     run("kb", initKb);
     run("signature", initSignature);
@@ -54,15 +50,10 @@ export function initEduCafe(): Promise<void> {
     run("image-to-pdf", initImageToPdf);
     run("pdf-compress", initPdfCompress);
     run("compressor", initCompressor);
-    run("age", initAge);
     run("marks", initMarks);
     run("file-tools", initFileTools);
     run("converter", initConverter);
-    run("qr", initQr);
-    run("bulk", initBulk);
-    run("exam-photo", initExamPhoto);
     run("receipt", initReceipt);
-    run("print-cost", initPrintCost);
     run("app-shell", initAppShell);
   })();
 

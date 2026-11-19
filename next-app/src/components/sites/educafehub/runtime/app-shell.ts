@@ -9,6 +9,7 @@ import {
   showToast,
   store,
 } from "./state";
+import { playSound } from "./sound";
 
 const PK = "educafehub_profile";
 const LK = "educafehub_lang";
@@ -287,6 +288,76 @@ export function initAppShell(): void {
   });
 
   const saved = store.get<string>(LK);
-  setLang(saved === "hi" ? "hi" : "en");
-  renderAuth();
-}
+    setLang(saved === "hi" ? "hi" : "en");
+    renderAuth();
+
+    // Delegated sound triggers — one listener for the whole page
+    document.addEventListener("click", (e: MouseEvent) => {
+      // Only left-click, trusted user gestures
+      if (e.button !== 0 || !e.isTrusted) return;
+
+      const target = e.target as HTMLElement;
+
+      // 1. Download links — success cue only (priority)
+      const dl = target.closest<HTMLAnchorElement>("a[download]");
+      if (dl) {
+        playSound("success");
+        return;
+      }
+
+      // 2. Sound toggle — handled by its own onClick, skip to avoid double-play
+      if (target.closest(".soundbtn")) return;
+
+      // 3. Inline text links inside paragraphs — silent
+      if (target.closest("p a")) return;
+
+      // 4. FAQ accordion headers — select cue
+      if (target.closest("summary")) {
+        playSound("select");
+        return;
+      }
+
+      // 5. Tool cards (.toolbox) and tool links (href^="/tools/") — select cue
+      if (target.closest(".toolbox, a[href^=\"/tools/\"]")) {
+        playSound("select");
+        return;
+      }
+
+      // 6. Primary action elements with .btn class (buttons or links) — select cue
+      if (target.closest(".btn")) {
+        playSound("select");
+        return;
+      }
+
+      // 7. Chips and toggles (both directions) — select cue
+      if (target.closest(".chip")) {
+        playSound("select");
+        return;
+      }
+
+      // 8. All buttons not already covered — select cue
+      const btn = target.closest<HTMLButtonElement>("button");
+      if (btn && !btn.disabled) {
+        playSound("select");
+        return;
+      }
+
+      // 9. Header navigation: logo link
+      if (target.closest(".wordmark")) {
+        playSound("select");
+        return;
+      }
+
+      // 10. Footer navigation links
+      if (target.closest(".qlink, .flegal a")) {
+        playSound("select");
+        return;
+      }
+
+      // 11. Daily links cards
+      if (target.closest(".site")) {
+        playSound("select");
+        return;
+      }
+    });
+  }

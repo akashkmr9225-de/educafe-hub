@@ -1,5 +1,4 @@
 import { $, selGroup, downloadBlob, input, setMsg } from "./helpers";
-import { playSound } from "./sound";
 import { T, pulse, store } from "./state";
 
 const RK = "educafehub_rcpt_no";
@@ -182,7 +181,6 @@ export function initReceipt(): void {
     const blob = await new Promise<Blob | null>((r) => cv.toBlob(r, "image/png"));
     if (!blob) return;
     downloadBlob(blob, `receipt-${input("rcNo").value}.png`);
-    playSound("success");
     const n = (store.get<number>(RK) || 1000) + 1;
     store.set(RK, n);
     input("rcNo").value = `ECH-${n}`;

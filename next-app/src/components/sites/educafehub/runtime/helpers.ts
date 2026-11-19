@@ -1,5 +1,4 @@
 import { emitDownload } from "./state";
-import { playSound } from "./sound";
 
 export function $(id: string): HTMLElement {
   const el = document.getElementById(id);
@@ -151,11 +150,8 @@ export function wireDrop(
     }
   });
   fileInput.addEventListener("change", () => {
-      if (fileInput.files && fileInput.files[0]) {
-        onFile(fileInput.files[0]);
-        playSound("select");
-      }
-    });
+    if (fileInput.files && fileInput.files[0]) onFile(fileInput.files[0]);
+  });
   ["dragover", "dragenter"].forEach((ev) => {
     drop.addEventListener(ev, (e) => {
       e.preventDefault();
@@ -169,12 +165,9 @@ export function wireDrop(
     });
   });
   drop.addEventListener("drop", (e) => {
-      const f = (e as DragEvent).dataTransfer?.files?.[0];
-      if (f) {
-        onFile(f);
-        playSound("select");
-      }
-    });
+    const f = (e as DragEvent).dataTransfer?.files?.[0];
+    if (f) onFile(f);
+  });
 }
 
 export function wireDropMulti(
@@ -193,11 +186,8 @@ export function wireDropMulti(
     }
   });
   fileInput.addEventListener("change", () => {
-      if (fileInput.files && fileInput.files.length) {
-        onFiles(Array.from(fileInput.files));
-        playSound("select");
-      }
-    });
+    if (fileInput.files && fileInput.files.length) onFiles(Array.from(fileInput.files));
+  });
   ["dragover", "dragenter"].forEach((ev) => {
     drop.addEventListener(ev, (e) => {
       e.preventDefault();
@@ -211,12 +201,9 @@ export function wireDropMulti(
     });
   });
   drop.addEventListener("drop", (e) => {
-      const files = (e as DragEvent).dataTransfer?.files;
-      if (files && files.length) {
-        onFiles(Array.from(files));
-        playSound("select");
-      }
-    });
+    const files = (e as DragEvent).dataTransfer?.files;
+    if (files && files.length) onFiles(Array.from(files));
+  });
 }
 
 export function chipGroup(id: string, cb: (value: string) => void): string | null {
@@ -389,11 +376,6 @@ export function setMsg(id: string, text: string, cls = ""): void {
   const el = $(id);
   el.textContent = text;
   el.className = cls ? `msg ${cls}` : "msg";
-  if (cls === "warn" || cls === "error") {
-    playSound("error");
-  } else if (cls === "good") {
-    playSound("success");
-  }
 }
 
 export function setHTML(id: string, html: string): void {

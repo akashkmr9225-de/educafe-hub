@@ -4,7 +4,6 @@ import { Wordmark } from "./Brand";
 import { useState, useEffect, createContext, useContext } from "react";
 import { AuthModal } from "./AuthModal";
 import { watchAuthState } from "./runtime/auth-helpers";
-import { isSoundEnabled, setSoundEnabled, playSound } from "./runtime/sound";
 
 const AuthContext = createContext<{ openAuth: () => void } | null>(null);
 
@@ -27,7 +26,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function LanguageBar() {
   const auth = useAuth();
   const [who, setWho] = useState("");
-  const [soundOn, setSoundOn] = useState(true);
   useEffect(
     () =>
       watchAuthState((s) => {
@@ -35,15 +33,6 @@ export function LanguageBar() {
       }),
     [],
   );
-  useEffect(() => {
-    setSoundOn(isSoundEnabled());
-  }, []);
-  const toggleSound = () => {
-    const next = !soundOn;
-    setSoundOn(next);
-    setSoundEnabled(next);
-    playSound("select");
-  };
   return (
     <>
       <div className="langbar" role="group" data-i18n-aria="ariaLangGroup" aria-label="Language">
@@ -53,15 +42,6 @@ export function LanguageBar() {
           </button>
           <button type="button" className="langbtn" id="langHi" aria-pressed="false">
             हिंदी
-          </button>
-          <button
-            type="button"
-            className={`langbtn soundbtn ${soundOn ? "on" : "off"}`}
-            onClick={toggleSound}
-            aria-pressed={soundOn}
-            data-i18n={soundOn ? "soundOn" : "soundOff"}
-          >
-            {soundOn ? "Sound" : "Sound off"}
           </button>
         </span><span className="grp topbar-actions">{who ? <button type="button" className="langbtn signedin" onClick={auth?.openAuth}>👤 {who} ✓</button> : <button type="button" className="langbtn" onClick={auth?.openAuth} data-i18n="navSignin">👤 Sign in</button>}</span></span>
       </div>

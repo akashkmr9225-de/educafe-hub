@@ -9,6 +9,7 @@ import {
   showToast,
   store,
 } from "./state";
+import { playSound } from "./sound";
 
 const PK = "educafehub_profile";
 const LK = "educafehub_lang";
@@ -287,6 +288,25 @@ export function initAppShell(): void {
   });
 
   const saved = store.get<string>(LK);
-  setLang(saved === "hi" ? "hi" : "en");
-  renderAuth();
-}
+    setLang(saved === "hi" ? "hi" : "en");
+    renderAuth();
+
+    // Delegated sound triggers — one listener for the whole page
+    document.addEventListener("click", (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Primary action buttons (.btn, .chip[aria-pressed="false"]) — select cue
+      const btn = target.closest<HTMLButtonElement>(".btn, .chip");
+      if (btn && !btn.disabled) {
+        // Only play for primary actions: .btn (always primary) or .chip becoming pressed
+        const isPrimaryBtn = btn.classList.contains("btn");
+        const isChipTogglingOn =
+          btn.classList.contains("chip") && btn.getAttribute("aria-pressed") === "false";
+        if (isPrimaryBtn || isChipTogglingOn) {
+          playSound("select");
+        }
+      }
+      // Download links (anchor with download attribute) — success cue
+      const dl = target.closest<HTMLAnchorElement>("a[download]");
+      if (dl) playSound("success");
+    });
+  }

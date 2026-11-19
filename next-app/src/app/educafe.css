@@ -87,6 +87,16 @@
   .topbar-actions button.langbtn:hover{color:#fff;filter:brightness(1.1)}
 .topbar-actions button.langbtn.signedin{background:var(--surface);color:var(--accent);box-shadow:0 2px 8px rgba(16,42,34,.14)}
 
+  /* ---------- sound toggle ---------- */
+  .soundbtn{position:relative}
+  .soundbtn::after{content:"";position:absolute;inset:4px;border-radius:999px;pointer-events:none;transition:opacity .18s var(--ease)}
+  .soundbtn.on::after{border:1px solid var(--accent);opacity:0}
+  .soundbtn.off{color:var(--ink3)}
+  .soundbtn.off::after{border:1px solid var(--warn);opacity:1}
+  .soundbtn.off:hover{color:var(--warn)}
+  .soundbtn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+  @media (prefers-color-scheme: dark){.soundbtn.off::after{border-color:var(--saffron)}}
+
   /* ---------- hero intro ---------- */
   .intro{margin-top:14px;background:linear-gradient(128deg,var(--hero-a),var(--hero-b));border-radius:26px;padding:clamp(26px,4.5vw,44px);color:var(--hero-ink);position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
   .intro::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.13) 1.5px,transparent 1.6px);background-size:22px 22px;pointer-events:none;mask-image:linear-gradient(115deg,transparent 55%,#000 100%);-webkit-mask-image:linear-gradient(115deg,transparent 55%,#000 100%)}

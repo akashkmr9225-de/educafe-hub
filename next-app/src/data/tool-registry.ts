@@ -171,6 +171,19 @@ export const TOOLS: Tool[] = [
     initFunction: "initDocCrop",
     sectionId: "doc-crop",
   },
+  {
+    slug: "photo-to-text",
+    nameEn: "Photo to Text",
+    nameHi: "फ़ोटो से टेक्स्ट",
+    titleEn: "Photo to Text Online Free — Extract Text from Image (OCR), English & Hindi",
+    titleHi: "फ़ोटो से टेक्स्ट ऑनलाइन मुफ़्त — इमेज से टेक्स्ट निकालें (OCR), अंग्रेज़ी और हिंदी",
+    descriptionEn: "Photo to text converter: upload a photo of any document, notice or page and extract the printed text — copy it or save it as a .txt file. Works for English and Hindi, right in your browser.",
+    descriptionHi: "फ़ोटो से टेक्स्ट कन्वर्टर: किसी दस्तावेज़, नोटिस या पेज की फ़ोटो डालें और छपा टेक्स्ट निकालें — कॉपी करें या .txt फ़ाइल में सहेजें। अंग्रेज़ी और हिंदी, सीधे आपके ब्राउज़र में।",
+    category: "photo",
+    component: "OcrTool",
+    initFunction: "initOcr",
+    sectionId: "photo-ocr",
+  },
 ];
 
 export function getToolBySlug(slug: string): Tool | undefined {

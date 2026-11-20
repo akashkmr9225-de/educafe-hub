@@ -16,6 +16,7 @@ const ICONS: Record<string, string> = {
   "receipt-bill-maker": "🧾",
   "marks-percentage-calculator": "💯",
   "document-auto-crop": "📐",
+  "photo-to-text": "🔤",
 };
 
 const COLORS: Record<string, string> = {
@@ -31,6 +32,7 @@ const COLORS: Record<string, string> = {
   "receipt-bill-maker": "#0D9488",
   "marks-percentage-calculator": "#16A34A",
   "document-auto-crop": "#65A30D",
+  "photo-to-text": "#7C3AED",
 };
 
 

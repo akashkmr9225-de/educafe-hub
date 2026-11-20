@@ -16,10 +16,11 @@
 - [File Converter](https://educafehub.pages.dev/tools/file-converter/): Image format converter: change a photo between JPG, PNG and WebP in your browser — WebP to JPG for forms that refuse WebP, JPG to PNG when you need transparency.
 - [File Tools](https://educafehub.pages.dev/tools/file-tools/): Merge PDF and split PDF online free, plus image resize / convert / rotate and text tools (word counter, case changer, duplicate-line remover) — all in your browser, nothing uploaded.
 - [Document Auto Crop](https://educafehub.pages.dev/tools/document-auto-crop/): Document auto crop: upload a photo of any document and its four corners are found automatically — drag to adjust, the page is straightened flat, and you download a clean JPG or PDF.
+- [Photo to Text](https://educafehub.pages.dev/tools/photo-to-text/): Photo to text converter: upload a photo of any document, notice or page and extract the printed text — copy it or save it as a .txt file. Works for English and Hindi.
 
 ## Pages
 
-- [EduCafe Hub — home](https://educafehub.pages.dev/): All 12 free tools and the 31 official daily links on one page.
+- [EduCafe Hub — home](https://educafehub.pages.dev/): All 13 free tools and the 31 official daily links on one page.
 
 ## Legal
 

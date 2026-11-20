@@ -15,6 +15,7 @@ import { MarksTool } from "@/components/sites/educafehub/Calculators";
 import { FileToolsSection, ConverterCard } from "@/components/sites/educafehub/FileTools";
 import { ReceiptTool } from "@/components/sites/educafehub/ExamReceipt";
 import { DocCropTool } from "@/components/sites/educafehub/DocCrop";
+import { OcrTool } from "@/components/sites/educafehub/Ocr";
 
 function renderToolComponent(slug: string) {
   switch (slug) {
@@ -46,6 +47,8 @@ function renderToolComponent(slug: string) {
       return <FileToolsSection />;
     case "document-auto-crop":
       return <DocCropTool />;
+    case "photo-to-text":
+      return <OcrTool />;
     default:
       return null;
   }
@@ -64,6 +67,7 @@ const STEPS: Record<string, [string, string, string]> = {
   "receipt-bill-maker": ["Write the shop / school name and add the items with amounts.", "Check the total — it adds up as you type.", "Download the receipt image — print it or send it on WhatsApp."],
   "marks-percentage-calculator": ["Enter each subject's full marks and obtained marks (rows can be added or removed).", "Press Calculate — total, percentage, division and grade appear together.", "Use the converter below for CGPA ↔ percentage (CBSE × 9.5)."],
   "document-auto-crop": ["Upload a photo of the document — Aadhaar, certificate, any paper page, taken from above.", "Check the four corners — they are found automatically; drag any dot that is off the edge.", "Pick the look (original or B&W scan) and download the straightened page as JPG or PDF."],
+  "photo-to-text": ["Upload a clear photo of the page, notice or document — straight, in good light.", "Pick the printed language (English, Hindi, or both) and press Extract text.", "Copy the text or download the .txt file — read it once before using it."],
 };
 
 export function ToolPageContent({ tool }: { tool: Tool }) {

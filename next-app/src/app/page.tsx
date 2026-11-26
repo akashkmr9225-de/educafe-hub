@@ -5,7 +5,7 @@ import { LinksSection } from "@/components/sites/educafehub/Links";
 import { Footer } from "@/components/sites/educafehub/Legal";
 import { ScrollReveal } from "@/components/sites/educafehub/ScrollReveal";
 import { TaglineReveal } from "@/components/sites/educafehub/TaglineReveal";
-import { HowItWorks, FaqHome, FinalCta } from "@/components/sites/educafehub/HomeSections";
+import { HowItWorks, FaqHome, FinalCta, Gateway } from "@/components/sites/educafehub/HomeSections";
 
 export default function Home() {
   return (
@@ -20,6 +20,9 @@ export default function Home() {
         </noscript>
         <LanguageBar />
         <Intro />
+        <ScrollReveal>
+          <Gateway />
+        </ScrollReveal>
         <TaglineReveal />
         <ScrollReveal>
           <ToolGrid />

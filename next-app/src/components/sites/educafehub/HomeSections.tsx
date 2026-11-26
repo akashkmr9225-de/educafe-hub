@@ -52,6 +52,61 @@ export function FaqHome() {
   );
 }
 
+export function Gateway() {
+  return (
+    <section aria-label="Choose your work">
+      <div className="sec-head">
+        <h2>
+          <span className="en-only">What do you need today?</span>
+          <span className="hi-only">आज आपको क्या चाहिए?</span>
+        </h2>
+      </div>
+      <div className="owner">
+        <div className="card">
+          <h3>
+            <span className="en-only">School</span>
+            <span className="hi-only">स्कूल</span>
+          </h3>
+          <p>
+            <span className="en-only">
+              The EduCafe School ERP first, then all the school tools below it.
+            </span>
+            <span className="hi-only">
+              पहले एडुकैफ़े स्कूल ERP, फिर नीचे सभी स्कूल टूल।
+            </span>
+          </p>
+          <p style={{ marginTop: 14 }}>
+            <a className="btn" href="/school-erp/">
+              <span className="en-only">Open School</span>
+              <span className="hi-only">स्कूल खोलें</span>
+            </a>
+          </p>
+        </div>
+        <div className="card">
+          <h3>
+            <span className="en-only">Cyber Cafe</span>
+            <span className="hi-only">साइबर कैफ़े</span>
+          </h3>
+          <p>
+            <span className="en-only">
+              Only the tools. Passport photos, resize, PDF and the daily cafe jobs.
+            </span>
+            <span className="hi-only">
+              सिर्फ़ टूल। पासपोर्ट फ़ोटो, रीसाइज़, PDF और कैफ़े के रोज़ के काम।
+            </span>
+          </p>
+          <p style={{ marginTop: 14 }}>
+            <a className="btn" href="/cyber-cafe/">
+              <span className="en-only">Open Cyber Cafe</span>
+              <span className="hi-only">साइबर कैफ़े खोलें</span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function FinalCta() {
   return (
     <section className="finalcta" aria-label="Get started">

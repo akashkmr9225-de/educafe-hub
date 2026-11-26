@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import * as XLSX from "xlsx";
 
 // EduCafe School ERP, inside the website (Sir's order 26 Nov 2026).
 // The website is a static site, so ERP data is saved in this browser
@@ -281,29 +282,61 @@ const filteredStudents = useMemo(() =>
                   a.click();
                   URL.revokeObjectURL(url);
                 }} />
-                <AddBtn label="Import CSV" onClick={() => {
+                <AddBtn label="Import Excel or CSV" onClick={() => {
                   const input = document.createElement("input");
                   input.type = "file";
-                  input.accept = ".csv";
+                  input.accept = ".xlsx, .csv";
                   input.onchange = (e) => {
                     const file = (e.target as HTMLInputElement).files?.[0];
                     if (!file) return;
                     const reader = new FileReader();
                     reader.onload = (r) => {
-                      const text = r.target!.result as string;
-                      const lines = text.split("\n").slice(1);
-                      lines.forEach((line) => {
-                        const values = line.replace(/^"|"$/g, "").split(",").map((v) => v.replace(/^"|"$/g, ""));
-                        if (values[0]) {
-                          addTo("students", { name: values[0], adm: values[1] || "", cls: values[2] || "", sec: values[3] || "", pen: values[4] || "", apaar: values[5] || "", rte: values[6] || "", phone: values[7] || "" });
+                      const extension = file.name ? file.name.substring(file.name.lastIndexOf(".") + 1).toLowerCase() : "";
+                      if (extension === "xlsx") {
+                        const data = r.target!.result instanceof ArrayBuffer ? r.target!.result : new ArrayBuffer(0);
+                        const workbook = XLSX.read(data, { type: "array" });
+                        const firstSheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheetName];
+                        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                        for (let i = 1; i < rows.length; i++) {
+                          const row = rows[i] as [string, ...string[]];
+                          if (row[0] && String(row[0]).trim() === "Example Student Name") continue;
+                          const cols: Record<string, number> = { name: 0, adm: 1, cls: 2, sec: 3, pen: 4, apaar: 5, rte: 6, phone: 7 };
+                          addTo("students", {
+                            name: (row[cols["name"]] || "").toString().trim(),
+                            adm: (row[cols["adm"]] || "").toString().trim(),
+                            cls: (row[cols["cls"]] || "").toString().trim(),
+                            sec: (row[cols["sec"]] || "").toString().trim(),
+                            pen: (row[cols["pen"]] || "").toString().trim(),
+                            apaar: (row[cols["apaar"]] || "").toString().trim(),
+                            rte: (row[cols["rte"]] || "").toString().trim(),
+                            phone: (row[cols["phone"]] || "").toString().trim(),
+                          });
                         }
-                      });
+                      } else {
+                        const text = r.target!.result as string;
+                        const lines = text.split("\n").slice(1);
+                        lines.forEach((line) => {
+                          const values = line.replace(/^"|"$/g, "").split(",").map((v) => v.replace(/^"|"$/g, ""));
+                          if (values[0]) {
+                            addTo("students", { name: values[0], adm: values[1] || "", cls: values[2] || "", sec: values[3] || "", pen: values[4] || "", apaar: values[5] || "", rte: values[6] || "", phone: values[7] || "" });
+                          }
+                        });
+                      }
                     };
                     reader.readAsText(file);
                   };
                   input.click();
                 }} />
               </div>
+              <AddBtn label="Download Excel Template" onClick={() => {
+                const headers = ["name", "adm", "cls", "sec", "pen", "apaar", "rte", "phone"];
+                const example = ["Example Student Name", "BWS1001", "V", "A", "12345678901", "123456789012", "No", "9876543210"];
+                const worksheet = XLSX.utils.aoa_to_sheet([headers, example]);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
+                XLSX.writeFile(workbook, "Student Import Template.xlsx");
+              }} />
             </div>
           )}
 

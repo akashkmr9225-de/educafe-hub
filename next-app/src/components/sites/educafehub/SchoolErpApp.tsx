@@ -87,6 +87,8 @@ export function SchoolErpApp() {
   const [form, setForm] = useState<Rec>({});
   const [attDate, setAttDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [attClass, setAttClass] = useState("I");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterClass, setFilterClass] = useState("All");
 
   useEffect(() => {
     try {
@@ -145,7 +147,57 @@ export function SchoolErpApp() {
     { en: "Books issued", hi: "जारी पुस्तकें", n: String(db.issues.length) },
   ], [db, attTodayCount, feesCollected, ledgerBal]);
 
+const filteredStudents = useMemo(() =>
+  db.students.filter((s) => {
+    const q = searchQuery.toLowerCase();
+    const matchesSearch =
+      (!q ||
+        (s.name && s.name.toLowerCase().includes(q))) ||
+      (!q ||
+        (s.adm && s.adm.toLowerCase().includes(q))) ||
+      (!q ||
+        (s.pen && s.pen.toLowerCase().includes(q))) ||
+      (!q ||
+        (s.phone && s.phone.toLowerCase().includes(q)));
+    const matchesClass = filterClass === "All" || s.cls === filterClass;
+    return matchesSearch && matchesClass;
+  }),
+  [db, searchQuery, filterClass],
+);
+
   const mod = MODULES.find((m) => m.id === view)!;
+
+  const handleBackup = () => {
+    const blob = new Blob([JSON.stringify(db)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "educafe-erp-backup.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+  const handleRestore = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (r) => {
+        try {
+          const result = r.target!.result ? JSON.parse(r.target!.result as string) : {};
+          if (confirm("Replace all ERP data with this backup?")) {
+            setDb(result as Db);
+          }
+        } catch {
+          alert("Invalid backup file");
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  };
 
   return (
     <div>
@@ -195,6 +247,8 @@ export function SchoolErpApp() {
               {F("session", "Session, e.g. 2026-27")}
               <AddBtn label="Save school setup" onClick={() => set({ settings: { ...db.settings, ...form } })} />
               <p style={S.small}>Current: {db.settings.name || "not set"} · {db.settings.udise || ""} · {db.settings.board || ""} · {db.settings.session}</p>
+              <button className="btn" onClick={handleBackup}>Backup</button>
+              <button className="btn ghost" onClick={handleRestore} style={{ marginLeft: 8 }}>Restore</button>
             </div>
           )}
 
@@ -205,9 +259,50 @@ export function SchoolErpApp() {
                 {F("pen", "PEN number")}{F("apaar", "APAAR ID")}{F("rte", "RTE: Yes / No")}{F("phone", "Guardian phone")}
                 <AddBtn label="Add student" onClick={() => form.name && addTo("students", form)} />
               </div>
+              <div style={{ display: "flex", alignItems: "center", marginTop: 12, gap: 12 }}>
+                <input style={{ ...S.input, width: "calc(100% - 160px)" }} type="text" placeholder="Search by name, admission, PEN or phone" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                <select style={{ ...S.input, width: 140, marginLeft: 12 }} value={filterClass} onChange={(e) => setFilterClass(e.target.value)}>
+                  <option value="All">All</option>
+                  {CLASSES.map((c) => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
               <div style={S.card}>
                 <Table cols={[["name", "Name"], ["adm", "Adm No"], ["cls", "Class"], ["sec", "Sec"], ["pen", "PEN"], ["apaar", "APAAR"], ["rte", "RTE"], ["phone", "Phone"]]}
-                  rows={db.students} onDel={(id) => delFrom("students", id)} />
+                  rows={filteredStudents} onDel={(id) => delFrom("students", id)} />
+              </div>
+              <div style={S.card}>
+                <AddBtn label="Export CSV" onClick={() => {
+                  const csvRows = db.students.map((s) => [s.name, s.adm, s.cls, s.sec, s.pen, s.apaar, s.rte, s.phone].map((c) => `"${c}"`).join(",")).join("\n");
+                  const blob = new Blob(["name,adm,cls,sec,pen,apaar,rte,phone\n" + csvRows], { type: "text/csv" });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement("a");
+                  a.href = url;
+                  a.download = "students.csv";
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }} />
+                <AddBtn label="Import CSV" onClick={() => {
+                  const input = document.createElement("input");
+                  input.type = "file";
+                  input.accept = ".csv";
+                  input.onchange = (e) => {
+                    const file = (e.target as HTMLInputElement).files?.[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (r) => {
+                      const text = r.target!.result as string;
+                      const lines = text.split("\n").slice(1);
+                      lines.forEach((line) => {
+                        const values = line.replace(/^"|"$/g, "").split(",").map((v) => v.replace(/^"|"$/g, ""));
+                        if (values[0]) {
+                          addTo("students", { name: values[0], adm: values[1] || "", cls: values[2] || "", sec: values[3] || "", pen: values[4] || "", apaar: values[5] || "", rte: values[6] || "", phone: values[7] || "" });
+                        }
+                      });
+                    };
+                    reader.readAsText(file);
+                  };
+                  input.click();
+                }} />
               </div>
             </div>
           )}
@@ -264,6 +359,30 @@ export function SchoolErpApp() {
                 <AddBtn label="Record payment" onClick={() => form.student && addTo("payments", form)} />
                 <p style={S.small}>Collected so far: ₹{feesCollected.toLocaleString("en-IN")}</p>
                 <Table cols={[["student", "Student"], ["head", "Head"], ["amount", "₹"], ["date", "Date"]]} rows={db.payments} onDel={(id) => delFrom("payments", id)} />
+                <div style={{ marginTop: 12 }}>
+                  {db.payments.map((p) => (
+                    <div key={p.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 0", borderBottom: "1px solid #e4ece4" }}>
+                      <span style={S.small}>{p.student} - {p.head} - ₹{p.amount}</span>
+                      <button className="btn" onClick={() => {
+                        const win = window.open("", "_blank");
+                        if (!win) return;
+                        win.document.write(`
+                          <html><body style="font-family:sans-serif;padding:40px;">
+                            <h2 style="text-align:center;">${db.settings.name || "School Receipt"}</h2>
+                            <hr/>
+                            <p><strong>Student:</strong> ${p.student}</p>
+                            <p><strong>Fee Head:</strong> ${p.head}</p>
+                            <p><strong>Amount:</strong> ₹${p.amount}</p>
+                            <p><strong>Date:</strong> ${p.date}</p>
+                            <p style="margin-top:40px;text-align:right;">Signature</p>
+                          </body></html>
+                        `);
+                        win.document.close();
+                        win.print();
+                      }}>Print Receipt</button>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}
@@ -289,6 +408,44 @@ export function SchoolErpApp() {
               <div style={S.card}>
                 <Table cols={[["exam", "Exam"], ["student", "Student"], ["subject", "Subject"], ["marks", "Marks"], ["max", "Max"]]} rows={db.exams} onDel={(id) => delFrom("exams", id)} />
               </div>
+              <div style={{ marginTop: 12 }}>
+                {db.students.map((student) => {
+                  const studentExams = db.exams.filter((e) => e.student === student.name);
+                  const total = studentExams.reduce((sum, e) => sum + (Number(e.marks) || 0), 0);
+                  const maxTotal = studentExams.reduce((sum, e) => sum + (Number(e.max) || 0), 0);
+                  const percentage = maxTotal > 0 ? (total / maxTotal * 100).toFixed(1) : "0.0";
+                  return (
+                    <div key={student.id} style={{ marginBottom: 16, padding: 12, border: "1px solid #d8e2d8", borderRadius: 12 }}>
+                      <h4 style={{ margin: 0, fontSize: 14 }}>{student.name}</h4>
+                      <p style={{ margin: "6px 0", fontSize: 13 }}>School: {db.settings.name || "EduCafe School"}</p>
+                      <p style={{ margin: "4px 0", fontSize: 13 }}><strong>Subjects:</strong></p>
+                      <ul style={{ margin: 0, paddingLeft: 20, fontSize: 13 }}>
+                        {studentExams.map((e) => (
+                          <li key={e.id} style={{ margin: "4px 0" }}>{e.subject}: {e.marks}/{e.max}</li>
+                        ))}
+                      </ul>
+                      <p style={{ margin: "8px 0", fontWeight: 600, fontSize: 14 }}>Total: {total}/{maxTotal} — {percentage}%</p>
+                      <button className="btn" onClick={() => {
+                        const win = window.open("", "_blank");
+                        if (!win) return;
+                        win.document.write(String()
+                          .concat("<html><body style='font-family:sans-serif;padding:40px;'>")
+                          .concat("<h2 style='text-align:center;'>").concat(db.settings.name || "EduCafe School").concat("</h2>")
+                          .concat("<p>Report Card - ").concat(student.name).concat("</p>")
+                          .concat("<p>School: ").concat(db.settings.name || "EduCafe School").concat("</p>")
+                          .concat("<p><strong>Subjects:</strong></p>")
+                          .concat("<ul style='margin:0;padding-left:20;font-size:13;'>")
+                          .concat(studentExams.map((e) => "<li style='margin:4px 0;'>" + e.subject + ": " + String(e.marks) + "/" + String(e.max) + "</li>").join(""))
+                          .concat("</ul>")
+                          .concat("<p style='margin:8px 0;font-weight:600;font-size:14;text-align:right;'>Total: ").concat(String(total)).concat("/").concat(String(maxTotal)).concat(" — ").concat(String(percentage)).concat("%</p>")
+                          .concat("</body></html>"));
+                      win.document.close();
+                        win.print();
+                      }}>Report Card</button>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
 
@@ -300,6 +457,27 @@ export function SchoolErpApp() {
               </div>
               <div style={S.card}>
                 <Table cols={[["student", "Student"], ["type", "Type"], ["date", "Date"], ["note", "Note"]]} rows={db.certificates} onDel={(id) => delFrom("certificates", id)} />
+              </div>
+              <div style={{ marginTop: 12 }}>
+                {db.certificates.map((cert) => (
+                  <div key={cert.id} style={{ marginBottom: 16, padding: 12, border: "1px solid #d8e2d8", borderRadius: 12 }}>
+                    <button className="btn" onClick={() => {
+                      const printContent = String()
+                        .concat("<html><body style='font-family:sans-serif;padding:40px;'>")
+                        .concat("<h2 style='text-align:center;'>").concat(db.settings.name || "EduCafe School").concat("</h2>")
+                        .concat("<p>").concat(cert.type).concat("</p>")
+                        .concat("<p>Student: ").concat(cert.student).concat("</p>")
+                        .concat("<p>Date: ").concat(cert.date).concat("</p>")
+                        .concat(cert.note ? "<p>Note: ".concat(cert.note).concat("</p>") : "")
+                        .concat("</body></html>");
+                      const win = window.open("", "_blank");
+                      if (!win) return;
+                      win.document.write(printContent);
+                      win.document.close();
+                      win.print();
+                    }}>Print Certificate</button>
+                  </div>
+                ))}
               </div>
             </div>
           )}

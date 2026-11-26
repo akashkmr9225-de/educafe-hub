@@ -1,11 +1,9 @@
 import { EduCafeRuntime } from "@/components/sites/educafehub/EduCafeRuntime";
 import { LanguageBar, Intro, AuthProvider } from "@/components/sites/educafehub/Hero";
-import { ToolGrid } from "@/components/sites/educafehub/ToolGrid";
-import { LinksSection } from "@/components/sites/educafehub/Links";
 import { Footer } from "@/components/sites/educafehub/Legal";
 import { ScrollReveal } from "@/components/sites/educafehub/ScrollReveal";
 import { TaglineReveal } from "@/components/sites/educafehub/TaglineReveal";
-import { HowItWorks, FaqHome, FinalCta, Gateway } from "@/components/sites/educafehub/HomeSections";
+import { Gateway } from "@/components/sites/educafehub/HomeSections";
 
 export default function Home() {
   return (
@@ -24,21 +22,6 @@ export default function Home() {
           <Gateway />
         </ScrollReveal>
         <TaglineReveal />
-        <ScrollReveal>
-          <ToolGrid />
-        </ScrollReveal>
-        <ScrollReveal>
-          <HowItWorks />
-        </ScrollReveal>
-        <ScrollReveal>
-          <LinksSection />
-        </ScrollReveal>
-        <ScrollReveal>
-          <FaqHome />
-        </ScrollReveal>
-        <ScrollReveal>
-          <FinalCta />
-        </ScrollReveal>
         <Footer />
         <div className="toast" id="toast" role="status" aria-live="polite">
           <span className="tick">✓</span>

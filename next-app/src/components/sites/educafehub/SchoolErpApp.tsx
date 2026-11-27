@@ -258,6 +258,26 @@ const filteredStudents = useMemo(() =>
               <div style={S.card}>
                 {F("name", "Student name")}{F("adm", "Admission number")}{F("cls", "Class (I to XII)")}{F("sec", "Section")}
                 {F("pen", "PEN number")}{F("apaar", "APAAR ID")}{F("rte", "RTE: Yes / No")}{F("phone", "Guardian phone")}
+<div style={{display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10}}>
+  <span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Gender</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>लिंग</span>
+  <input style={S.input} type="text" placeholder="Gender" value={form.gender || ""} onChange={(e) => setForm({ ...form, gender: e.target.value })} />
+  <span className="en-only" style={{fontSize: 12, color: "#12261e"}}>DOB</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>जन्म तिथि</span>
+  <input style={S.input} type="date" value={form.dob || ""} onChange={(e) => setForm({ ...form, dob: e.target.value })} />
+  <span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Category</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>जाति / वर्ग</span>
+  <select style={S.input} value={form.category || ""} onChange={(e) => setForm({ ...form, category: e.target.value })}>
+    <option value="General">General</option><option value="OBC">OBC</option><option value="SC">SC</option><option value="ST">ST</option><option value="EWS">EWS</option>
+  </select>
+  <span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Medium</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>अध्ययन माध्यम</span>
+  <select style={S.input} value={form.medium || ""} onChange={(e) => setForm({ ...form, medium: e.target.value })}>
+    <option value="Hindi">Hindi</option><option value="English">English</option>
+  </select>
+  <span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Father</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>पिता का नाम</span>
+  <input style={S.input} type="text" placeholder="Father" value={form.father || ""} onChange={(e) => setForm({ ...form, father: e.target.value })} />
+  <span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Mother</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>माँ का नाम</span>
+  <input style={S.input} type="text" placeholder="Mother" value={form.mother || ""} onChange={(e) => setForm({ ...form, mother: e.target.value })} />
+  <span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Address</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>पता</span>
+  <input style={S.input} type="text" placeholder="Address" value={form.address || ""} onChange={(e) => setForm({ ...form, address: e.target.value })} />
+</div>
                 <AddBtn label="Add student" onClick={() => form.name && addTo("students", form)} />
               </div>
               <div style={{ display: "flex", alignItems: "center", marginTop: 12, gap: 12 }}>
@@ -268,13 +288,13 @@ const filteredStudents = useMemo(() =>
                 </select>
               </div>
               <div style={S.card}>
-                <Table cols={[["name", "Name"], ["adm", "Adm No"], ["cls", "Class"], ["sec", "Sec"], ["pen", "PEN"], ["apaar", "APAAR"], ["rte", "RTE"], ["phone", "Phone"]]}
+                <Table cols={[["name", "Name"], ["adm", "Adm No"], ["cls", "Class"], ["sec", "Sec"], ["pen", "PEN"], ["apaar", "APAAR"], ["rte", "RTE"], ["phone", "Phone"], ["gender", "Gender"], ["category", "Category"]]}
                   rows={filteredStudents} onDel={(id) => delFrom("students", id)} />
               </div>
               <div style={S.card}>
                 <AddBtn label="Export CSV" onClick={() => {
-                  const csvRows = db.students.map((s) => [s.name, s.adm, s.cls, s.sec, s.pen, s.apaar, s.rte, s.phone].map((c) => `"${c}"`).join(",")).join("\n");
-                  const blob = new Blob(["name,adm,cls,sec,pen,apaar,rte,phone\n" + csvRows], { type: "text/csv" });
+                  const csvRows = db.students.map((s) => [s.name, s.adm, s.cls, s.sec, s.pen, s.apaar, s.rte, s.phone, s.gender, s.dob, s.category, s.medium, s.father, s.mother, s.address].map((c) => `"${c}"`).join(",")).join("\n");
+                  const blob = new Blob(["name,adm,cls,sec,pen,apaar,rte,phone,gender,dob,category,medium,father,mother,address\n" + csvRows], { type: "text/csv" });
                   const url = URL.createObjectURL(blob);
                   const a = document.createElement("a");
                   a.href = url;
@@ -301,7 +321,7 @@ const filteredStudents = useMemo(() =>
                         for (let i = 1; i < rows.length; i++) {
                           const row = rows[i] as [string, ...string[]];
                           if (row[0] && String(row[0]).trim() === "Example Student Name") continue;
-                          const cols: Record<string, number> = { name: 0, adm: 1, cls: 2, sec: 3, pen: 4, apaar: 5, rte: 6, phone: 7 };
+                          const cols: Record<string, number> = { name: 0, adm: 1, cls: 2, sec: 3, pen: 4, apaar: 5, rte: 6, phone: 7, gender: 8, dob: 9, category: 10, medium: 11, father: 12, mother: 13, address: 14 };
                           addTo("students", {
                             name: (row[cols["name"]] || "").toString().trim(),
                             adm: (row[cols["adm"]] || "").toString().trim(),
@@ -311,6 +331,13 @@ const filteredStudents = useMemo(() =>
                             apaar: (row[cols["apaar"]] || "").toString().trim(),
                             rte: (row[cols["rte"]] || "").toString().trim(),
                             phone: (row[cols["phone"]] || "").toString().trim(),
+                            gender: (row[cols["gender"]] || "").toString().trim(),
+                            dob: (row[cols["dob"]] || "").toString().trim(),
+                            category: (row[cols["category"]] || "").toString().trim(),
+                            medium: (row[cols["medium"]] || "").toString().trim(),
+                            father: (row[cols["father"]] || "").toString().trim(),
+                            mother: (row[cols["mother"]] || "").toString().trim(),
+                            address: (row[cols["address"]] || "").toString().trim(),
                           });
                         }
                       } else {
@@ -318,8 +345,8 @@ const filteredStudents = useMemo(() =>
                         const lines = text.split("\n").slice(1);
                         lines.forEach((line) => {
                           const values = line.replace(/^"|"$/g, "").split(",").map((v) => v.replace(/^"|"$/g, ""));
-                          if (values[0]) {
-                            addTo("students", { name: values[0], adm: values[1] || "", cls: values[2] || "", sec: values[3] || "", pen: values[4] || "", apaar: values[5] || "", rte: values[6] || "", phone: values[7] || "" });
+                          if (values[0] && String(values[0]).trim() !== "Example Student Name") {
+                            addTo("students", { name: values[0], adm: values[1] || "", cls: values[2] || "", sec: values[3] || "", pen: values[4] || "", apaar: values[5] || "", rte: values[6] || "", phone: values[7] || "", gender: values[8] || "", dob: values[9] || "", category: values[10] || "", medium: values[11] || "", father: values[12] || "", mother: values[13] || "", address: values[14] || "" });
                           }
                         });
                       }
@@ -330,8 +357,8 @@ const filteredStudents = useMemo(() =>
                 }} />
               </div>
               <AddBtn label="Download Excel Template" onClick={() => {
-                const headers = ["name", "adm", "cls", "sec", "pen", "apaar", "rte", "phone"];
-                const example = ["Example Student Name", "BWS1001", "V", "A", "12345678901", "123456789012", "No", "9876543210"];
+                const headers = ["name", "adm", "cls", "sec", "pen", "apaar", "rte", "phone", "gender", "dob", "category", "medium", "father", "mother", "address"];
+                const example = ["Example Student Name", "BWS1001", "V", "A", "12345678901", "123456789012", "No", "9876543210", "Male", "2010-01-01", "OBC", "Hindi", "Rajesh Kumar", "Sunita Devi", "123 Main Street"];
                 const worksheet = XLSX.utils.aoa_to_sheet([headers, example]);
                 const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Students");

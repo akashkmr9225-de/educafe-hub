@@ -6,14 +6,14 @@ import { LegalDoc, Footer } from "@/components/sites/educafehub/Legal";
 export const metadata: Metadata = {
   title: "Cookie Policy | EduCafe Hub",
   description:
-    "EduCafe Hub sets no cookies at all. What your browser stores on this device instead, and how to remove it.",
+    "EduCafe Hub sets no cookies at all. What your browser stores on this device instead, and how to remove it. 2026.",
   openGraph: {
     type: "website",
     siteName: "EduCafe Hub",
     url: "https://educafehub.pages.dev/cookies/",
     title: "EduCafe Hub — School & Cyber Cafe",
     description:
-      "Passport photos, exact-KB resize, signatures, PDFs, QR codes and calculators — free, in your browser, in English and Hindi. Plus 31 official daily links.",
+      "Passport photos, exact-KB resize, signatures, PDFs, QR codes and calculators — free, in your browser, in English and Hindi. Plus 31 official daily links. 2026.",
     images: [
       {
         url: "https://educafehub.pages.dev/og-image.png",

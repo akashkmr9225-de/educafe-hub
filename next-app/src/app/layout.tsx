@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://educafehub.pages.dev"),
   title: "EduCafe Hub — School & Cyber Cafe",
   description:
-    "Free in-browser tools for schools and cyber cafes — passport photo sheets, exact-KB photo & signature resize, image to PDF, PDF compress, QR code maker, age & marks calculators, plus 31 official daily links. Optional sign in stays on your device; files are never uploaded. English / हिंदी.",
+    "Free in-browser tools for schools and cyber cafes — passport photo sheets, exact-KB photo & signature resize, image to PDF, PDF compress, QR code maker, age & marks calculators, plus 31 official daily links. Optional sign in stays on your device; files are never uploaded. 2026.",
   icons: {
     icon: [{ url: "/educafehub/logo.svg", type: "image/svg+xml" }],
   },
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     url: "https://educafehub.pages.dev/",
     title: "EduCafe Hub — School & Cyber Cafe",
     description:
-      "Passport photos, exact-KB resize, signatures, PDFs, QR codes and calculators — free, in your browser, in English and Hindi. Plus 31 official daily links.",
+      "Passport photos, exact-KB resize, signatures, PDFs, QR codes and calculators — free, in your browser, in English and Hindi. Plus 31 official daily links. 2026.",
     images: [
       {
         url: "https://educafehub.pages.dev/og-image.png",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "EduCafe Hub — School & Cyber Cafe",
     description:
-      "Passport photos, exact-KB resize, signatures, PDFs, QR codes and calculators — free, in your browser, in English and Hindi. Plus 31 official daily links.",
+      "Passport photos, exact-KB resize, signatures, PDFs, QR codes and calculators — free, in your browser, in English and Hindi. Plus 31 official daily links. 2026.",
     images: ["https://educafehub.pages.dev/og-image.png"],
   },
 };

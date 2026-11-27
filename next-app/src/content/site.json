@@ -50,19 +50,23 @@
     }
   },
   "footer": {
-    "aboutLine": {
-      "en": "Passport photos, signatures, PDFs, calculators and official links for the daily work of a school office and cyber cafe, all on one page.",
-      "hi": "पासपोर्ट फ़ोटो, हस्ताक्षर, PDF, कैलकुलेटर और एक स्कूल ऑफिस व साइबर कैफ़े के रोज़ के काम के लिए आधिकारिक लिंक, सब एक ही पेज पर।"
+      "aboutLine": {
+        "en": "Passport photos, signatures, PDFs, calculators and official links for the daily work of a school office and cyber cafe, all on one page.",
+        "hi": "पासपोर्ट फ़ोटो, हस्ताक्षर, PDF, कैलकुलेटर और एक स्कूल ऑफिस व साइबर कैफ़े के रोज़ के काम के लिए आधिकारिक लिंक, सब एक ही पेज पर।"
+      },
+      "googleSearchLine": {
+        "en": "Search the web — Google par search karein",
+        "hi": "वेब खोजें — Google पर खोजें"
+      },
+      "copyrightLine": {
+        "en": "All tools are completely free and work without any login. Always confirm a form's exact size/KB requirement in the form's own instructions once — every portal has different rules.",
+        "hi": "सभी टूल पूरी तरह मुफ़्त हैं और बिना किसी लॉगिन के काम करते हैं। हमेशा फ़ॉर्म के अपने निर्देशों में सटीक आकार/KB आवश्यकता की पुष्टि एक बार करें — हर पोर्टल के अलग नियम होते हैं।"
+      },
+      "updatedLine": {
+        "en": "Updated November 2026",
+        "hi": "नवंबर 2026 में अद्यतन"
+      }
     },
-    "googleSearchLine": {
-      "en": "Search the web — Google par search karein",
-      "hi": "वेब खोजें — Google पर खोजें"
-    },
-    "copyrightLine": {
-      "en": "All tools are completely free and work without any login. Always confirm a form's exact size/KB requirement in the form's own instructions once — every portal has different rules.",
-      "hi": "सभी टूल पूरी तरह मुफ़्त हैं और बिना किसी लॉगिन के काम करते हैं। हमेशा फ़ॉर्म के अपने निर्देशों में सटीक आकार/KB आवश्यकता की पुष्टि एक बार करें — हर पोर्टल के अलग नियम होते हैं।"
-    }
-  },
   "faq": {
     "title": {
       "en": "FAQ",

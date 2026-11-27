@@ -7,7 +7,7 @@ import { Footer } from "@/components/sites/educafehub/Legal";
 export const metadata: Metadata = {
   title: "Page Not Found | EduCafe Hub",
   description:
-    "This page does not exist on EduCafe Hub. Go back to the 16 free tools for photo, PDF and form work, plus 31 official daily links.",
+    "This page does not exist on EduCafe Hub. Go back to the 16 free tools for photo, PDF and form work, plus 31 official daily links. 2026.",
 };
 
 export default function NotFound() {

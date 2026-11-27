@@ -307,6 +307,9 @@ export function Footer() {
         All tools are completely free and work without any login. Always confirm a form's exact
         size/KB requirement in the form's own instructions once — every portal has different rules.
       </p>
+      <p className="fupdated" data-i18n="footer.updatedLine">
+        Updated November 2026
+      </p>
     </footer>
   );
 }

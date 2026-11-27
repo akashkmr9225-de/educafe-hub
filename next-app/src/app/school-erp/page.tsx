@@ -8,14 +8,14 @@ import { SchoolErpApp } from "@/components/sites/educafehub/SchoolErpApp";
 export const metadata: Metadata = {
   title: "School ERP | EduCafe Hub",
   description:
-    "EduCafe School ERP, inside the website: students, admissions, attendance, fees, staff and payroll, exams, certificates, timetable, library, transport, accounts and government reports for UDISE+, APAAR and RTE, in English and Hindi. Data is saved in your browser on your device.",
+    "EduCafe School ERP, inside the website: students, admissions, attendance, fees, staff and payroll, exams, certificates, timetable, library, transport, accounts and government reports for UDISE+, APAAR and RTE, in English and Hindi. Data is saved in your browser on your device. 2026.",
   openGraph: {
     type: "website",
     siteName: "EduCafe Hub",
     url: "https://educafehub.pages.dev/school-erp/",
     title: "EduCafe School ERP | EduCafe Hub",
     description:
-      "The real School ERP inside EduCafe Hub: students, attendance, fees, exams, certificates and government reports, in English and Hindi.",
+      "The real School ERP inside EduCafe Hub: students, attendance, fees, exams, certificates and government reports, in English and Hindi. 2026.",
     images: [
       {
         url: "https://educafehub.pages.dev/og-image.png",

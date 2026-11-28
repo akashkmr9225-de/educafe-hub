@@ -290,6 +290,50 @@ export function Footer() {
             </li>
           </ul>
         </div>
+        <div>
+          <h3>All tools</h3>
+          <ul>
+            <li>
+              <a href="/tools/passport-photo/">Passport Photo</a>
+            </li>
+            <li>
+              <a href="/tools/exact-kb-photo/">Exact KB Photo</a>
+            </li>
+            <li>
+              <a href="/tools/signature-maker/">Signature Maker</a>
+            </li>
+            <li>
+              <a href="/tools/photo-signature-joiner/">Photo + Signature Joiner</a>
+            </li>
+            <li>
+              <a href="/tools/image-to-pdf/">Image to PDF</a>
+            </li>
+            <li>
+              <a href="/tools/pdf-compress/">PDF Compress</a>
+            </li>
+            <li>
+              <a href="/tools/image-compressor/">Image Compressor</a>
+            </li>
+            <li>
+              <a href="/tools/file-converter/">File Converter</a>
+            </li>
+            <li>
+              <a href="/tools/file-tools/">File Tools</a>
+            </li>
+            <li>
+              <a href="/tools/receipt-bill-maker/">Receipt / Bill Maker</a>
+            </li>
+            <li>
+              <a href="/tools/marks-percentage-calculator/">Marks & Percentage Calculator</a>
+            </li>
+            <li>
+              <a href="/tools/document-auto-crop/">Document Auto Crop</a>
+            </li>
+            <li>
+              <a href="/tools/photo-to-text/">Photo to Text</a>
+            </li>
+          </ul>
+        </div>
       </div>
       <p className="flegal">
         <a href="/privacy/" data-i18n="footPrivacy">Privacy Policy</a>

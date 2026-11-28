@@ -90,6 +90,8 @@ export function SchoolErpApp() {
   const [attClass, setAttClass] = useState("I");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterClass, setFilterClass] = useState("All");
+  const [filterEnqStatus, setFilterEnqStatus] = useState("All");
+  const [filterEnqClass, setFilterEnqClass] = useState("All");
 
   useEffect(() => {
     try {
@@ -120,15 +122,46 @@ export function SchoolErpApp() {
   const AddBtn = ({ label, onClick }: { label: string; onClick: () => void }) => (
     <button className="btn" type="button" onClick={onClick}>{label}</button>
   );
-  const Table = ({ cols, rows, onDel }: { cols: [string, string][]; rows: Rec[]; onDel: (id: string) => void }) => (
+  const Table = ({ cols, rows, onDel, onConvert, onViewStudent }: { cols: (string | [string, string])[]; rows: Rec[]; onDel: (id: string) => void; onConvert?: (r: Rec) => void; onViewStudent?: (studentId: string) => void }) => (
     rows.length === 0 ? <p style={S.small}>No records yet.</p> : (
       <div style={{ overflowX: "auto" }}>
         <table style={S.table}>
-          <thead><tr>{cols.map(([k, label]) => <th key={k} style={S.th}>{label}</th>)}<th style={S.th}></th></tr></thead>
-          <tbody>{rows.map((r) => (
-            <tr key={r.id}>{cols.map(([k]) => <td key={k} style={S.td}>{r[k] || ""}</td>)}
-              <td style={S.td}><button style={S.del} onClick={() => onDel(r.id)} aria-label="Delete">✕</button></td></tr>
-          ))}</tbody>
+          <thead><tr>{cols.map((c) => {
+            if (typeof c === "string" && c === "Actions") return <th key="actions" style={S.th}>Actions</th>;
+            const [k, label] = Array.isArray(c) ? c : [c, c];
+            return <th key={k} style={S.th}>{label}</th>;
+          })}<th style={S.th}></th></tr></thead>
+          <tbody>{rows.map((r) => {
+                      const hasActions = cols.some((c) => typeof c === "string" && c === "Actions");
+                      return (
+                        <tr key={r.id}>
+                          {cols.map((c) => {
+                            if (typeof c === "string" && c === "Actions") return null;
+                            const [k, label] = Array.isArray(c) ? c : [c, c];
+                            return <td key={k} style={S.td}>{r[k] || ""}</td>;
+                          })}
+                          {hasActions ? (
+                                              <td style={S.td}>
+                                                {r.convertedStudentId ? (
+                                                  <button style={S.del} onClick={() => onViewStudent?.(r.convertedStudentId)} aria-label="View Student">
+                                                    <span className="en-only">View Student</span>
+                                                    <span className="hi-only">देखें छात्र</span>
+                                                  </button>
+                                                ) : (
+                                                  <button style={S.del} onClick={() => onConvert?.(r)} aria-label="Convert">
+                                                    <span className="en-only">Convert</span>
+                                                    <span className="hi-only">कन्वर्ट</span>
+                                                  </button>
+                                                )}
+                                                <button style={S.del} onClick={() => onDel(r.id)} aria-label="Delete">✕</button>
+                                              </td>
+) : (
+                            <td style={S.td}><button style={S.del} onClick={() => onDel(r.id)} aria-label="Delete">✕</button></td>
+                          )}
+                        </tr>
+                      );
+                    })}
+          </tbody>
         </table>
       </div>
     )
@@ -136,17 +169,6 @@ export function SchoolErpApp() {
 
   const todayAtt = db.attendance[attDate] || {};
   const attTodayCount = Object.values(db.attendance[new Date().toISOString().slice(0, 10)] || {}).filter((v) => v === "P").length;
-  const feesCollected = db.payments.reduce((a, p) => a + (Number(p.amount) || 0), 0);
-  const ledgerBal = db.ledger.reduce((a, l) => a + (l.kind === "Income" ? Number(l.amount) || 0 : -(Number(l.amount) || 0)), 0);
-
-  const stats = useMemo(() => [
-    { en: "Total students", hi: "कुल छात्र", n: String(db.students.length) },
-    { en: "Staff", hi: "कर्मचारी", n: String(db.staff.length) },
-    { en: "Present today", hi: "आज उपस्थित", n: String(attTodayCount) },
-    { en: "Fees collected", hi: "शुल्क वसूली", n: "₹" + feesCollected.toLocaleString("en-IN") },
-    { en: "Ledger balance", hi: "खाता शेष", n: "₹" + ledgerBal.toLocaleString("en-IN") },
-    { en: "Books issued", hi: "जारी पुस्तकें", n: String(db.issues.length) },
-  ], [db, attTodayCount, feesCollected, ledgerBal]);
 
 const filteredStudents = useMemo(() =>
   db.students.filter((s) => {
@@ -166,6 +188,46 @@ const filteredStudents = useMemo(() =>
   [db, searchQuery, filterClass],
 );
 
+
+  const filteredEnquiries = useMemo(() =>
+    db.enquiries.filter((e) => {
+      const matchesStatus = filterEnqStatus === "All" || e.status === filterEnqStatus;
+      const matchesClass = filterEnqClass === "All" || e.cls === filterEnqClass;
+      return matchesStatus && matchesClass;
+    }),
+
+  [db, filterEnqStatus, filterEnqClass],
+);
+
+  const now = new Date();
+  const currentMonth = now.toISOString().slice(0, 7); // YYYY-MM
+
+  const filteredEnquiriesThisMonth = db.enquiries.filter((e) => {
+    const ed = e.enquiryDate;
+    return ed && ed.slice(0, 7) === currentMonth;
+  }).length;
+
+  const filteredAdmissionsThisMonth = db.enquiries.filter((e) => {
+    const cd = e.convertedDate;
+    return cd && cd.slice(0, 7) === currentMonth;
+  }).length;
+
+  const filteredFollowUps = db.enquiries.filter((e) => e.status === "Follow-up").length;
+
+  const feesCollected = db.payments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+  const ledgerBal = db.ledger.reduce((sum, e) => sum + (e.kind === "Expense" ? -1 : 1) * (Number(e.amount) || 0), 0);
+
+  const stats = useMemo(() => [
+    { en: "Total students", hi: "कुल छात्र", n: String(db.students.length) },
+    { en: "Staff", hi: "कर्मचारी", n: String(db.staff.length) },
+    { en: "Present today", hi: "आज उपस्थित", n: String(attTodayCount) },
+    { en: "Fees collected", hi: "शुल्क वसूली", n: "₹" + feesCollected.toLocaleString("en-IN") },
+    { en: "Ledger balance", hi: "खाता शेष", n: "₹" + ledgerBal.toLocaleString("en-IN") },
+    { en: "Books issued", hi: "जारी पुस्तकें", n: String(db.issues.length) },
+    { en: "Enquiries this month", hi: "इस माह enquiries", n: String(filteredEnquiriesThisMonth) },
+    { en: "Admissions this month", hi: "इस माह admissions", n: String(filteredAdmissionsThisMonth) },
+    { en: "Follow-ups pending", hi: "लंबित अनुवर्ती", n: String(filteredFollowUps) },
+  ], [db, attTodayCount, feesCollected, ledgerBal, now]);
   const mod = MODULES.find((m) => m.id === view)!;
 
   const handleBackup = () => {
@@ -200,6 +262,40 @@ const filteredStudents = useMemo(() =>
     input.click();
   };
 
+  const suggestAdmissionNumber = () => {
+    const existingNumbers = db.students
+      .map((s) => s.adm)
+      .filter((a) => a && /^BWS\d+$/.test(a))
+      .map((a) => Number(a.replace("BWS", "")));
+    if (existingNumbers.length === 0) return "BWS1001";
+    const max = Math.max(...existingNumbers);
+    return `BWS${max + 1}`;
+  };
+
+  const handleConvertToStudent = (enq: Rec) => {
+    if (enq.convertedStudentId) return;
+    const existingAdm = db.students.find((s) => s.name === enq.name && s.cls === enq.cls);
+    if (existingAdm) return;
+
+    const admNo = suggestAdmissionNumber();
+    const studentData: Rec = {
+      name: enq.name,
+      adm: admNo,
+      cls: enq.cls || "I",
+      phone: enq.phone || "",
+    };
+
+    const newStudentId = uid();
+    set({ students: [{ id: newStudentId, ...studentData }, ...db.students] });
+    const now = new Date().toISOString().slice(0, 10);
+    set({
+      enquiries: db.enquiries.map((e) =>
+        e.id === enq.id ? { ...e, status: "Admitted", convertedStudentId: newStudentId, convertedDate: now } : e
+      ),
+    });
+    setForm({ name: enq.name, adm: admNo, cls: enq.cls || "I", phone: enq.phone || "", parent: enq.parent || "" });
+  };
+
   return (
     <div>
       <div style={S.hero}>
@@ -226,21 +322,37 @@ const filteredStudents = useMemo(() =>
           </h3>
 
           {view === "dashboard" && (
-            <div>
-              {!db.settings.name && (
-                <div style={S.card}><strong>Set up your school first.</strong>
-                  <p style={S.small}>Open School Setup, add your school name, UDISE code, board and session, then add students.</p></div>
-              )}
-              <div style={S.grid}>
-                {stats.map((s) => (
-                  <div key={s.en} style={S.stat}>
-                    <div style={S.statN}>{s.n}</div>
-                    <div style={S.small}><span className="en-only">{s.en}</span><span className="hi-only">{s.hi}</span></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+                      <div>
+                        {!db.settings.name && (
+                          <div style={S.card}><strong>Set up your school first.</strong>
+                            <p style={S.small}>Open School Setup, add your school name, UDISE code, board and session, then add students.</p></div>
+                        )}
+                        <div style={S.grid}>
+                          {stats.map((s) => (
+                            <div key={s.en} style={S.stat}>
+                              <div style={S.statN}>{s.n}</div>
+                              <div style={S.small}><span className="en-only">{s.en}</span><span className="hi-only">{s.hi}</span></div>
+                            </div>
+                          ))}
+                          <div style={S.stat}>
+                            <div style={S.statN}>{db.enquiries.length}</div>
+                            <div style={S.small}><span className="en-only">Enquiries</span><span className="hi-only">Enquiries</span></div>
+                          </div>
+                        </div>
+                        <div style={{...S.card, marginTop: 12}}>
+                          <div style={{ ...S.row, gap: 6, flexWrap: "wrap" }}>
+                            <div>
+                              <div style={S.statN}>{db.enquiries.filter((e) => e.status === "Admitted").length}</div>
+                              <div style={S.small}><span className="en-only">Admissions</span><span className="hi-only">Admissions</span></div>
+                            </div>
+                            <div>
+                              <div style={S.statN}>{db.enquiries.filter((e) => e.status === "Follow-up").length}</div>
+                              <div style={S.small}><span className="en-only">Follow-ups</span><span className="hi-only">Follow-ups</span></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
           {view === "settings" && (
             <div style={S.card}>
@@ -368,17 +480,83 @@ const filteredStudents = useMemo(() =>
           )}
 
           {view === "admissions" && (
-            <div>
-              <div style={S.card}>
-                {F("name", "Child name")}{F("cls", "Class sought")}{F("parent", "Parent name")}{F("phone", "Phone")}{F("status", "Status: Enquiry / Admitted")}
-                <AddBtn label="Add enquiry" onClick={() => form.name && addTo("enquiries", form)} />
-              </div>
-              <div style={S.card}>
-                <Table cols={[["name", "Child"], ["cls", "Class"], ["parent", "Parent"], ["phone", "Phone"], ["status", "Status"]]}
-                  rows={db.enquiries} onDel={(id) => delFrom("enquiries", id)} />
-              </div>
-            </div>
-          )}
+                      <div>
+                        <div style={S.card}>
+                          <div style={S.cardHeader}>Admission Enquiry</div>
+                          <div style={{display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10}}>
+                            {F("name", "Child name")}<span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Child name</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>बच्चे का नाम</span>
+                            {F("cls", "Class sought")}<span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Class sought</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>आवश्यक कक्षा</span>
+                            {F("parent", "Parent name")}<span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Parent name</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>माता-पिता का नाम</span>
+                            {F("phone", "Phone")}<span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Phone</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>फोन</span>
+                          </div>
+                          <div style={{display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10}}>
+                            <select style={S.input} value={form.source || ""} onChange={(e) => setForm({ ...form, source: e.target.value })}>
+                              <option value="">Source</option>
+                              <option value="Walk-in">Walk-in</option>
+                              <option value="Phone">Phone</option>
+                              <option value="Referral">Referral</option>
+                              <option value="Website">Website</option>
+                            </select>
+                            <span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Source</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>स्रोत</span>
+                            <select style={S.input} value={form.status || ""} onChange={(e) => setForm({ ...form, status: e.target.value })}>
+                              <option value="">Status</option>
+                              <option value="New">New</option>
+                              <option value="Follow-up">Follow-up</option>
+                              <option value="Admitted">Admitted</option>
+                              <option value="Rejected">Rejected</option>
+                            </select>
+                            <span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Status</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>स्थिति</span>
+                          </div>
+                          {F("enquiryDate", "Enquiry date", "date")}<span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Enquiry date</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}> enquiry तिथि</span>
+                          {F("notes", "Notes")}<span className="en-only" style={{fontSize: 12, color: "#12261e"}}>Notes</span><span className="hi-only" style={{fontSize: 12, color: "#12261e"}}>टिप्पणी</span>
+                          <AddBtn label="Add enquiry" onClick={() => form.name && addTo("enquiries", form)} />
+                        </div>
+                        <div style={S.card}>
+                          <div style={{ ...S.row, gap: 6, flexWrap: "wrap" }}>
+                            <select style={S.input} value={filterEnqStatus || "All"} onChange={(e) => setFilterEnqStatus(e.target.value)}>
+                              <option value="All">Status filter: All</option>
+                              <option value="New">New</option>
+                              <option value="Follow-up">Follow-up</option>
+                              <option value="Admitted">Admitted</option>
+                              <option value="Rejected">Rejected</option>
+                            </select>
+                            <select style={S.input} value={filterEnqClass || "All"} onChange={(e) => setFilterEnqClass(e.target.value)}>
+                              <option value="All">Class filter: All</option>
+                              {CLASSES.map((c) => <option key={c} value={c}>{c}</option>)}
+                            </select>
+                          </div>
+                          <Table cols={[["name", "Child"], ["cls", "Class"], ["parent", "Parent"], ["phone", "Phone"], ["source", "Source"], ["status", "Status"], ["enquiryDate", "Date"], ["notes", "Notes"], "Actions"]} rows={filteredEnquiries} onDel={(id) => delFrom("enquiries", id)} onConvert={handleConvertToStudent} onViewStudent={() => setView("students")} />
+                        </div>
+                        <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                          <AddBtn label="Export CSV" onClick={() => {
+                            const csvRows = db.enquiries.map((e) => [e.name, e.cls, e.parent, e.phone, e.source || "", e.status, e.enquiryDate || "", e.notes || ""].map((c) => `"${c}"`).join(",")).join("\n");
+                            const blob = new Blob(["name,cls,parent,phone,source,status,enquiryDate,notes\n" + csvRows], { type: "text/csv" });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement("a");
+                            a.href = url;
+                            a.download = "enquiries.csv";
+                            a.click();
+                            URL.revokeObjectURL(url);
+                          }} />
+                          <AddBtn label="Download Excel Template" onClick={() => {
+                            const headers = ["name", "cls", "parent", "phone", "source", "status", "enquiryDate", "notes"];
+                            const example = ["Example Student Name", "V", "Rajesh Kumar", "9876543210", "Walk-in", "New", "2024-01-15", "Initial enquiry"];
+                            const worksheet = XLSX.utils.aoa_to_sheet([headers, example]);
+                            const workbook = XLSX.utils.book_new();
+                            XLSX.utils.book_append_sheet(workbook, worksheet, "Enquiries");
+                            XLSX.writeFile(workbook, "Enquiry Import Template.xlsx");
+                          }} />
+                          <AddBtn label="Export Excel" onClick={() => {
+                            const headers = ["name", "cls", "parent", "phone", "source", "status", "enquiryDate", "notes"];
+                            const rows = db.enquiries.map((e) => [e.name, e.cls, e.parent, e.phone, e.source || "", e.status, e.enquiryDate || "", e.notes || ""]);
+                           const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+                            const workbook = XLSX.utils.book_new();
+                            XLSX.utils.book_append_sheet(workbook, worksheet, "Enquiries");
+                            XLSX.writeFile(workbook, "Enquiries.xlsx");
+                          }} />
+                        </div>
+                      </div>
+                    )}
 
           {view === "attendance" && (
             <div style={S.card}>
